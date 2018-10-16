@@ -1,0 +1,105 @@
+package org.musicbrainz.android.adapter.recycler;
+
+import android.support.v7.widget.CardView;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.List;
+
+import org.musicbrainz.android.R;
+import org.musicbrainz.android.api.model.Url;
+
+/**
+ * Created by Alex on 17.01.2018.
+ */
+
+public class LinkAdapter extends BaseRecyclerViewAdapter<LinkAdapter.ViewHolder> {
+
+    private List<Url> urls;
+
+    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        private ImageView icon;
+        private TextView type;
+        private TextView link;
+
+        public ViewHolder(CardView v) {
+            super(v);
+            icon = v.findViewById(R.id.icon);
+            type = v.findViewById(R.id.type);
+            link = v.findViewById(R.id.link);
+        }
+
+        public void bindView(Url url) {
+            type.setText(url.getPrettyType());
+            link.setText(url.getPrettyUrl());
+
+            String t = url.getType().toLowerCase();
+            int iconId = R.drawable.ic_link_24_dark;
+            switch (t) {
+                case "youtube":
+                    iconId = R.drawable.ic_youtube_24;
+                    break;
+                case "official homepage":
+                    iconId = R.drawable.ic_home_24_dark;
+                    break;
+                case "imdb":
+                    iconId = R.drawable.ic_film_24;
+                    break;
+                case "fanpage":
+                    iconId = R.drawable.ic_community_24;
+                    break;
+                case "online community":
+                    iconId = R.drawable.ic_community_24;
+                    break;
+                case "wikipedia":
+                    iconId = R.drawable.ic_wikipedia_24;
+                    break;
+                case "lyrics":
+                    iconId = R.drawable.ic_lyrics_24;
+                    break;
+                case "download for free":
+                    iconId = R.drawable.ic_download_24;
+                    break;
+                case "soundcloud":
+                    iconId = R.drawable.ic_soundcloud_24;
+                    break;
+            }
+            String r = url.getResource();
+            if (t.startsWith("streaming")) {
+                iconId = R.drawable.ic_streaming_24;
+            } else if (t.startsWith("purchase")) {
+                iconId = R.drawable.ic_basket_24;
+            } else if (r.contains("twitter")) {
+                iconId = R.drawable.ic_twitter_24;
+            } else if (r.contains("facebook")) {
+                iconId = R.drawable.ic_facebook_24;
+            } else if (t.contains("discog")) {
+                iconId = R.drawable.ic_album_24_dark;
+            } else if (r.contains("vimeo")) {
+                iconId = R.drawable.ic_vimeo_24;
+            }
+            icon.setImageResource(iconId);
+        }
+    }
+
+    public LinkAdapter(List<Url> urls) {
+        this.urls = urls;
+    }
+
+    @Override
+    public void onBind(ViewHolder holder, final int position) {
+        holder.bindView(urls.get(position));
+    }
+
+    @Override
+    public int getItemCount() {
+        return urls.size();
+    }
+
+    @Override
+    public LinkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(inflateCardView(parent, R.layout.card_link));
+    }
+}

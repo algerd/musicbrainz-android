@@ -1,0 +1,112 @@
+
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Area:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    USER_TAGS("user-tags");
+
+Artist:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Collection (исключение):
+    не поддерживает релсы и инки
+    Используется в браузе для извлечения данных из коллекции:
+        https://musicbrainz.org/ws/2/artist?collection=0a5c389a-fd5b-4901-83e7-171419318172&fmt=json
+        https://musicbrainz.org/ws/2/collection?artist=00565b31-14a3-4913-bd22-385eb40dd13c&fmt=json
+
+Event:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Instrument:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    USER_TAGS("user-tags");
+
+Label:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Place:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    USER_TAGS("user-tags");
+
+Recording:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Release:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    USER_TAGS("user-tags");
+
+ReleaseGroup:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Series:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    USER_TAGS("user-tags");
+
+Work:
+    ALIASES("aliases"),
+    ANNOTATION("annotation"),
+    TAGS("tags"),
+    RATINGS("ratings"),
+    USER_TAGS("user-tags"),
+    USER_RATINGS("user-ratings");
+
+Url:
+    не поддерживает простые инки, поэтому делать пустой enum.
+    enum TestEnum {
+        ;                         // doesn't compile without this.
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

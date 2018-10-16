@@ -1,0 +1,198 @@
+package org.musicbrainz.android.adapter.recycler;
+
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.musicbrainz.android.R;
+import org.musicbrainz.android.api.coverart.CoverArtImage;
+import org.musicbrainz.android.api.model.Rating;
+import org.musicbrainz.android.api.model.ReleaseGroup;
+import org.musicbrainz.android.intent.ActivityFactory;
+import org.musicbrainz.android.util.ShowUtil;
+
+import static org.musicbrainz.android.MusicBrainzApp.api;
+import static org.musicbrainz.android.MusicBrainzApp.oauth;
+
+/**
+ * Created by Alex on 17.01.2018.
+ */
+
+public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseGroupCollectionAdapter.ViewHolder> {
+
+    private List<ReleaseGroup> ReleaseGroups;
+
+    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        private ImageView coverart;
+        private ProgressBar progressLoading;
+        private TextView releaseGroupName;
+        private RatingBar userRating;
+        private TextView allRatingView;
+        private ImageView deleteBtn;
+        private LinearLayout ratingContainer;
+
+        public ViewHolder(CardView v) {
+            super(v);
+            coverart = v.findViewById(R.id.rg_image);
+            progressLoading = v.findViewById(R.id.image_loading);
+            releaseGroupName = v.findViewById(R.id.rg_name);
+            deleteBtn = v.findViewById(R.id.delete);
+            userRating = v.findViewById(R.id.user_rating);
+            allRatingView = v.findViewById(R.id.all_rating);
+            ratingContainer = v.findViewById(R.id.rating_container);
+        }
+
+        public void bindView(ReleaseGroup releaseGroup, boolean isPrivate) {
+            deleteBtn.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
+            releaseGroupName.setText(releaseGroup.getTitle());
+            setUserRating(releaseGroup);
+            setAllRating(releaseGroup);
+            loadImage(releaseGroup.getId());
+
+            ratingContainer.setOnClickListener(v -> showRatingBar(releaseGroup));
+        }
+
+        private void showRatingBar(ReleaseGroup releaseGroup) {
+            if (oauth.hasAccount()) {
+                AlertDialog alertDialog = new AlertDialog.Builder(itemView.getContext()).create();
+                alertDialog.show();
+                Window win = alertDialog.getWindow();
+                if (win != null) {
+                    win.setContentView(R.layout.dialog_rating_bar);
+                    RatingBar rb = win.findViewById(R.id.rating_bar);
+                    rb.setRating(userRating.getRating());
+                    TextView title = win.findViewById(R.id.title_text);
+                    title.setText(itemView.getResources().getString(R.string.rate_entity, releaseGroup.getTitle()));
+
+                    rb.setOnRatingBarChangeListener((RatingBar ratingBar, float rating, boolean fromUser) -> {
+                        if (oauth.hasAccount()) {
+                            if (fromUser) {
+                                api.postAlbumRating(
+                                        releaseGroup.getId(), rating,
+                                        metadata -> {
+                                            if (metadata.getMessage().getText().equals("OK")) {
+                                                userRating.setRating(rating);
+                                                api.getAlbumRatings(
+                                                        releaseGroup.getId(),
+                                                        this::setAllRating,
+                                                        t -> ShowUtil.showToast(itemView.getContext(), t.getMessage()));
+                                            } else {
+                                                ShowUtil.showToast(itemView.getContext(), "Error");
+                                            }
+                                            alertDialog.dismiss();
+                                        },
+                                        t -> {
+                                            ShowUtil.showToast(itemView.getContext(), t.getMessage());
+                                            alertDialog.dismiss();
+                                        }
+                                );
+                            }
+                        } else {
+                            ActivityFactory.startLoginActivity(itemView.getContext());
+                        }
+                    });
+                }
+            } else {
+                ActivityFactory.startLoginActivity(itemView.getContext());
+            }
+        }
+
+        private void setAllRating(ReleaseGroup releaseGroup) {
+            Rating rating = releaseGroup.getRating();
+            if (rating != null) {
+                Float r = rating.getValue();
+                if (r != null) {
+                    Integer votesCount = rating.getVotesCount();
+                    allRatingView.setText(itemView.getResources().getString(R.string.rating_text, r, votesCount));
+                } else {
+                    allRatingView.setText(itemView.getResources().getString(R.string.rating_text, 0.0, 0));
+                }
+            }
+        }
+
+        private void setUserRating(ReleaseGroup releaseGroup) {
+            Rating rating = releaseGroup.getUserRating();
+            if (rating != null) {
+                Float r = rating.getValue();
+                if (r == null) r = 0f;
+                userRating.setRating(r);
+            }
+        }
+
+        private void loadImage(String mbid) {
+            coverart.setVisibility(View.INVISIBLE);
+            progressLoading.setVisibility(View.VISIBLE);
+            api.getReleaseGroupCoverArt(
+                    mbid,
+                    coverArt -> {
+                        CoverArtImage.Thumbnails thumbnails = coverArt.getFrontThumbnails();
+                        if (thumbnails != null && !TextUtils.isEmpty(thumbnails.getSmall())) {
+                            Picasso.with(itemView.getContext()).load(thumbnails.getSmall()).fit().into(coverart);
+                        }
+                        coverart.setVisibility(View.VISIBLE);
+                        progressLoading.setVisibility(View.GONE);
+                    },
+                    t -> {
+                        coverart.setVisibility(View.VISIBLE);
+                        progressLoading.setVisibility(View.GONE);
+                    }
+            );
+        }
+
+        public void setOnDeleteListener(OnDeleteListener listener) {
+            deleteBtn.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onDelete(getAdapterPosition());
+                }
+            });
+        }
+    }
+
+    private boolean isPrivate;
+
+    public ReleaseGroupCollectionAdapter(List<ReleaseGroup> ReleaseGroups, boolean isPrivate) {
+        this.ReleaseGroups = ReleaseGroups;
+        this.isPrivate = isPrivate;
+        Collections.sort(this.ReleaseGroups, (a1, a2) -> (a1.getTitle()).compareTo(a2.getTitle()));
+    }
+
+    @Override
+    public void onBind(ViewHolder holder, final int position) {
+        holder.setOnDeleteListener(onDeleteListener);
+        holder.bindView(ReleaseGroups.get(position), isPrivate);
+    }
+
+    @Override
+    public int getItemCount() {
+        return ReleaseGroups.size();
+    }
+
+    @Override
+    public ReleaseGroupCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(inflateCardView(parent, R.layout.card_release_group_collection));
+    }
+
+    public interface OnDeleteListener {
+        void onDelete(int position);
+    }
+
+    private OnDeleteListener onDeleteListener;
+
+    public void setOnDeleteListener(OnDeleteListener onDeleteListener) {
+        this.onDeleteListener = onDeleteListener;
+    }
+}

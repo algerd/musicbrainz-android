@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".fragment.BarcodeSearchFragment">
+
+    <ProgressBar
+        android:id="@+id/loading"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/noresults"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/no_releases"
+        android:textSize="@dimen/text_size_16"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/error"
+        layout="@layout/layout_retry"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/barcode_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/barcode"
+                android:layout_marginEnd="7dp"
+                android:layout_marginStart="7dp"
+                android:text="@string/barcode_text"/>
+
+            <EditText
+                android:id="@+id/barcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/barcode_label"
+                android:inputType="number"/>
+
+            <ImageButton
+                android:id="@+id/barcode_search_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/barcode"
+                android:contentDescription="@string/description_search"
+                android:src="@android:drawable/ic_menu_search"/>
+
+            <TextView
+                android:id="@+id/release_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/barcode_search"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:text="@string/barcode_release_text"/>
+
+            <EditText
+                android:id="@+id/barcode_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/barcode_search_btn"
+                android:layout_alignStart="@id/barcode"
+                android:layout_below="@id/barcode"
+                android:layout_toStartOf="@id/barcode_search_btn"
+                android:hint="@string/barcode_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="textFilter"
+                android:singleLine="true"/>
+
+            <TextView
+                android:id="@+id/artist_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
+                android:layout_below="@+id/release_label"
+                android:layout_alignBaseline="@+id/artist_search"
+                android:text="@string/barcode_artist_label"/>
+
+            <EditText
+                android:id="@+id/artist_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/barcode_search"
+                android:layout_below="@id/barcode_search"
+                android:hint="@string/barcode_artist_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="textFilter"
+                android:singleLine="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/topline"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/md_deep_purple_100"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/release_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/barcode_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/topline"
+                android:gravity="center"
+                android:text="@string/barcode_instructions"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
+
