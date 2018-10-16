@@ -5,6 +5,8 @@ import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import okhttp3.ResponseBody;
+
+import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.account.OAuth;
 import org.musicbrainz.android.api.browse.AreaBrowseService;
 import org.musicbrainz.android.api.browse.ArtistBrowseService;
@@ -83,8 +85,9 @@ import static org.musicbrainz.android.api.lookup.LookupServiceInterface.RelsType
 
 public class Api {
 
-    // for post request and Digest Authentication
-    private final String CLIENT = "musicbrainz.android-1.0";
+    // for post request and Digest Authentication MusicBrainzApp.getVersion()
+    //private final String CLIENT = "musicbrainz.android-1.0";
+    private final String CLIENT = MusicBrainzApp.getPackage() + "-" + MusicBrainzApp.getVersion();
 
     private OAuth oauth;
 

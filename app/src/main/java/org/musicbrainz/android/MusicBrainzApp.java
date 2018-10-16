@@ -14,9 +14,6 @@ import org.musicbrainz.android.user.Preferences;
 
 public class MusicBrainzApp extends Application {
 
-    // for post request and Digest Authentication
-    public static final String CLIENT = "musicbrainz.android-1.0";
-
     public static OAuth oauth;
     public static Api api;
 
@@ -44,6 +41,14 @@ public class MusicBrainzApp extends Application {
     public static String getVersion() {
         try {
             return instance.getPackageManager().getPackageInfo(instance.getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "unknown";
+        }
+    }
+
+    public static String getPackage() {
+        try {
+            return instance.getPackageManager().getPackageInfo(instance.getPackageName(), 0).packageName;
         } catch (PackageManager.NameNotFoundException e) {
             return "unknown";
         }
