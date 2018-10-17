@@ -14,7 +14,7 @@ import org.musicbrainz.android.R;
 public class ReleaseInfoTabFragment extends Fragment {
 
     private ReleaseInformationFragment releaseInformationFragment;
-    private WikipediaWebViewTabFragment wikiFragment;
+    private WikipediaWebViewFragment wikiFragment;
 
     public static ReleaseInfoTabFragment newInstance() {
         Bundle args = new Bundle();
@@ -37,7 +37,7 @@ public class ReleaseInfoTabFragment extends Fragment {
 
     private void insertNestedFragments() {
         releaseInformationFragment = new ReleaseInformationFragment();
-        wikiFragment = new WikipediaWebViewTabFragment();
+        wikiFragment = new WikipediaWebViewFragment();
 
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_release_information, releaseInformationFragment)

@@ -66,7 +66,6 @@ public class CollectionEditFragment extends Fragment {
         }
 
         ((ShowTitleCommunicator) getContext()).getTopTitle().setText(R.string.title_edit_collection);
-
         return layout;
     }
 

@@ -18,10 +18,10 @@ import org.musicbrainz.android.functions.DisposableAction;
 import org.musicbrainz.android.functions.ErrorHandler;
 import org.musicbrainz.android.util.ShowUtil;
 
-import static org.musicbrainz.android.account.MusicBrainAccount.ACCESS_TOKEN;
-import static org.musicbrainz.android.account.MusicBrainAccount.ACCOUNT_TYPE;
-import static org.musicbrainz.android.account.MusicBrainAccount.EXPIRE_IN;
-import static org.musicbrainz.android.account.MusicBrainAccount.REFRESH_TOKEN;
+import static org.musicbrainz.android.account.MusicBrainzAccount.ACCESS_TOKEN;
+import static org.musicbrainz.android.account.MusicBrainzAccount.ACCOUNT_TYPE;
+import static org.musicbrainz.android.account.MusicBrainzAccount.EXPIRE_IN;
+import static org.musicbrainz.android.account.MusicBrainzAccount.REFRESH_TOKEN;
 
 
 /**
@@ -65,7 +65,7 @@ public class OAuth {
                     userdata.putString(ACCESS_TOKEN, credential.getAccessToken());
                     userdata.putString(REFRESH_TOKEN, credential.getRefreshToken());
                     userdata.putString(EXPIRE_IN, expiresIn + "");
-                    account = new MusicBrainAccount(username);
+                    account = new MusicBrainzAccount(username);
                     accountManager.addAccountExplicitly(account, password, userdata);
                     setConfigs();
                     if (action != null) action.run();

@@ -14,7 +14,7 @@ import org.musicbrainz.android.R;
 public class RecordingInfoTabFragment extends Fragment {
 
     private RecordingInformationFragment recordingInformationFragment;
-    private WikipediaWebViewTabFragment wikiFragment;
+    private WikipediaWebViewFragment wikiFragment;
 
     public static RecordingInfoTabFragment newInstance() {
         Bundle args = new Bundle();
@@ -36,7 +36,7 @@ public class RecordingInfoTabFragment extends Fragment {
 
     private void insertNestedFragments() {
         recordingInformationFragment = new RecordingInformationFragment();
-        wikiFragment = new WikipediaWebViewTabFragment();
+        wikiFragment = new WikipediaWebViewFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction
                 .replace(R.id.fragment_recording_information, recordingInformationFragment)

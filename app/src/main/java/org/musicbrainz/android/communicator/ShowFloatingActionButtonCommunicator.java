@@ -23,6 +23,7 @@ public interface ShowFloatingActionButtonCommunicator {
         public int getImgResource() {
             return imgResource;
         }
+
     }
 
 }

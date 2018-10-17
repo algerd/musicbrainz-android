@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 
 import org.musicbrainz.android.account.OAuth;
 import org.musicbrainz.android.api.Api;
-import org.musicbrainz.android.user.Preferences;
+import org.musicbrainz.android.account.Preferences;
 
 /**
  * Created by Alex on 18.12.2017.

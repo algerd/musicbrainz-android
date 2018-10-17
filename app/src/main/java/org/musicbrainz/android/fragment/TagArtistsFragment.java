@@ -89,7 +89,7 @@ public class TagArtistsFragment extends Fragment implements
         tagViewModel.getRefreshState().observe(this, networkState -> {
             if (networkState != null) {
 
-                //Show the current network state for the first load when the rating list
+                //Show the current network state for the first getWikidataQ when the rating list
                 //in the adapter is empty and disable swipe to scroll at the first loading
                 if (adapter.getCurrentList() == null || adapter.getCurrentList().size() == 0) {
                     itemNetworkState.setVisibility(View.VISIBLE);

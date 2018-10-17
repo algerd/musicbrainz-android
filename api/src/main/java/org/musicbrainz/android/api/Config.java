@@ -33,14 +33,6 @@ public class Config {
 
     public static String[] AUTHORIZATED_INCS = {"user-ratings", "user-tags"};
 
-    ////////////////////////////////
-    /*
-    При изменении учётных данных использовать:
-        Config.setCredentials(username, password);
-
-        for tests: username = "dregla" password = "12345"
-
-    */
     private static final Credentials credentials = new Credentials("", "");
 
     public static void setCredentials(String username, String password) {

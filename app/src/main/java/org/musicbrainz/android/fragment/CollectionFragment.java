@@ -120,7 +120,7 @@ public class CollectionFragment extends Fragment {
                     break;
 
                 case INSTRUMENT_ENTITY_TYPE:
-                    // TODO: load instruments?
+                    // TODO: getWikidataQ instruments?
                     break;
 
                 case LABEL_ENTITY_TYPE:

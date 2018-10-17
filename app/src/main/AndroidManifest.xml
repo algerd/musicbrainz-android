@@ -28,7 +28,7 @@
             android:name="org.musicbrainz.android.suggestion.SuggestionProvider"
             android:authorities="org.musicbrainz.android.SearchSuggestionProvider"/>
 
-        <service android:name="org.musicbrainz.android.account.MusicBrainAuthenticatorService">
+        <service android:name="org.musicbrainz.android.account.MusicBrainzAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>

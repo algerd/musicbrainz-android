@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import org.musicbrainz.android.R;
-import org.musicbrainz.android.fragment.WikipediaWebViewTabFragment;
+import org.musicbrainz.android.fragment.WikipediaWebViewFragment;
 import org.musicbrainz.android.fragment.ArtistRelationsTabFragment;
 import org.musicbrainz.android.fragment.LinksTabFragment;
 
@@ -33,7 +33,7 @@ public class ArtistInfoPagerAdapter extends BaseFragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case TAB_WIKI_POS:
-                return WikipediaWebViewTabFragment.newInstance();
+                return WikipediaWebViewFragment.newInstance();
             case TAB_RELATIONS_POS:
                 return ArtistRelationsTabFragment.newInstance();
             case TAB_LINKS_POS:

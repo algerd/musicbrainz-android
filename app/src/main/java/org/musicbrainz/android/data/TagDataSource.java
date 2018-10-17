@@ -69,7 +69,7 @@ public class TagDataSource extends PageKeyedDataSource<Integer, TagEntity> {
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TagEntity> callback) {
-        // ignored, since we only ever append to our initial load
+        // ignored, since we only ever append to our initial getWikidataQ
     }
 
     @Override
