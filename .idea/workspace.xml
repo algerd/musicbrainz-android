@@ -12,49 +12,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a6d8ec44-92f5-4814-810c-164a327f6bc0" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileContent/fileContent.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/jarAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/jarAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/javaCompile.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskJars.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/javaCompile/taskJars.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.6/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/MusicBrainzApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/MusicBrainzApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainAccount.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainzAccount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainAuthenticator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainzAuthenticator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainAuthenticatorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainzAuthenticatorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/OAuth.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/OAuth.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/pager/ArtistInfoPagerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/pager/ArtistInfoPagerAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/BasePagedListAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/BasePagedListAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/communicator/ShowFloatingActionButtonCommunicator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/communicator/ShowFloatingActionButtonCommunicator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/RatingsDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/RatingsDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/ReleaseGroupsDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/ReleaseGroupsDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/ReleasesDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/ReleasesDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/TagDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/TagDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/dialog/PagedReleaseDialogFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/dialog/PagedReleaseDialogFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingInfoTabFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingInfoTabFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseGroupsTabFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseGroupsTabFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseInfoTabFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseInfoTabFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleasesFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleasesFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/TagArtistsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/TagArtistsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/TagRecordingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/TagRecordingsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/TagReleaseGroupsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/TagReleaseGroupsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserRatingsTabFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserRatingsTabFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewTabFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/ui/CustomWebViewClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/user/Preferences.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/Preferences.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_web_view_tab.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_web_view.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -77,29 +46,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="WikipediaWebViewFragment.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-256">
-              <caret line="102" column="28" selection-start-line="102" selection-start-column="28" selection-end-line="102" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="126" column="38" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="38" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CollectionFragment.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="516">
-              <caret line="195" column="182" selection-start-line="195" selection-start-column="24" selection-end-line="195" selection-end-column="182" />
+            <state relative-caret-position="400">
+              <caret line="223" column="5" lean-forward="true" selection-start-line="223" selection-start-column="5" selection-end-line="223" selection-end-column="5" />
+              <folding>
+                <element signature="e#4833#4860#0" expanded="true" />
+                <element signature="e#5034#5065#0" expanded="true" />
+                <element signature="e#5372#5399#0" expanded="true" />
+                <element signature="e#5559#5583#0" expanded="true" />
+                <element signature="e#9706#9707#0" expanded="true" />
+                <element signature="e#9737#9738#0" expanded="true" />
+                <element signature="e#9798#9799#0" expanded="true" />
+                <element signature="e#9867#9868#0" expanded="true" />
+                <element signature="e#9934#9935#0" expanded="true" />
+                <element signature="e#10009#10010#0" expanded="true" />
+                <element signature="e#11344#11345#0" expanded="true" />
+                <element signature="e#11415#11416#0" expanded="true" />
+                <element signature="e#11646#11647#0" expanded="true" />
+                <element signature="e#11677#11678#0" expanded="true" />
+                <element signature="e#12675#12676#0" expanded="true" />
+                <element signature="e#12708#12709#0" expanded="true" />
+                <element signature="e#12763#12764#0" expanded="true" />
+                <element signature="e#12790#12791#0" expanded="true" />
+                <element signature="e#14516#14564#0" expanded="true" />
+                <element signature="e#17426#17427#0" expanded="true" />
+                <element signature="e#17457#17458#0" expanded="true" />
+                <element signature="e#17511#17512#0" expanded="true" />
+                <element signature="e#17545#17546#0" expanded="true" />
+                <element signature="e#17603#17604#0" expanded="true" />
+                <element signature="e#17646#17647#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2713,16 +2691,19 @@
         <option value="$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/Config.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/MusicBrainzAuthenticatorService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/Preferences.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewTabFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/communicator/ShowFloatingActionButtonCommunicator.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_web_view.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagPagerFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionCreateFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -2988,14 +2969,14 @@
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22070014" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13926941" />
       <window_info anchor="bottom" id="Build" order="7" weight="0.296741" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32933104" />
       <window_info anchor="right" id="Gradle" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="3" side_tool="true" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39965695" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.2212693" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -3010,7 +2991,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -3200,38 +3181,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="516">
-          <caret line="195" column="182" selection-start-line="195" selection-start-column="24" selection-end-line="195" selection-end-column="182" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_bottom_nav.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1663" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="126" column="38" selection-start-line="126" selection-start-column="38" selection-end-line="126" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="59" column="51" selection-start-line="58" selection-start-column="8" selection-end-line="59" selection-end-column="51" />
-          <folding>
-            <element signature="e#2401#2431#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
       <provider editor-type-id="android-designer2">
         <state />
@@ -3282,8 +3231,119 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-256">
-          <caret line="102" column="28" selection-start-line="102" selection-start-column="28" selection-end-line="102" selection-end-column="28" />
+        <state relative-caret-position="132">
+          <caret line="30" column="37" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseOptionsMenuActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="11" column="61" lean-forward="true" selection-start-line="11" selection-start-column="61" selection-end-line="11" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="27" column="22" selection-start-line="27" selection-start-column="22" selection-end-line="27" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/ArtistActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-fragment/27.1.1/94732bda44fba11302c58e459b7c1f47e7521bf9/support-fragment-27.1.1-sources.jar!/android/support/v4/app/FragmentTransaction.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="57" column="7" lean-forward="true" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-fragment/27.1.1/94732bda44fba11302c58e459b7c1f47e7521bf9/support-fragment-27.1.1-sources.jar!/android/support/v4/app/Fragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="173" column="11" selection-start-line="173" selection-start-column="11" selection-end-line="173" selection-end-column="11" />
+          <folding>
+            <element signature="e#17903#17904#0" expanded="true" />
+            <element signature="e#17930#17931#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_bottom_nav.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="57" column="44" selection-start-line="57" selection-start-column="29" selection-end-line="57" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagPagerFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionCreateFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="26" column="35" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="64" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="223" column="5" lean-forward="true" selection-start-line="223" selection-start-column="5" selection-end-line="223" selection-end-column="5" />
+          <folding>
+            <element signature="e#4833#4860#0" expanded="true" />
+            <element signature="e#5034#5065#0" expanded="true" />
+            <element signature="e#5372#5399#0" expanded="true" />
+            <element signature="e#5559#5583#0" expanded="true" />
+            <element signature="e#9706#9707#0" expanded="true" />
+            <element signature="e#9737#9738#0" expanded="true" />
+            <element signature="e#9798#9799#0" expanded="true" />
+            <element signature="e#9867#9868#0" expanded="true" />
+            <element signature="e#9934#9935#0" expanded="true" />
+            <element signature="e#10009#10010#0" expanded="true" />
+            <element signature="e#11344#11345#0" expanded="true" />
+            <element signature="e#11415#11416#0" expanded="true" />
+            <element signature="e#11646#11647#0" expanded="true" />
+            <element signature="e#11677#11678#0" expanded="true" />
+            <element signature="e#12675#12676#0" expanded="true" />
+            <element signature="e#12708#12709#0" expanded="true" />
+            <element signature="e#12763#12764#0" expanded="true" />
+            <element signature="e#12790#12791#0" expanded="true" />
+            <element signature="e#14516#14564#0" expanded="true" />
+            <element signature="e#17426#17427#0" expanded="true" />
+            <element signature="e#17457#17458#0" expanded="true" />
+            <element signature="e#17511#17512#0" expanded="true" />
+            <element signature="e#17545#17546#0" expanded="true" />
+            <element signature="e#17603#17604#0" expanded="true" />
+            <element signature="e#17646#17647#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -26,6 +26,8 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
 
 public class CollectionEditFragment extends Fragment {
 
+    public static final String TAG = "CollectionEditFragment";
+
     boolean isLoading;
     boolean isError;
     private Collection collection;

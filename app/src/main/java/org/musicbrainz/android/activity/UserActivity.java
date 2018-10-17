@@ -213,6 +213,17 @@ public class UserActivity extends BaseOptionsMenuActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame_container);
+        if (fragment instanceof CollectionFragment || fragment instanceof CollectionCreateFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.user_navigation_collections);
+        } else if (fragment instanceof UserTagPagerFragment) {
+            bottomNavigationView.setSelectedItemId(R.id.user_navigation_tags);
+        }
+        super.onBackPressed();
+    }
+
+    @Override
     public String getUsername() {
         return username;
     }
