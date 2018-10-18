@@ -93,7 +93,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected int getDefaultNavView() {
+    protected int getDefaultNavViewId() {
         return DEFAULT_RELEASE_NAV_VIEW;
     }
 
@@ -163,7 +163,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
         viewPager.setPagingEnabled(false);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         viewPager.setAdapter(pagerAdapter);
-        bottomNavigationView.setSelectedItemId(navView);
+        bottomNavigationView.setSelectedItemId(navViewId);
     }
 
     @Override

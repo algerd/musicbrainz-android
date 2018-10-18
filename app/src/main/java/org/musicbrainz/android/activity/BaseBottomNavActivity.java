@@ -10,15 +10,17 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.communicator.ShowTitleCommunicator;
 import org.musicbrainz.android.ui.CustomViewPager;
 import org.musicbrainz.android.util.BottomNavigationBehavior;
 import org.musicbrainz.android.util.ShowUtil;
 
-public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity {
+public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity implements
+        ShowTitleCommunicator {
 
     public static final String NAV_VIEW = "NAV_VIEW";
 
-    protected int navView;
+    protected int navViewId;
     protected boolean isLoading;
     protected boolean isError;
 
@@ -41,9 +43,9 @@ public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (savedInstanceState != null) {
-            navView = getDefaultNavView() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavView()) : savedInstanceState.getInt(NAV_VIEW);
+            navViewId = getDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
         } else {
-            navView = getDefaultNavView() != -1 ? getIntent().getIntExtra(NAV_VIEW, getDefaultNavView()) : savedInstanceState.getInt(NAV_VIEW);
+            navViewId = getDefaultNavViewId() != -1 ? getIntent().getIntExtra(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
         }
 
         error = findViewById(R.id.error);
@@ -68,13 +70,13 @@ public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(NAV_VIEW, navView);
+        outState.putInt(NAV_VIEW, navViewId);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        navView = getDefaultNavView() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavView()) : savedInstanceState.getInt(NAV_VIEW);
+        navViewId = getDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
     }
 
 
@@ -82,7 +84,7 @@ public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity {
 
     protected abstract int getBottomMenuId();
 
-    protected int getDefaultNavView() {
+    protected int getDefaultNavViewId() {
         return -1;
     }
 
@@ -132,4 +134,17 @@ public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity {
         transaction.commit();
     }
 
+    @Override
+    public TextView getTopTitle() {
+        return topTitle;
+    }
+
+    @Override
+    public TextView getBottomTitle() {
+        return bottomTitle;
+    }
+
+    public int getNavViewId() {
+        return navViewId;
+    }
 }

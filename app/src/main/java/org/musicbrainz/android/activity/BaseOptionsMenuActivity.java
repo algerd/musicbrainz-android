@@ -22,7 +22,7 @@ public abstract class BaseOptionsMenuActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.action_user_profile:
                 if (oauth.hasAccount()) {
-                    ActivityFactory.startUserActivity(this, oauth.getName());
+                    ActivityFactory.startUserActivity2(this, oauth.getName());
                 } else {
                     ActivityFactory.startLoginActivity(this);
                 }

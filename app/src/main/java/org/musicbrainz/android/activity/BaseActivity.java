@@ -98,7 +98,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     private void startUserActivity(int userNavigationView) {
         if (oauth.hasAccount()) {
-            ActivityFactory.startUserActivity(this, oauth.getName(), userNavigationView);
+            ActivityFactory.startUserActivity2(this, oauth.getName(), userNavigationView);
         } else {
             ActivityFactory.startLoginActivity(this);
         }

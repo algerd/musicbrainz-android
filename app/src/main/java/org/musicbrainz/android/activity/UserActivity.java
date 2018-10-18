@@ -5,13 +5,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.BaseFragmentPagerAdapter;
@@ -32,7 +27,6 @@ import org.musicbrainz.android.communicator.OnReleaseCommunicator;
 import org.musicbrainz.android.communicator.OnReleaseGroupCommunicator;
 import org.musicbrainz.android.communicator.OnUserTagCommunicator;
 import org.musicbrainz.android.communicator.ShowFloatingActionButtonCommunicator;
-import org.musicbrainz.android.communicator.ShowTitleCommunicator;
 import org.musicbrainz.android.dialog.PagedReleaseDialogFragment;
 import org.musicbrainz.android.fragment.CollectionCreateFragment;
 import org.musicbrainz.android.fragment.CollectionEditFragment;
@@ -40,10 +34,10 @@ import org.musicbrainz.android.fragment.CollectionFragment;
 import org.musicbrainz.android.fragment.CollectionsPagerFragment;
 import org.musicbrainz.android.fragment.UserTagPagerFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
-import org.musicbrainz.android.ui.CustomViewPager;
-import org.musicbrainz.android.util.BottomNavigationBehavior;
 import org.musicbrainz.android.util.FloatingActionButtonBehavior;
 import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
@@ -52,118 +46,91 @@ import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.T
 import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_RATINGS_POS;
 import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_TAGS_POS;
 
-public class UserActivity extends BaseOptionsMenuActivity implements
+public class UserActivity extends BaseBottomNavActivity implements
         GetUsernameCommunicator,
         OnArtistCommunicator,
         OnReleaseGroupCommunicator,
         OnReleaseCommunicator,
         OnRecordingCommunicator,
-        GetReleasesCommunicator,
         OnUserTagCommunicator,
         OnCollectionCommunicator,
         GetCollectionCommunicator,
         OnCreateCollectionCommunicator,
         ShowFloatingActionButtonCommunicator,
         OnEditCollectionCommunicator,
-        ShowTitleCommunicator,
         CollectionsPagerFragment.CollectionTabOrdinalCommunicator {
 
     public static final String USERNAME = "USERNAME";
-    public static final String USER_NAV_VIEW = "USER_NAV_VIEW";
     public static final int DEFAULT_USER_NAV_VIEW = R.id.user_navigation_profile;
 
     private int collectionTabOrdinal = -1;
     private String username;
-    private int userNavigationView;
-    private boolean isLoading;
-    private boolean isError;
-    private List<Release> releases;
     private Collection collection;
     private boolean isPrivate;
 
-    private BottomNavigationView bottomNavigationView;
-    private TextView topTitle;
-    private TextView bottomTitle;
-    private FrameLayout frameContainer;
-    private View error;
-    private View loading;
     private FloatingActionButton floatingActionButton;
-    private CustomViewPager viewPager;
     private UserNavigationPagerAdapter pagerAdapter;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
-        frameContainer.setVisibility(View.GONE);
-        viewPager.setVisibility(View.VISIBLE);
-        floatingActionButton.setVisibility(View.GONE);
-        switch (item.getItemId()) {
-            case R.id.user_navigation_profile:
-                viewPager.setCurrentItem(TAB_PROFILE_POS);
-                topTitle.setText(R.string.title_user_profile);
-                break;
-
-            case R.id.user_navigation_collections:
-                viewPager.setCurrentItem(TAB_COLLECTIONS_POS);
-                topTitle.setText(R.string.title_user_collections);
-                if (isPrivate) {
-                    showFloatingActionButton(true, FloatingButtonType.ADD_TO_COLLECTION);
-                }
-                break;
-
-            case R.id.user_navigation_ratings:
-                viewPager.setCurrentItem(TAB_RATINGS_POS);
-                topTitle.setText(R.string.title_user_ratings);
-                break;
-
-            case R.id.user_navigation_tags:
-                viewPager.setCurrentItem(TAB_TAGS_POS);
-                topTitle.setText(R.string.title_user_tags);
-                break;
-        }
-        return true;
-    };
-
     @Override
-    protected int getContentLayout() {
-        return R.layout.activity_bottom_nav;
+    protected int getBottomMenuId() {
+        return R.menu.user_nav;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    protected int getDefaultNavViewId() {
+        return DEFAULT_USER_NAV_VIEW;
+    }
 
-        error = findViewById(R.id.error);
-        loading = findViewById(R.id.loading);
-        frameContainer = findViewById(R.id.frame_container);
-        viewPager = findViewById(R.id.viewpager);
-        floatingActionButton = findViewById(R.id.floatin_action_btn);
-        topTitle = findViewById(R.id.toolbar_title_top);
-        bottomTitle = findViewById(R.id.toolbar_title_bottom);
-
+    @Override
+    protected void onCreateActivity(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
             username = savedInstanceState.getString(USERNAME);
-            userNavigationView = savedInstanceState.getInt(USER_NAV_VIEW, DEFAULT_USER_NAV_VIEW);
         } else {
             username = getIntent().getStringExtra(USERNAME);
-            userNavigationView = getIntent().getIntExtra(USER_NAV_VIEW, DEFAULT_USER_NAV_VIEW);
         }
-
         isPrivate = oauth.hasAccount() && username.equals(oauth.getName());
-
         bottomTitle.setText(username);
 
-        bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.inflateMenu(R.menu.user_nav);
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        // attaching behaviours - hide / showFloatingActionButton on scroll
-        ((CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams()).setBehavior(new BottomNavigationBehavior());
+        floatingActionButton = findViewById(R.id.floatin_action_btn);
         ((CoordinatorLayout.LayoutParams) floatingActionButton.getLayoutParams()).setBehavior(new FloatingActionButtonBehavior());
-
-        refreshTokenAndLoad();
     }
 
-    private void refreshTokenAndLoad() {
+    @Override
+    protected BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
+        return item -> {
+            frameContainer.setVisibility(View.GONE);
+            viewPager.setVisibility(View.VISIBLE);
+            floatingActionButton.setVisibility(View.GONE);
+            switch (item.getItemId()) {
+                case R.id.user_navigation_profile:
+                    viewPager.setCurrentItem(TAB_PROFILE_POS);
+                    topTitle.setText(R.string.title_user_profile);
+                    break;
+
+                case R.id.user_navigation_collections:
+                    viewPager.setCurrentItem(TAB_COLLECTIONS_POS);
+                    topTitle.setText(R.string.title_user_collections);
+                    if (isPrivate) {
+                        showFloatingActionButton(true, FloatingButtonType.ADD_TO_COLLECTION);
+                    }
+                    break;
+
+                case R.id.user_navigation_ratings:
+                    viewPager.setCurrentItem(TAB_RATINGS_POS);
+                    topTitle.setText(R.string.title_user_ratings);
+                    break;
+
+                case R.id.user_navigation_tags:
+                    viewPager.setCurrentItem(TAB_TAGS_POS);
+                    topTitle.setText(R.string.title_user_tags);
+                    break;
+            }
+            return true;
+        };
+    }
+
+    @Override
+    protected void refreshTokenAndLoad() {
         viewError(false);
 
         if (isPrivate) {
@@ -186,30 +153,19 @@ public class UserActivity extends BaseOptionsMenuActivity implements
         viewPager.setAdapter(pagerAdapter);
         viewPager.setPagingEnabled(false);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
-        bottomNavigationView.setSelectedItemId(userNavigationView);
+        bottomNavigationView.setSelectedItemId(getNavViewId());
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(USERNAME, username);
-        outState.putInt(USER_NAV_VIEW, userNavigationView);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         username = savedInstanceState.getString(USERNAME);
-        userNavigationView = savedInstanceState.getInt(USER_NAV_VIEW, DEFAULT_USER_NAV_VIEW);
-    }
-
-    private void loadFragment(Fragment fragment) {
-        viewPager.setVisibility(View.INVISIBLE);
-        frameContainer.setVisibility(View.VISIBLE);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     @Override
@@ -275,35 +231,6 @@ public class UserActivity extends BaseOptionsMenuActivity implements
     @Override
     public void onUserTag(String username, String tag) {
         loadFragment(UserTagPagerFragment.newInstance(username, tag));
-    }
-
-    @Override
-    public List<Release> getReleases() {
-        return releases;
-    }
-
-    private void viewProgressLoading(boolean isView) {
-        if (isView) {
-            isLoading = true;
-            frameContainer.setAlpha(0.3F);
-            loading.setVisibility(View.VISIBLE);
-        } else {
-            isLoading = false;
-            frameContainer.setAlpha(1.0F);
-            loading.setVisibility(View.GONE);
-        }
-    }
-
-    private void viewError(boolean isView) {
-        if (isView) {
-            isError = true;
-            viewPager.setVisibility(View.INVISIBLE);
-            error.setVisibility(View.VISIBLE);
-        } else {
-            isError = false;
-            error.setVisibility(View.GONE);
-            viewPager.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -406,23 +333,6 @@ public class UserActivity extends BaseOptionsMenuActivity implements
                         ShowUtil.showError(this, t);
                     });
         }
-    }
-
-    private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(this, t);
-        viewProgressLoading(false);
-        viewError(true);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> refreshTokenAndLoad());
-    }
-
-    @Override
-    public TextView getTopTitle() {
-        return topTitle;
-    }
-
-    @Override
-    public TextView getBottomTitle() {
-        return bottomTitle;
     }
 
     @Override

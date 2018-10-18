@@ -118,7 +118,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected int getDefaultNavView() {
+    protected int getDefaultNavViewId() {
         return DEFAULT_ARTIST_NAV_VIEW;
     }
 
@@ -157,7 +157,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
         viewPager.setPagingEnabled(false);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         viewPager.setAdapter(pagerAdapter);
-        bottomNavigationView.setSelectedItemId(navView);
+        bottomNavigationView.setSelectedItemId(getNavViewId());
     }
 
     @Override
