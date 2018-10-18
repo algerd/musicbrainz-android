@@ -1,7 +1,8 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,12 +11,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.coverart.CoverArtImage;
 import org.musicbrainz.android.api.model.Release;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
@@ -23,11 +24,13 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
  * Created by Alex on 17.01.2018.
  */
 
-public class ReleaseCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseCollectionAdapter.ViewHolder> {
+public class ReleaseCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseCollectionAdapter.ReleaseCollectionViewHolder> {
 
     private List<Release> releases;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class ReleaseCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_release_collection;
 
         private Release release;
 
@@ -36,7 +39,13 @@ public class ReleaseCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseCol
         private TextView releaseName;
         private ImageView deleteBtn;
 
-        public ViewHolder(CardView v) {
+        public static ReleaseCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new ReleaseCollectionViewHolder(view);
+        }
+
+        private ReleaseCollectionViewHolder(View v) {
             super(v);
             coverart = v.findViewById(R.id.release_image);
             progressLoading = v.findViewById(R.id.image_loading);
@@ -44,7 +53,7 @@ public class ReleaseCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseCol
             deleteBtn = v.findViewById(R.id.delete);
         }
 
-        public void bindView(Release release, boolean isPrivate) {
+        public void bindTo(Release release, boolean isPrivate) {
             deleteBtn.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             this.release = release;
             releaseName.setText(release.getTitle());
@@ -96,9 +105,9 @@ public class ReleaseCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseCol
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(ReleaseCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(releases.get(position), isPrivate);
+        holder.bindTo(releases.get(position), isPrivate);
     }
 
     @Override
@@ -106,9 +115,10 @@ public class ReleaseCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseCol
         return releases.size();
     }
 
+    @NonNull
     @Override
-    public ReleaseCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_release_collection));
+    public ReleaseCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ReleaseCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

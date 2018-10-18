@@ -1,6 +1,7 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,22 +17,30 @@ import org.musicbrainz.android.api.model.Event;
  * Created by Alex on 17.01.2018.
  */
 
-public class EventCollectionAdapter extends BaseRecyclerViewAdapter<EventCollectionAdapter.ViewHolder> {
+public class EventCollectionAdapter extends BaseRecyclerViewAdapter<EventCollectionAdapter.EventCollectionViewHolder> {
 
     private List<Event> events;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class EventCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_event_collection;
 
         private TextView eventNameTextView;
         private ImageView deleteButton;
 
-        public ViewHolder(CardView v) {
+        public static EventCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new EventCollectionViewHolder(view);
+        }
+
+        private EventCollectionViewHolder(View v) {
             super(v);
             eventNameTextView = v.findViewById(R.id.event_name);
             deleteButton = v.findViewById(R.id.delete);
         }
 
-        public void bindView(Event event, boolean isPrivate) {
+        public void bindTo(Event event, boolean isPrivate) {
             deleteButton.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             eventNameTextView.setText(event.getName());
         }
@@ -54,9 +63,9 @@ public class EventCollectionAdapter extends BaseRecyclerViewAdapter<EventCollect
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(EventCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(events.get(position), isPrivate);
+        holder.bindTo(events.get(position), isPrivate);
     }
 
     @Override
@@ -64,9 +73,10 @@ public class EventCollectionAdapter extends BaseRecyclerViewAdapter<EventCollect
         return events.size();
     }
 
+    @NonNull
     @Override
-    public EventCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_event_collection));
+    public EventCollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return EventCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

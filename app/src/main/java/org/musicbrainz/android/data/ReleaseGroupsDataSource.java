@@ -54,7 +54,7 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReleaseGroup> callback) {
         // update network states.
-        // we also provide an initial getWikidataQ state to the listeners so that the UI can know when the first page is loaded.
+        // we also provide an initial getWikidata state to the listeners so that the UI can know when the first page is loaded.
         networkState.postValue(NetworkState.LOADING);
         initialLoad.postValue(NetworkState.LOADING);
         compositeDisposable.add(api.getReleaseGroupsByArtistAndAlbumTypes(
@@ -86,7 +86,7 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReleaseGroup> callback) {
-        // ignored, since we only ever append to our initial getWikidataQ
+        // ignored, since we only ever append to our initial getWikidata
     }
 
     @Override

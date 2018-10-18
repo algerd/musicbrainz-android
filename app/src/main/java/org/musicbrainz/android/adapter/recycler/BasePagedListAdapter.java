@@ -27,7 +27,7 @@ public abstract class BasePagedListAdapter<T> extends PagedListAdapter<T, Recycl
 
     /**
      * Set the current network state to the adapter
-     * but this work only after the initial getWikidataQ
+     * but this work only after the initial getWikidata
      * and the adapter already have list to add new loading raw to it
      * so the initial loading state the activity responsible for handle it
      *

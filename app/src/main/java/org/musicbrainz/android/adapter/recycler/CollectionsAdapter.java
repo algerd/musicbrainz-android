@@ -1,27 +1,28 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.model.Collection;
+
+import java.util.List;
 
 /**
  * Created by Alex on 19.02.2018.
  */
 
-public class CollectionsAdapter extends BaseRecyclerViewAdapter<CollectionsAdapter.ViewHolder> {
+public class CollectionsAdapter extends BaseRecyclerViewAdapter<CollectionsAdapter.CollectionsViewHolder> {
 
-    private ViewHolder.OnDeleteCollectionListener onDeleteCollectionListener;
+    private CollectionsViewHolder.OnDeleteCollectionListener onDeleteCollectionListener;
     private List<Collection> collections;
     private boolean isPrivate;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class CollectionsViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
 
         public interface OnDeleteCollectionListener {
             void onDelete(int position);
@@ -33,18 +34,26 @@ public class CollectionsAdapter extends BaseRecyclerViewAdapter<CollectionsAdapt
             this.onDeleteCollectionListener = onDeleteCollectionListener;
         }
 
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_collections;
+
         private TextView collectionName;
         private TextView collectionCount;
         private ImageView collectionDelete;
 
-        public ViewHolder(CardView v) {
+        public static CollectionsViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new CollectionsViewHolder(view);
+        }
+
+        private CollectionsViewHolder(View v) {
             super(v);
             collectionName = v.findViewById(R.id.collection_name);
             collectionCount = v.findViewById(R.id.collection_count);
             collectionDelete = v.findViewById(R.id.collection_delete);
         }
 
-        public void bindView(Collection collection, boolean isPrivate) {
+        public void bindTo(Collection collection, boolean isPrivate) {
             collectionDelete.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
 
             collectionDelete.setOnClickListener(v -> {
@@ -66,9 +75,9 @@ public class CollectionsAdapter extends BaseRecyclerViewAdapter<CollectionsAdapt
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(CollectionsViewHolder holder, final int position) {
         holder.setOnDeleteCollectionListener(onDeleteCollectionListener);
-        holder.bindView(collections.get(position), isPrivate);
+        holder.bindTo(collections.get(position), isPrivate);
     }
 
     @Override
@@ -76,12 +85,13 @@ public class CollectionsAdapter extends BaseRecyclerViewAdapter<CollectionsAdapt
         return collections.size();
     }
 
+    @NonNull
     @Override
-    public CollectionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_collections));
+    public CollectionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return CollectionsViewHolder.create(parent);
     }
 
-    public void setOnDeleteCollectionListener(ViewHolder.OnDeleteCollectionListener onDeleteCollectionListener) {
+    public void setOnDeleteCollectionListener(CollectionsViewHolder.OnDeleteCollectionListener onDeleteCollectionListener) {
         this.onDeleteCollectionListener = onDeleteCollectionListener;
     }
 

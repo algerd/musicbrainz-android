@@ -1,6 +1,7 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,22 +17,30 @@ import org.musicbrainz.android.api.model.Place;
  * Created by Alex on 17.01.2018.
  */
 
-public class PlaceCollectionAdapter extends BaseRecyclerViewAdapter<PlaceCollectionAdapter.ViewHolder> {
+public class PlaceCollectionAdapter extends BaseRecyclerViewAdapter<PlaceCollectionAdapter.PlaceCollectionViewHolder> {
 
     private List<Place> places;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class PlaceCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_place_collection;
 
         private TextView placeNameTextView;
         private ImageView deleteButton;
 
-        public ViewHolder(CardView v) {
+        public static PlaceCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new PlaceCollectionViewHolder(view);
+        }
+
+        private PlaceCollectionViewHolder(View v) {
             super(v);
             placeNameTextView = v.findViewById(R.id.place_name);
             deleteButton = v.findViewById(R.id.delete);
         }
 
-        public void bindView(Place place, boolean isPrivate) {
+        public void bindTo(Place place, boolean isPrivate) {
             deleteButton.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             placeNameTextView.setText(place.getName());
         }
@@ -54,9 +63,9 @@ public class PlaceCollectionAdapter extends BaseRecyclerViewAdapter<PlaceCollect
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(PlaceCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(places.get(position), isPrivate);
+        holder.bindTo(places.get(position), isPrivate);
     }
 
     @Override
@@ -64,9 +73,10 @@ public class PlaceCollectionAdapter extends BaseRecyclerViewAdapter<PlaceCollect
         return places.size();
     }
 
+    @NonNull
     @Override
-    public PlaceCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_place_collection));
+    public PlaceCollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return PlaceCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

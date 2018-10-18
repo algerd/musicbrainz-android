@@ -1,6 +1,7 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,22 +17,30 @@ import org.musicbrainz.android.api.model.Series;
  * Created by Alex on 17.01.2018.
  */
 
-public class SeriesCollectionAdapter extends BaseRecyclerViewAdapter<SeriesCollectionAdapter.ViewHolder> {
+public class SeriesCollectionAdapter extends BaseRecyclerViewAdapter<SeriesCollectionAdapter.SeriesCollectionViewHolder> {
 
     private List<Series> serieses;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class SeriesCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_series_collection;
 
         private TextView seriesNameTextView;
         private ImageView deleteButton;
 
-        public ViewHolder(CardView v) {
+        public static SeriesCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new SeriesCollectionViewHolder(view);
+        }
+
+        private SeriesCollectionViewHolder(View v) {
             super(v);
             seriesNameTextView = v.findViewById(R.id.series_name);
             deleteButton = v.findViewById(R.id.delete);
         }
 
-        public void bindView(Series series, boolean isPrivate) {
+        public void bindTo(Series series, boolean isPrivate) {
             deleteButton.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             seriesNameTextView.setText(series.getName());
         }
@@ -54,9 +63,9 @@ public class SeriesCollectionAdapter extends BaseRecyclerViewAdapter<SeriesColle
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(SeriesCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(serieses.get(position), isPrivate);
+        holder.bindTo(serieses.get(position), isPrivate);
     }
 
     @Override
@@ -64,9 +73,10 @@ public class SeriesCollectionAdapter extends BaseRecyclerViewAdapter<SeriesColle
         return serieses.size();
     }
 
+    @NonNull
     @Override
-    public SeriesCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_series_collection));
+    public SeriesCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return SeriesCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

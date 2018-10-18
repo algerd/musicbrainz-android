@@ -1,34 +1,44 @@
 package org.musicbrainz.android.adapter.recycler;
 
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.site.TagEntity;
+
+import java.util.List;
 
 /**
  * Created by Alex on 17.01.2018.
  */
 
-public class EntityTagAdapter extends BaseRecyclerViewAdapter<EntityTagAdapter.ViewHolder> {
+public class EntityTagAdapter extends BaseRecyclerViewAdapter<EntityTagAdapter.EntityTagViewHolder> {
 
     private List<TagEntity> tags;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class EntityTagViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_entity_tag;
 
         private TextView entityNameView;
         private TextView artistNameView;
 
-        public ViewHolder(View v) {
+        public static EntityTagViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new EntityTagViewHolder(view);
+        }
+
+        private EntityTagViewHolder(View v) {
             super(v);
             entityNameView = v.findViewById(R.id.entity_name);
             artistNameView = v.findViewById(R.id.artist_name);
         }
 
-        public void bindView(TagEntity tag) {
+        public void bindTo(TagEntity tag) {
             entityNameView.setText(tag.getName());
             artistNameView.setText(tag.getArtistName());
         }
@@ -39,8 +49,8 @@ public class EntityTagAdapter extends BaseRecyclerViewAdapter<EntityTagAdapter.V
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(tags.get(position));
+    public void onBind(EntityTagViewHolder holder, final int position) {
+        holder.bindTo(tags.get(position));
     }
 
     @Override
@@ -48,8 +58,9 @@ public class EntityTagAdapter extends BaseRecyclerViewAdapter<EntityTagAdapter.V
         return tags.size();
     }
 
+    @NonNull
     @Override
-    public EntityTagAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_entity_tag));
+    public EntityTagViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return EntityTagViewHolder.create(parent);
     }
 }

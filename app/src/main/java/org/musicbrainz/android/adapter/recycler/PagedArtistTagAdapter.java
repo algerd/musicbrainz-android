@@ -19,23 +19,23 @@ import org.musicbrainz.android.api.site.TagEntity;
 
 public class PagedArtistTagAdapter extends BasePagedListAdapter<TagEntity> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class PagedArtistTagViewHolder extends RecyclerView.ViewHolder {
 
         static final int VIEW_HOLDER_LAYOUT = R.layout.card_artist_tag;
 
         private TextView artistNameView;
         private TextView commentView;
 
-        public ViewHolder(View v) {
+        private PagedArtistTagViewHolder(View v) {
             super(v);
             artistNameView = v.findViewById(R.id.artist_name);
             commentView = v.findViewById(R.id.comment);
         }
 
-        public static ViewHolder create(ViewGroup parent) {
+        public static PagedArtistTagViewHolder create(ViewGroup parent) {
             LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
-            return new ViewHolder(view);
+            return new PagedArtistTagViewHolder(view);
         }
 
         private void bindTo(TagEntity tagEntity) {
@@ -53,7 +53,7 @@ public class PagedArtistTagAdapter extends BasePagedListAdapter<TagEntity> {
         if (hasExtraRow() && position == getItemCount() - 1) {
             return NetworkStateViewHolder.VIEW_HOLDER_LAYOUT;
         } else {
-            return ViewHolder.VIEW_HOLDER_LAYOUT;
+            return PagedArtistTagViewHolder.VIEW_HOLDER_LAYOUT;
         }
     }
 
@@ -61,8 +61,8 @@ public class PagedArtistTagAdapter extends BasePagedListAdapter<TagEntity> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
-            case ViewHolder.VIEW_HOLDER_LAYOUT:
-                return ViewHolder.create(parent);
+            case PagedArtistTagViewHolder.VIEW_HOLDER_LAYOUT:
+                return PagedArtistTagViewHolder.create(parent);
             case NetworkStateViewHolder.VIEW_HOLDER_LAYOUT:
                 return NetworkStateViewHolder.create(parent, retryCallback);
             default:
@@ -73,9 +73,9 @@ public class PagedArtistTagAdapter extends BasePagedListAdapter<TagEntity> {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
-            case ViewHolder.VIEW_HOLDER_LAYOUT:
+            case PagedArtistTagViewHolder.VIEW_HOLDER_LAYOUT:
                 TagEntity tagEntity = getItem(position);
-                ((ViewHolder) holder).bindTo(tagEntity);
+                ((PagedArtistTagViewHolder) holder).bindTo(tagEntity);
                 if (holderClickListener != null) {
                     holder.itemView.setOnClickListener(view -> holderClickListener.onClick(tagEntity));
                 }

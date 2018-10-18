@@ -1,35 +1,45 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.core.ApiUtils;
 import org.musicbrainz.android.api.model.relations.Relation;
 
+import java.util.List;
+
 /**
  * Created by Alex on 17.01.2018.
  */
 
-public class CreditsAdapter extends BaseRecyclerViewAdapter<CreditsAdapter.ViewHolder> {
+public class CreditsAdapter extends BaseRecyclerViewAdapter<CreditsAdapter.CreditsViewHolder> {
 
     private List<Relation> artistRelations;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class CreditsViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_credits;
 
         private TextView typeView;
         private TextView artistView;
 
-        public ViewHolder(CardView v) {
+        public static CreditsViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new CreditsViewHolder(view);
+        }
+
+        private CreditsViewHolder(View v) {
             super(v);
             typeView = v.findViewById(R.id.type);
             artistView = v.findViewById(R.id.artist);
         }
 
-        public void bindView(Relation relation) {
+        public void bindTo(Relation relation) {
             String type = relation.getType();
             String attributes = ApiUtils.getStringFromList(relation.getAttributes(), ", ");
             typeView.setText(ApiUtils.getStringFromArray(new String[]{type, attributes}, " / "));
@@ -42,8 +52,8 @@ public class CreditsAdapter extends BaseRecyclerViewAdapter<CreditsAdapter.ViewH
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(artistRelations.get(position));
+    public void onBind(CreditsViewHolder holder, final int position) {
+        holder.bindTo(artistRelations.get(position));
     }
 
     @Override
@@ -51,8 +61,9 @@ public class CreditsAdapter extends BaseRecyclerViewAdapter<CreditsAdapter.ViewH
         return artistRelations.size();
     }
 
+    @NonNull
     @Override
-    public CreditsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_credits));
+    public CreditsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return CreditsViewHolder.create(parent);
     }
 }

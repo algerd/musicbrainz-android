@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.os.ConfigurationCompat;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +91,7 @@ public class WikipediaWebViewFragment extends Fragment {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
-                Toast.makeText(getActivity(), "Cannot getWikidataQ page", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Cannot getWikidata page", Toast.LENGTH_SHORT).show();
                 loading.setVisibility(View.GONE);
             }
         });
@@ -103,12 +104,13 @@ public class WikipediaWebViewFragment extends Fragment {
             webView.loadUrl(urlMap.get(buttonLang));
         });
 
-        getWikidataQ();
-        load();
+        getWikidata();
         return layout;
     }
 
     public void load() {
+        viewError(false);
+
         viewProgressLoading(true);
         api.getSitelinks(
                 wikidataQ,
@@ -133,7 +135,7 @@ public class WikipediaWebViewFragment extends Fragment {
                 lang);
     }
 
-    public void getWikidataQ() {
+    public void getWikidata() {
         List<Url> urls = ((GetUrlsCommunicator) getContext()).getUrls();
         if (urls != null && !urls.isEmpty()) {
             for (Url link : urls) {
@@ -141,6 +143,9 @@ public class WikipediaWebViewFragment extends Fragment {
                 if (link.getType().equalsIgnoreCase("wikidata")) {
                     int pageSplit = resource.lastIndexOf("/") + 1;
                     wikidataQ = resource.substring(pageSplit);
+                    if (!TextUtils.isEmpty(wikidataQ)) {
+                        load();
+                    }
                     break;
                 }
             }

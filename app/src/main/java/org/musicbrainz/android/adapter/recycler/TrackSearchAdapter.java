@@ -1,10 +1,10 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.core.ApiUtils;
@@ -12,18 +12,28 @@ import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Recording;
 import org.musicbrainz.android.api.model.Release;
 
-public class TrackSearchAdapter extends BaseRecyclerViewAdapter<TrackSearchAdapter.ViewHolder> {
+import java.util.List;
+
+public class TrackSearchAdapter extends BaseRecyclerViewAdapter<TrackSearchAdapter.TrackSearchViewHolder> {
 
     private List<Recording> recordings;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class TrackSearchViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_search_track;
 
         private TextView artistName;
         private TextView albumName;
         private TextView trackName;
         private TextView tags;
 
-        public ViewHolder(CardView v) {
+        public static TrackSearchViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new TrackSearchViewHolder(view);
+        }
+
+        private TrackSearchViewHolder(View v) {
             super(v);
             artistName = v.findViewById(R.id.artist_name);
             albumName = v.findViewById(R.id.album_name);
@@ -31,7 +41,7 @@ public class TrackSearchAdapter extends BaseRecyclerViewAdapter<TrackSearchAdapt
             tags = v.findViewById(R.id.tags);
         }
 
-        public void bindView(Recording recording) {
+        public void bindTo(Recording recording) {
             trackName.setText(recording.getTitle());
 
             List<Artist.ArtistCredit> artists = recording.getArtistCredits();
@@ -58,8 +68,8 @@ public class TrackSearchAdapter extends BaseRecyclerViewAdapter<TrackSearchAdapt
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(recordings.get(position));
+    public void onBind(TrackSearchViewHolder holder, final int position) {
+        holder.bindTo(recordings.get(position));
     }
 
     @Override
@@ -67,8 +77,9 @@ public class TrackSearchAdapter extends BaseRecyclerViewAdapter<TrackSearchAdapt
         return recordings.size();
     }
 
+    @NonNull
     @Override
-    public TrackSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_search_track));
+    public TrackSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return TrackSearchViewHolder.create(parent);
     }
 }

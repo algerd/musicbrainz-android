@@ -1,34 +1,44 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.model.Tag;
+
+import java.util.List;
 
 /**
  * Created by Alex on 19.02.2018.
  */
 
-public class UserTagsAdapter extends BaseRecyclerViewAdapter<UserTagsAdapter.ViewHolder> {
+public class UserTagsAdapter extends BaseRecyclerViewAdapter<UserTagsAdapter.UserTagsViewHolder> {
 
     private List<Tag> tags;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class UserTagsViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_user_tag;
 
         private TextView tagName;
         private TextView tagCount;
 
-        public ViewHolder(CardView v) {
+        public static UserTagsViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new UserTagsViewHolder(view);
+        }
+
+        private UserTagsViewHolder(View v) {
             super(v);
             tagName = v.findViewById(R.id.tag_name);
             tagCount = v.findViewById(R.id.tag_count);
         }
 
-        public void bindView(Tag tag) {
+        public void bindTo(Tag tag) {
             tagName.setText(tag.getName());
             tagCount.setText(String.valueOf(tag.getCount()));
         }
@@ -39,8 +49,8 @@ public class UserTagsAdapter extends BaseRecyclerViewAdapter<UserTagsAdapter.Vie
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(tags.get(position));
+    public void onBind(UserTagsViewHolder holder, final int position) {
+        holder.bindTo(tags.get(position));
     }
 
     @Override
@@ -48,9 +58,10 @@ public class UserTagsAdapter extends BaseRecyclerViewAdapter<UserTagsAdapter.Vie
         return tags.size();
     }
 
+    @NonNull
     @Override
-    public UserTagsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_user_tag));
+    public UserTagsAdapter.UserTagsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return UserTagsViewHolder.create(parent);
     }
 
 }

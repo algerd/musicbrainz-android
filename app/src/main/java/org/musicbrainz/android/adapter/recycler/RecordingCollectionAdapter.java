@@ -1,7 +1,8 @@
 package org.musicbrainz.android.adapter.recycler;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -10,14 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.model.Rating;
 import org.musicbrainz.android.api.model.Recording;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
@@ -26,11 +27,13 @@ import static org.musicbrainz.android.MusicBrainzApp.oauth;
  * Created by Alex on 17.01.2018.
  */
 
-public class RecordingCollectionAdapter extends BaseRecyclerViewAdapter<RecordingCollectionAdapter.ViewHolder> {
+public class RecordingCollectionAdapter extends BaseRecyclerViewAdapter<RecordingCollectionAdapter.RecordingCollectionViewHolder> {
 
     private List<Recording> recordings;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class RecordingCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_recording_collection;
 
         private TextView recordingNameTextView;
         private ImageView deleteButton;
@@ -38,7 +41,13 @@ public class RecordingCollectionAdapter extends BaseRecyclerViewAdapter<Recordin
         private TextView allRatingView;
         private LinearLayout ratingContainer;
 
-        public ViewHolder(CardView v) {
+        public static RecordingCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new RecordingCollectionViewHolder(view);
+        }
+
+        private RecordingCollectionViewHolder(View v) {
             super(v);
             recordingNameTextView = v.findViewById(R.id.recording_name);
             deleteButton = v.findViewById(R.id.delete);
@@ -47,7 +56,7 @@ public class RecordingCollectionAdapter extends BaseRecyclerViewAdapter<Recordin
             ratingContainer = v.findViewById(R.id.rating_container);
         }
 
-        public void bindView(Recording recording, boolean isPrivate) {
+        public void bindTo(Recording recording, boolean isPrivate) {
             deleteButton.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             recordingNameTextView.setText(recording.getTitle());
             setUserRating(recording);
@@ -140,9 +149,9 @@ public class RecordingCollectionAdapter extends BaseRecyclerViewAdapter<Recordin
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(RecordingCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(recordings.get(position), isPrivate);
+        holder.bindTo(recordings.get(position), isPrivate);
     }
 
     @Override
@@ -150,9 +159,10 @@ public class RecordingCollectionAdapter extends BaseRecyclerViewAdapter<Recordin
         return recordings.size();
     }
 
+    @NonNull
     @Override
-    public RecordingCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_recording_collection));
+    public RecordingCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return RecordingCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

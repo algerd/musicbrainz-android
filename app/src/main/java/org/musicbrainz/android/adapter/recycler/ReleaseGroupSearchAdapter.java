@@ -1,7 +1,7 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,11 +21,13 @@ import org.musicbrainz.android.api.model.ReleaseGroup;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
-public class ReleaseGroupSearchAdapter extends BaseRecyclerViewAdapter<ReleaseGroupSearchAdapter.ViewHolder> {
+public class ReleaseGroupSearchAdapter extends BaseRecyclerViewAdapter<ReleaseGroupSearchAdapter.ReleaseGroupSearchViewHolder> {
 
     private List<ReleaseGroup> releaseGroups;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class ReleaseGroupSearchViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_search_release_group;
 
         private ImageView coverart;
         private ProgressBar coverartLoading;
@@ -34,7 +36,13 @@ public class ReleaseGroupSearchAdapter extends BaseRecyclerViewAdapter<ReleaseGr
         private TextView artistName;
         private TextView tags;
 
-        public ViewHolder(CardView v) {
+        public static ReleaseGroupSearchViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new ReleaseGroupSearchViewHolder(view);
+        }
+
+        private ReleaseGroupSearchViewHolder(View v) {
             super(v);
             coverart = v.findViewById(R.id.coverart);
             coverartLoading = v.findViewById(R.id.coverart_loading);
@@ -44,7 +52,7 @@ public class ReleaseGroupSearchAdapter extends BaseRecyclerViewAdapter<ReleaseGr
             tags = v.findViewById(R.id.tags);
         }
 
-        public void bindView(ReleaseGroup releaseGroup) {
+        public void bindTo(ReleaseGroup releaseGroup) {
             releaseName.setText(releaseGroup.getTitle());
             List<Artist.ArtistCredit> artists = releaseGroup.getArtistCredit();
             Artist artist = null;
@@ -88,8 +96,8 @@ public class ReleaseGroupSearchAdapter extends BaseRecyclerViewAdapter<ReleaseGr
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(releaseGroups.get(position));
+    public void onBind(ReleaseGroupSearchViewHolder holder, final int position) {
+        holder.bindTo(releaseGroups.get(position));
     }
 
     @Override
@@ -98,7 +106,7 @@ public class ReleaseGroupSearchAdapter extends BaseRecyclerViewAdapter<ReleaseGr
     }
 
     @Override
-    public ReleaseGroupSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_search_release_group));
+    public ReleaseGroupSearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return ReleaseGroupSearchViewHolder.create(parent);
     }
 }

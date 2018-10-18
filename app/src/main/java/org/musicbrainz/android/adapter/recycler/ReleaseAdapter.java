@@ -1,7 +1,9 @@
 package org.musicbrainz.android.adapter.recycler;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,10 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.coverart.CoverArtImage;
@@ -22,18 +20,24 @@ import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.util.MbUtils;
 import org.musicbrainz.android.util.StringFormat;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
 /**
  * Created by Alex on 19.02.2018.
  */
 
-public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ViewHolder> {
+public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ReleaseViewHolder> {
 
     private String releaseMbid;
     private List<Release> releases;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class ReleaseViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_release;
 
         private CardView cardView;
         private ImageView coverart;
@@ -45,7 +49,13 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ViewH
         private TextView catalog;
         private TextView barcode;
 
-        public ViewHolder(CardView v) {
+        public static ReleaseViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new ReleaseViewHolder(view);
+        }
+
+        private ReleaseViewHolder(View v) {
             super(v);
             cardView = v.findViewById(R.id.release_card);
             coverart = v.findViewById(R.id.coverart);
@@ -58,7 +68,7 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ViewH
             barcode = v.findViewById(R.id.barcode);
         }
 
-        public void bindView(Release release, String releaseMbid) {
+        public void bindTo(Release release, String releaseMbid) {
             if (release.getId().equals(releaseMbid)) {
                 cardView.setBackgroundResource(R.color.md_orange_50);
             }
@@ -66,7 +76,6 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ViewH
             date.setText(release.getDate());
             releaseName.setText(release.getTitle());
             if (!TextUtils.isEmpty(release.getBarcode())) {
-                //TODO: send text to resource
                 barcode.setText(itemView.getResources().getString(R.string.r_barcode, release.getBarcode()));
             }
 
@@ -124,8 +133,8 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ViewH
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(releases.get(position), releaseMbid);
+    public void onBind(ReleaseViewHolder holder, final int position) {
+        holder.bindTo(releases.get(position), releaseMbid);
     }
 
     @Override
@@ -133,8 +142,9 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.ViewH
         return releases.size();
     }
 
+    @NonNull
     @Override
-    public ReleaseAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_release));
+    public ReleaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ReleaseViewHolder.create(parent);
     }
 }

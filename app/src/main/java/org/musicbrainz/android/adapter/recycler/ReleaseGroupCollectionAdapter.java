@@ -1,8 +1,9 @@
 package org.musicbrainz.android.adapter.recycler;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -14,15 +15,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.coverart.CoverArtImage;
 import org.musicbrainz.android.api.model.Rating;
 import org.musicbrainz.android.api.model.ReleaseGroup;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
@@ -31,11 +32,13 @@ import static org.musicbrainz.android.MusicBrainzApp.oauth;
  * Created by Alex on 17.01.2018.
  */
 
-public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseGroupCollectionAdapter.ViewHolder> {
+public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<ReleaseGroupCollectionAdapter.ReleaseGroupCollectionViewHolder> {
 
     private List<ReleaseGroup> ReleaseGroups;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class ReleaseGroupCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_release_group_collection;
 
         private ImageView coverart;
         private ProgressBar progressLoading;
@@ -45,7 +48,13 @@ public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<Relea
         private ImageView deleteBtn;
         private LinearLayout ratingContainer;
 
-        public ViewHolder(CardView v) {
+        public static ReleaseGroupCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new ReleaseGroupCollectionViewHolder(view);
+        }
+
+        private ReleaseGroupCollectionViewHolder(View v) {
             super(v);
             coverart = v.findViewById(R.id.rg_image);
             progressLoading = v.findViewById(R.id.image_loading);
@@ -56,7 +65,7 @@ public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<Relea
             ratingContainer = v.findViewById(R.id.rating_container);
         }
 
-        public void bindView(ReleaseGroup releaseGroup, boolean isPrivate) {
+        public void bindTo(ReleaseGroup releaseGroup, boolean isPrivate) {
             deleteBtn.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             releaseGroupName.setText(releaseGroup.getTitle());
             setUserRating(releaseGroup);
@@ -171,9 +180,9 @@ public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<Relea
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(ReleaseGroupCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(ReleaseGroups.get(position), isPrivate);
+        holder.bindTo(ReleaseGroups.get(position), isPrivate);
     }
 
     @Override
@@ -181,9 +190,10 @@ public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<Relea
         return ReleaseGroups.size();
     }
 
+    @NonNull
     @Override
-    public ReleaseGroupCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_release_group_collection));
+    public ReleaseGroupCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ReleaseGroupCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

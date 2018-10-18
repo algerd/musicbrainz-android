@@ -1,7 +1,8 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,12 +12,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.core.ApiUtils;
 import org.musicbrainz.android.api.lastfm.model.Image;
 import org.musicbrainz.android.api.model.Artist;
+
+import java.util.List;
 
 import static android.text.TextUtils.TruncateAt.END;
 import static org.musicbrainz.android.MusicBrainzApp.api;
@@ -25,11 +26,13 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
  * Created by Alex on 17.01.2018.
  */
 
-public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAdapter.ViewHolder> {
+public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAdapter.ArtistSearchViewHolder> {
 
     private List<Artist> artists;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class ArtistSearchViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_search_artist;
 
         private LinearLayout container;
         private ImageView image;
@@ -37,7 +40,13 @@ public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAda
         private TextView artistName;
         private TextView type;
 
-        public ViewHolder(CardView v) {
+        public static ArtistSearchViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new ArtistSearchViewHolder(view);
+        }
+
+        private ArtistSearchViewHolder(View v) {
             super(v);
             container = v.findViewById(R.id.artist_container);
             image = v.findViewById(R.id.artist_image);
@@ -46,7 +55,7 @@ public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAda
             type = v.findViewById(R.id.artist_type);
         }
 
-        public void bindView(Artist artist) {
+        public void bindTo(Artist artist) {
             artistName.setText(artist.getName());
             type.setText(artist.getType());
 
@@ -115,8 +124,8 @@ public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAda
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(artists.get(position));
+    public void onBind(ArtistSearchViewHolder holder, final int position) {
+        holder.bindTo(artists.get(position));
     }
 
     @Override
@@ -124,8 +133,9 @@ public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAda
         return artists.size();
     }
 
+    @NonNull
     @Override
-    public ArtistSearchAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_search_artist));
+    public ArtistSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ArtistSearchViewHolder.create(parent);
     }
 }

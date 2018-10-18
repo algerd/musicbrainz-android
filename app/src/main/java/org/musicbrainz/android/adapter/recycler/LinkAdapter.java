@@ -1,37 +1,47 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.model.Url;
+
+import java.util.List;
 
 /**
  * Created by Alex on 17.01.2018.
  */
 
-public class LinkAdapter extends BaseRecyclerViewAdapter<LinkAdapter.ViewHolder> {
+public class LinkAdapter extends BaseRecyclerViewAdapter<LinkAdapter.LinkViewHolder> {
 
     private List<Url> urls;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class LinkViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_link;
 
         private ImageView icon;
         private TextView type;
         private TextView link;
 
-        public ViewHolder(CardView v) {
+        public static LinkViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new LinkViewHolder(view);
+        }
+
+        private LinkViewHolder(View v) {
             super(v);
             icon = v.findViewById(R.id.icon);
             type = v.findViewById(R.id.type);
             link = v.findViewById(R.id.link);
         }
 
-        public void bindView(Url url) {
+        public void bindTo(Url url) {
             type.setText(url.getPrettyType());
             link.setText(url.getPrettyUrl());
 
@@ -89,8 +99,8 @@ public class LinkAdapter extends BaseRecyclerViewAdapter<LinkAdapter.ViewHolder>
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
-        holder.bindView(urls.get(position));
+    public void onBind(LinkViewHolder holder, final int position) {
+        holder.bindTo(urls.get(position));
     }
 
     @Override
@@ -98,8 +108,9 @@ public class LinkAdapter extends BaseRecyclerViewAdapter<LinkAdapter.ViewHolder>
         return urls.size();
     }
 
+    @NonNull
     @Override
-    public LinkAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_link));
+    public LinkViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return LinkViewHolder.create(parent);
     }
 }

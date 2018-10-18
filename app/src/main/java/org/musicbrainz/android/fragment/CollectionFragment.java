@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -79,7 +80,7 @@ public class CollectionFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_collection, container, false);
 
         String username = ((GetUsernameCommunicator) getContext()).getUsername();
@@ -104,6 +105,8 @@ public class CollectionFragment extends Fragment {
     }
 
     public void load() {
+        error.setVisibility(View.GONE);
+
         collection = ((GetCollectionCommunicator) getContext()).getCollection();
         ((ShowTitleCommunicator) getContext()).getTopTitle().setText(collection.getName());
         if (collection != null) {
@@ -121,7 +124,7 @@ public class CollectionFragment extends Fragment {
                     break;
 
                 case INSTRUMENT_ENTITY_TYPE:
-                    // TODO: getWikidataQ instruments?
+                    // TODO: getWikidata instruments?
                     break;
 
                 case LABEL_ENTITY_TYPE:

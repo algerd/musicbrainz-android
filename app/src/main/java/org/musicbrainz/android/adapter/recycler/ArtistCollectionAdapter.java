@@ -1,8 +1,9 @@
 package org.musicbrainz.android.adapter.recycler;
 
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -14,15 +15,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.lastfm.model.Image;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Rating;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.Collections;
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
@@ -31,11 +32,13 @@ import static org.musicbrainz.android.MusicBrainzApp.oauth;
  * Created by Alex on 17.01.2018.
  */
 
-public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistCollectionAdapter.ViewHolder> {
+public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistCollectionAdapter.ArtistCollectionViewHolder> {
 
     private List<Artist> artists;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class ArtistCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_artist_collection;
 
         private ImageView image;
         private ProgressBar progressLoading;
@@ -45,7 +48,13 @@ public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistColle
         private ImageView deleteBtn;
         private LinearLayout ratingContainer;
 
-        public ViewHolder(CardView v) {
+        public static ArtistCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new ArtistCollectionViewHolder(view);
+        }
+
+        private ArtistCollectionViewHolder(View v) {
             super(v);
             image = v.findViewById(R.id.artist_image);
             progressLoading = v.findViewById(R.id.image_loading);
@@ -56,7 +65,7 @@ public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistColle
             ratingContainer = v.findViewById(R.id.rating_container);
         }
 
-        public void bindView(Artist artist, boolean isPrivate) {
+        private void bindTo(Artist artist, boolean isPrivate) {
             deleteBtn.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
 
             artistName.setText(artist.getName());
@@ -178,9 +187,9 @@ public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistColle
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(ArtistCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(artists.get(position), isPrivate);
+        holder.bindTo(artists.get(position), isPrivate);
     }
 
     @Override
@@ -188,9 +197,10 @@ public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistColle
         return artists.size();
     }
 
+    @NonNull
     @Override
-    public ArtistCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_artist_collection));
+    public ArtistCollectionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ArtistCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {

@@ -1,6 +1,7 @@
 package org.musicbrainz.android.adapter.recycler;
 
-import android.support.v7.widget.CardView;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,22 +17,30 @@ import org.musicbrainz.android.api.model.Area;
  * Created by Alex on 17.01.2018.
  */
 
-public class AreaCollectionAdapter extends BaseRecyclerViewAdapter<AreaCollectionAdapter.ViewHolder> {
+public class AreaCollectionAdapter extends BaseRecyclerViewAdapter<AreaCollectionAdapter.AreaCollectionViewHolder> {
 
     private List<Area> areas;
 
-    public static class ViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+    public static class AreaCollectionViewHolder extends BaseRecyclerViewAdapter.BaseViewHolder {
+
+        static final int VIEW_HOLDER_LAYOUT = R.layout.card_area_collection;
 
         private TextView areaNameTextView;
         private ImageView deleteButton;
 
-        public ViewHolder(CardView v) {
+        public static AreaCollectionViewHolder create(ViewGroup parent) {
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+            View view = layoutInflater.inflate(VIEW_HOLDER_LAYOUT, parent, false);
+            return new AreaCollectionViewHolder(view);
+        }
+
+        private AreaCollectionViewHolder(View v) {
             super(v);
             areaNameTextView = v.findViewById(R.id.area_name);
             deleteButton = v.findViewById(R.id.delete);
         }
 
-        public void bindView(Area area, boolean isPrivate) {
+        public void bindTo(Area area, boolean isPrivate) {
             deleteButton.setVisibility(isPrivate ? View.VISIBLE : View.GONE);
             areaNameTextView.setText(area.getName());
         }
@@ -54,9 +63,9 @@ public class AreaCollectionAdapter extends BaseRecyclerViewAdapter<AreaCollectio
     }
 
     @Override
-    public void onBind(ViewHolder holder, final int position) {
+    public void onBind(AreaCollectionViewHolder holder, final int position) {
         holder.setOnDeleteListener(onDeleteListener);
-        holder.bindView(areas.get(position), isPrivate);
+        holder.bindTo(areas.get(position), isPrivate);
     }
 
     @Override
@@ -64,9 +73,10 @@ public class AreaCollectionAdapter extends BaseRecyclerViewAdapter<AreaCollectio
         return areas.size();
     }
 
+    @NonNull
     @Override
-    public AreaCollectionAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(inflateCardView(parent, R.layout.card_area_collection));
+    public AreaCollectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return AreaCollectionViewHolder.create(parent);
     }
 
     public interface OnDeleteListener {
