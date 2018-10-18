@@ -84,32 +84,37 @@ public class ArtistCollectionAdapter extends BaseRecyclerViewAdapter<ArtistColle
                 if (win != null) {
                     win.setContentView(R.layout.dialog_rating_bar);
                     RatingBar rb = win.findViewById(R.id.rating_bar);
+                    View ratingProgress = win.findViewById(R.id.loading);
                     TextView title = win.findViewById(R.id.title_text);
                     title.setText(itemView.getResources().getString(R.string.rate_entity, artist.getName()));
                     rb.setRating(userRating.getRating());
 
                     rb.setOnRatingBarChangeListener((RatingBar ratingBar, float rating, boolean fromUser) -> {
-                        if (oauth.hasAccount()) {
-                            if (fromUser) {
-                                api.postArtistRating(
-                                        artist.getId(), rating,
-                                        metadata -> {
-                                            if (metadata.getMessage().getText().equals("OK")) {
-                                                userRating.setRating(rating);
-                                                api.getArtistRatings(
-                                                        artist.getId(),
-                                                        this::setAllRating,
-                                                        t -> ShowUtil.showToast(itemView.getContext(), t.getMessage()));
-                                            } else {
-                                                ShowUtil.showToast(itemView.getContext(), "Error");
-                                            }
-                                            alertDialog.dismiss();
-                                        },
-                                        t -> {
-                                            ShowUtil.showToast(itemView.getContext(), t.getMessage());
-                                            alertDialog.dismiss();
-                                        });
-                            }
+                        if (oauth.hasAccount() && ratingProgress.getVisibility() == View.INVISIBLE && fromUser) {
+                            ratingProgress.setVisibility(View.VISIBLE);
+                            rb.setAlpha(0.3F);
+                            api.postArtistRating(
+                                    artist.getId(), rating,
+                                    metadata -> {
+                                        ratingProgress.setVisibility(View.INVISIBLE);
+                                        rb.setAlpha(1.0F);
+                                        if (metadata.getMessage().getText().equals("OK")) {
+                                            userRating.setRating(rating);
+                                            api.getArtistRatings(
+                                                    artist.getId(),
+                                                    this::setAllRating,
+                                                    t -> ShowUtil.showToast(itemView.getContext(), t.getMessage()));
+                                        } else {
+                                            ShowUtil.showToast(itemView.getContext(), "Error");
+                                        }
+                                        alertDialog.dismiss();
+                                    },
+                                    t -> {
+                                        ratingProgress.setVisibility(View.INVISIBLE);
+                                        rb.setAlpha(1.0F);
+                                        ShowUtil.showToast(itemView.getContext(), t.getMessage());
+                                        alertDialog.dismiss();
+                                    });
                         } else {
                             ActivityFactory.startLoginActivity(itemView.getContext());
                         }

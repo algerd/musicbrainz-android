@@ -66,15 +66,20 @@ public class ReleaseGroupRatingsAdapter extends BasePagedListAdapter<Rating> {
             if (win != null) {
                 win.setContentView(R.layout.dialog_rating_bar);
                 RatingBar rb = win.findViewById(R.id.rating_bar);
+                View ratingProgress = win.findViewById(R.id.loading);
                 TextView title = win.findViewById(R.id.title_text);
                 title.setText(itemView.getResources().getString(R.string.rate_entity, rating.getName()));
                 rb.setRating(ratingBar.getRating());
 
                 rb.setOnRatingBarChangeListener((RatingBar rateBar, float rate, boolean fromUser) -> {
-                    if (fromUser) {
+                    if (ratingProgress.getVisibility() == View.INVISIBLE && fromUser) {
+                        ratingProgress.setVisibility(View.VISIBLE);
+                        rb.setAlpha(0.3F);
                         api.postAlbumRating(
                                 rating.getMbid(), rate,
                                 metadata -> {
+                                    ratingProgress.setVisibility(View.INVISIBLE);
+                                    rb.setAlpha(1.0F);
                                     if (metadata.getMessage().getText().equals("OK")) {
                                         ratingBar.setRating(rate);
                                     } else {
@@ -83,6 +88,8 @@ public class ReleaseGroupRatingsAdapter extends BasePagedListAdapter<Rating> {
                                     alertDialog.dismiss();
                                 },
                                 t -> {
+                                    ratingProgress.setVisibility(View.INVISIBLE);
+                                    rb.setAlpha(1.0F);
                                     ShowUtil.showToast(itemView.getContext(), t.getMessage());
                                     alertDialog.dismiss();
                                 });
