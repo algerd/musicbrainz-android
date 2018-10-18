@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
-import org.musicbrainz.android.exception.HttpException;
+
 import org.musicbrainz.android.functions.Consumer;
 import org.musicbrainz.android.functions.ErrorHandler;
 

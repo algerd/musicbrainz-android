@@ -1,4 +1,4 @@
-package org.musicbrainz.android.exception;
+package org.musicbrainz.android.api;
 
 import java.io.IOException;
 
