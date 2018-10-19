@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
@@ -25,7 +26,6 @@ import org.musicbrainz.android.api.coverart.CoverArtImage;
 import org.musicbrainz.android.api.model.Rating;
 import org.musicbrainz.android.api.model.ReleaseGroup;
 import org.musicbrainz.android.intent.ActivityFactory;
-import org.musicbrainz.android.util.PicassoHelper;
 import org.musicbrainz.android.util.ShowUtil;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
@@ -134,24 +134,40 @@ public class ReleaseGroupsAdapter extends BasePagedListAdapter<ReleaseGroup> {
         }
 
         private void loadImage(String albumMbid) {
-            imageView.setVisibility(View.INVISIBLE);
-            progressLoading.setVisibility(View.VISIBLE);
+            showImageProgressLoading(true);
             api.getReleaseGroupCoverArt(
                     albumMbid,
                     coverArt -> {
                         CoverArtImage.Thumbnails thumbnails = coverArt.getFrontThumbnails();
                         if (thumbnails != null && !TextUtils.isEmpty(thumbnails.getSmall())) {
-                            progressLoading.setVisibility(View.VISIBLE);
-                            Picasso.with(itemView.getContext()).load(thumbnails.getSmall())
+                            Picasso.get().load(thumbnails.getSmall())
                                     .resize(SMALL_SIZE, SMALL_SIZE)
-                                    .into(imageView, PicassoHelper.createPicassoProgressCallback(progressLoading));
+                                    .into(imageView, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            showImageProgressLoading(false);
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            showImageProgressLoading(false);
+                                        }
+                                    });
+                        } else {
+                            showImageProgressLoading(false);
                         }
-                        imageView.setVisibility(View.VISIBLE);
                     },
-                    t -> {
-                        imageView.setVisibility(View.VISIBLE);
-                        progressLoading.setVisibility(View.GONE);
-                    });
+                    t -> showImageProgressLoading(false));
+        }
+
+        private void showImageProgressLoading(boolean show) {
+            if (show) {
+                imageView.setVisibility(View.INVISIBLE);
+                progressLoading.setVisibility(View.VISIBLE);
+            } else {
+                progressLoading.setVisibility(View.GONE);
+                imageView.setVisibility(View.VISIBLE);
+            }
         }
 
         private void setAllRating(ReleaseGroup releaseGroup) {

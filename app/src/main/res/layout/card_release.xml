@@ -38,7 +38,9 @@
                     android:id="@+id/coverart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_album_24_dark"/>
+                    android:src="@drawable/ic_album_24_dark"
+                    android:visibility="invisible"/>
+
             </FrameLayout>
 
             <TextView

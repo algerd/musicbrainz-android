@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.musicbrainz.android.R;
@@ -148,23 +149,39 @@ public class ReleaseGroupCollectionAdapter extends BaseRecyclerViewAdapter<Relea
         }
 
         private void loadImage(String mbid) {
-            coverart.setVisibility(View.INVISIBLE);
-            progressLoading.setVisibility(View.VISIBLE);
+            showImageProgressLoading(true);
             api.getReleaseGroupCoverArt(
                     mbid,
                     coverArt -> {
                         CoverArtImage.Thumbnails thumbnails = coverArt.getFrontThumbnails();
                         if (thumbnails != null && !TextUtils.isEmpty(thumbnails.getSmall())) {
-                            Picasso.with(itemView.getContext()).load(thumbnails.getSmall()).fit().into(coverart);
+                            Picasso.get().load(thumbnails.getSmall()).fit()
+                                    .into(coverart, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            showImageProgressLoading(false);
+                                        }
+
+                                        @Override
+                                        public void onError(Exception e) {
+                                            showImageProgressLoading(false);
+                                        }
+                                    });
+                        } else {
+                            showImageProgressLoading(false);
                         }
-                        coverart.setVisibility(View.VISIBLE);
-                        progressLoading.setVisibility(View.GONE);
                     },
-                    t -> {
-                        coverart.setVisibility(View.VISIBLE);
-                        progressLoading.setVisibility(View.GONE);
-                    }
-            );
+                    t -> showImageProgressLoading(false));
+        }
+
+        private void showImageProgressLoading(boolean show) {
+            if (show) {
+                coverart.setVisibility(View.INVISIBLE);
+                progressLoading.setVisibility(View.VISIBLE);
+            } else {
+                progressLoading.setVisibility(View.GONE);
+                coverart.setVisibility(View.VISIBLE);
+            }
         }
 
         public void setOnDeleteListener(OnDeleteListener listener) {

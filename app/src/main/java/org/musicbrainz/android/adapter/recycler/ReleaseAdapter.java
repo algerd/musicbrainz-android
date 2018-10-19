@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.musicbrainz.android.R;
@@ -104,23 +105,41 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
             if (release.getCoverArt() != null &&
                     release.getCoverArt().getFront() != null && release.getCoverArt().getFront()) {
 
-                coverart.setVisibility(View.INVISIBLE);
-                coverartLoading.setVisibility(View.VISIBLE);
+                showImageProgressLoading(true);
                 api.getReleaseCoverArt(
                         release.getId(),
                         coverArt -> {
-                            coverart.setVisibility(View.VISIBLE);
-                            coverartLoading.setVisibility(View.GONE);
                             CoverArtImage.Thumbnails thumbnails = coverArt.getFrontThumbnails();
                             if (thumbnails != null && !TextUtils.isEmpty(thumbnails.getSmall())) {
-                                Picasso.with(itemView.getContext()).load(thumbnails.getSmall()).fit().into(coverart);
+                                Picasso.get().load(thumbnails.getSmall()).fit()
+                                        .into(coverart, new Callback() {
+                                            @Override
+                                            public void onSuccess() {
+                                                showImageProgressLoading(false);
+                                            }
+
+                                            @Override
+                                            public void onError(Exception e) {
+                                                showImageProgressLoading(false);
+                                            }
+                                        });
+                            } else {
+                                showImageProgressLoading(false);
                             }
                         },
-                        t -> {
-                            coverart.setVisibility(View.VISIBLE);
-                            coverartLoading.setVisibility(View.GONE);
-                        }
-                );
+                        t -> showImageProgressLoading(false));
+            } else {
+                showImageProgressLoading(false);
+            }
+        }
+
+        private void showImageProgressLoading(boolean show) {
+            if (show) {
+                coverart.setVisibility(View.INVISIBLE);
+                coverartLoading.setVisibility(View.VISIBLE);
+            } else {
+                coverartLoading.setVisibility(View.GONE);
+                coverart.setVisibility(View.VISIBLE);
             }
         }
     }

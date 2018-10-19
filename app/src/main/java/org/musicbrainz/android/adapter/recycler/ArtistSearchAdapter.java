@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.musicbrainz.android.R;
@@ -92,29 +93,49 @@ public class ArtistSearchAdapter extends BaseRecyclerViewAdapter<ArtistSearchAda
         }
 
         private void loadArtistImageFromLastfm(String name) {
-            image.setVisibility(View.INVISIBLE);
-            progressLoading.setVisibility(View.VISIBLE);
+            showImageProgressLoading(true);
             api.getArtistFromLastfm(
                     name,
                     result -> {
+                        boolean loaded = true;
                         if (result.getError() == null || result.getError() == 0) {
                             List<Image> images = result.getArtist().getImages();
                             if (images != null && !images.isEmpty()) {
                                 for (Image img : images) {
                                     if (img.getSize().equals(Image.SizeType.MEDIUM.toString()) && !TextUtils.isEmpty(img.getText())) {
-                                        Picasso.with(itemView.getContext()).load(img.getText()).fit().into(image);
+                                        Picasso.get().load(img.getText()).fit()
+                                                .into(image, new Callback() {
+                                                    @Override
+                                                    public void onSuccess() {
+                                                        showImageProgressLoading(false);
+                                                    }
+
+                                                    @Override
+                                                    public void onError(Exception e) {
+                                                        showImageProgressLoading(false);
+                                                    }
+                                                });
+                                        loaded = false;
                                         break;
                                     }
                                 }
                             }
                         }
-                        progressLoading.setVisibility(View.GONE);
-                        image.setVisibility(View.VISIBLE);
+                        if (loaded) {
+                            showImageProgressLoading(false);
+                        }
                     },
-                    t -> {
-                        progressLoading.setVisibility(View.GONE);
-                        image.setVisibility(View.VISIBLE);
-                    });
+                    t -> showImageProgressLoading(false));
+        }
+
+        private void showImageProgressLoading(boolean show) {
+            if (show) {
+                image.setVisibility(View.INVISIBLE);
+                progressLoading.setVisibility(View.VISIBLE);
+            } else {
+                progressLoading.setVisibility(View.GONE);
+                image.setVisibility(View.VISIBLE);
+            }
         }
 
     }

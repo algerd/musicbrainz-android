@@ -119,7 +119,7 @@ public class UserProfileFragment extends Fragment {
                         if (!userProfile.getGravatar().contains("https://gravatar.com/avatar/placeholder?d=mm&s=108")) {
                             avatarFrame.setVisibility(View.VISIBLE);
                             avatarLoading.setVisibility(View.VISIBLE);
-                            Picasso.with(getContext()).load(userProfile.getGravatar()).fit().centerInside().into(avatarView,
+                            Picasso.get().load(userProfile.getGravatar()).fit().centerInside().into(avatarView,
                                     new Callback() {
                                         @Override
                                         public void onSuccess() {
@@ -127,7 +127,7 @@ public class UserProfileFragment extends Fragment {
                                         }
 
                                         @Override
-                                        public void onError() {
+                                        public void onError(Exception e) {
                                             avatarFrame.setVisibility(View.GONE);
                                         }
                                     });

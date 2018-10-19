@@ -7,11 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.coverart.CoverArtImage;
-import org.musicbrainz.android.util.PicassoHelper;
 
 import java.util.List;
 
@@ -40,8 +40,19 @@ public class CoverArtAdapter extends BaseRecyclerViewAdapter<CoverArtAdapter.Cov
 
         public void bindTo(@NonNull CoverArtImage coverArtImage) {
             coverartLoading.setVisibility(View.VISIBLE);
-            Picasso.with(itemView.getContext()).load(coverArtImage.getThumbnails().getLarge())
-                    .into(coverart, PicassoHelper.createPicassoProgressCallback(coverartLoading));
+            Picasso.get().load(coverArtImage.getThumbnails().getLarge())
+                    .into(coverart, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            coverartLoading.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            coverartLoading.setVisibility(View.GONE);
+                        }
+                    });
+
         }
     }
 

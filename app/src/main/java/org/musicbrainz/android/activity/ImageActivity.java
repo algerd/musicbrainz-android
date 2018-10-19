@@ -7,10 +7,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.github.chrisbanes.photoview.PhotoView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.musicbrainz.android.R;
-import org.musicbrainz.android.util.PicassoHelper;
 
 
 public class ImageActivity extends AppCompatActivity {
@@ -34,8 +34,18 @@ public class ImageActivity extends AppCompatActivity {
 
         ProgressBar loading = findViewById(R.id.loading);
         loading.setVisibility(View.VISIBLE);
-        Picasso.with(this).load(imageUrl).into(photoView, PicassoHelper.createPicassoProgressCallback(loading,
-                () -> Toast.makeText(this, getString(R.string.error_image_loading), Toast.LENGTH_SHORT).show()));
+        Picasso.get().load(imageUrl).into(photoView, new Callback() {
+            @Override
+            public void onSuccess() {
+                loading.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                loading.setVisibility(View.GONE);
+                Toast.makeText(ImageActivity.this, getString(R.string.error_image_loading), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
