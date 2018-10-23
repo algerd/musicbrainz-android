@@ -38,6 +38,6 @@ public class MainActivity extends BaseOptionsMenuActivity implements
 
     @Override
     public void searchUser(String user) {
-        ActivityFactory.startUserActivity2(this, user);
+        ActivityFactory.startUserActivity(this, user);
     }
 }

@@ -55,14 +55,14 @@ public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity impl
         topTitle = findViewById(R.id.toolbar_title_top);
         bottomTitle = findViewById(R.id.toolbar_title_bottom);
 
+        onCreateActivity(savedInstanceState);
+
         bottomNavigationView = findViewById(R.id.bottom_nav);
         bottomNavigationView.inflateMenu(getBottomMenuId());
         bottomNavigationView.setOnNavigationItemSelectedListener(getOnNavigationItemSelectedListener());
 
         // attaching behaviours - hide / showFloatingActionButton on scroll
         ((CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams()).setBehavior(new BottomNavigationBehavior());
-
-        onCreateActivity(savedInstanceState);
 
         refreshTokenAndLoad();
     }

@@ -227,6 +227,7 @@
     <string name="nav_user_collections">Collections</string>
     <string name="nav_user_ratings">Ratings</string>
     <string name="nav_user_tags">Tags</string>
+    <string name="nav_user_recommends">Recommends</string>
     <string name="nav_support">Support</string>
     <string name="nav_feedback">Feedback</string>
     <string name="nav_open_drawer">Open navigation drawer</string>
@@ -302,6 +303,7 @@
     <string name="title_user_collections">Collections</string>
     <string name="title_user_ratings">Ratings</string>
     <string name="title_user_tags">Tags</string>
+    <string name="title_user_recommends">Recommends</string>
     <string name="title_create_collection">Create Collection</string>
     <string name="title_edit_collection">Edit Collection</string>
     <string name="editor_not_found">User not found</string>

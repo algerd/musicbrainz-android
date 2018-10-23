@@ -39,6 +39,12 @@
                 android:id="@+id/nav_user_tags"
                 android:icon="@drawable/ic_tag_24"
                 android:title="@string/nav_user_tags"/>
+
+            <item
+                android:id="@+id/nav_user_recommends"
+                android:icon="@drawable/ic_thumb_up_24"
+                android:title="@string/nav_user_recommends"/>
+
         </menu>
     </item>
 

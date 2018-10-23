@@ -31,11 +31,11 @@ public class ActivityFactory {
         context.startActivity(intent);
     }
 
-    public static void startUserActivity2(Context context, String username) {
-        startUserActivity2(context, username, DEFAULT_USER_NAV_VIEW);
+    public static void startUserActivity(Context context, String username) {
+        startUserActivity(context, username, DEFAULT_USER_NAV_VIEW);
     }
 
-    public static void startUserActivity2(Context context, String username, int userNavigationView) {
+    public static void startUserActivity(Context context, String username, int userNavigationView) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(UserActivity.USERNAME, username);
         intent.putExtra(UserActivity.NAV_VIEW, userNavigationView);

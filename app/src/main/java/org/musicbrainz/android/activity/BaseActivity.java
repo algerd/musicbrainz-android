@@ -91,6 +91,9 @@ public abstract class BaseActivity extends AppCompatActivity implements
             case R.id.nav_user_tags:
                 startUserActivity(R.id.user_navigation_tags);
                 break;
+            case R.id.nav_user_recommends:
+                startUserActivity(R.id.user_navigation_recommends);
+                break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -98,7 +101,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     private void startUserActivity(int userNavigationView) {
         if (oauth.hasAccount()) {
-            ActivityFactory.startUserActivity2(this, oauth.getName(), userNavigationView);
+            ActivityFactory.startUserActivity(this, oauth.getName(), userNavigationView);
         } else {
             ActivityFactory.startLoginActivity(this);
         }

@@ -1,5 +1,6 @@
 package org.musicbrainz.android.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,10 +14,8 @@ import org.musicbrainz.android.adapter.pager.BaseFragmentPagerAdapter;
 import org.musicbrainz.android.adapter.pager.CollectionsPagerAdapter;
 import org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter;
 import org.musicbrainz.android.api.model.Collection;
-import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.api.site.SiteService;
 import org.musicbrainz.android.communicator.GetCollectionCommunicator;
-import org.musicbrainz.android.communicator.GetReleasesCommunicator;
 import org.musicbrainz.android.communicator.GetUsernameCommunicator;
 import org.musicbrainz.android.communicator.OnArtistCommunicator;
 import org.musicbrainz.android.communicator.OnCollectionCommunicator;
@@ -44,6 +43,7 @@ import static org.musicbrainz.android.MusicBrainzApp.oauth;
 import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_COLLECTIONS_POS;
 import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_PROFILE_POS;
 import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_RATINGS_POS;
+import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_RECOMMENDS_POS;
 import static org.musicbrainz.android.adapter.pager.UserNavigationPagerAdapter.TAB_TAGS_POS;
 
 public class UserActivity extends BaseBottomNavActivity implements
@@ -73,7 +73,7 @@ public class UserActivity extends BaseBottomNavActivity implements
 
     @Override
     protected int getBottomMenuId() {
-        return R.menu.user_nav;
+        return isPrivate ? R.menu.private_user_nav : R.menu.user_nav;
     }
 
     @Override
@@ -95,12 +95,14 @@ public class UserActivity extends BaseBottomNavActivity implements
         ((CoordinatorLayout.LayoutParams) floatingActionButton.getLayoutParams()).setBehavior(new FloatingActionButtonBehavior());
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
         return item -> {
             frameContainer.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
             floatingActionButton.setVisibility(View.GONE);
+
             switch (item.getItemId()) {
                 case R.id.user_navigation_profile:
                     viewPager.setCurrentItem(TAB_PROFILE_POS);
@@ -123,6 +125,11 @@ public class UserActivity extends BaseBottomNavActivity implements
                 case R.id.user_navigation_tags:
                     viewPager.setCurrentItem(TAB_TAGS_POS);
                     topTitle.setText(R.string.title_user_tags);
+                    break;
+
+                case R.id.user_navigation_recommends:
+                    viewPager.setCurrentItem(TAB_RECOMMENDS_POS);
+                    topTitle.setText(R.string.title_user_recommends);
                     break;
             }
             return true;
@@ -251,6 +258,7 @@ public class UserActivity extends BaseBottomNavActivity implements
         return null;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void showFloatingActionButton(boolean visible, FloatingButtonType floatingButtonType) {
         floatingActionButton.setVisibility(visible ? View.VISIBLE : View.GONE);

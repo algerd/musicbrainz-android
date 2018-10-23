@@ -1,5 +1,6 @@
 package org.musicbrainz.android.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
@@ -29,6 +30,7 @@ import org.musicbrainz.android.communicator.OnReleaseGroupCommunicator;
 import org.musicbrainz.android.communicator.OnTagCommunicator;
 import org.musicbrainz.android.communicator.SetWebViewCommunicator;
 import org.musicbrainz.android.communicator.ShowFloatingActionButtonCommunicator;
+import org.musicbrainz.android.data.DatabaseHelper;
 import org.musicbrainz.android.dialog.CollectionsDialogFragment;
 import org.musicbrainz.android.dialog.CreateCollectionDialogFragment;
 import org.musicbrainz.android.dialog.PagedReleaseDialogFragment;
@@ -66,7 +68,6 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     private String mbid;
     private Artist artist;
     private List<Collection> collections;
-
     private FloatingActionButton floatingActionButton;
     private WebView webView;
 
@@ -148,6 +149,10 @@ public class ArtistActivity extends BaseBottomNavActivity implements
                     }
                     this.artist = artist;
                     configPager();
+                    //todo: сделать асинхронно
+                    DatabaseHelper databaseHelper = new DatabaseHelper(this);
+                    databaseHelper.setRecommends(artist.getTags());
+                    databaseHelper.close();
                 },
                 this::showConnectionWarning);
     }
@@ -215,6 +220,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
         ActivityFactory.startReleaseActivity(this, releaseMbid);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void showFloatingActionButton(boolean visible, FloatingButtonType floatingButtonType) {
         floatingActionButton.setVisibility(visible ? View.VISIBLE : View.GONE);
@@ -341,4 +347,5 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     public void setWebView(WebView webView) {
         this.webView = webView;
     }
+
 }

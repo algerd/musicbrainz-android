@@ -39,12 +39,12 @@ public class UserTagsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_user_tags, container, false);
+        View layout = inflater.inflate(R.layout.fragment_recycler_view, container, false);
 
         error = layout.findViewById(R.id.error);
         loading = layout.findViewById(R.id.loading);
         noresults = layout.findViewById(R.id.noresults);
-        tagsRecycler = layout.findViewById(R.id.tags_recycler);
+        tagsRecycler = layout.findViewById(R.id.recycler);
 
         load();
         return layout;

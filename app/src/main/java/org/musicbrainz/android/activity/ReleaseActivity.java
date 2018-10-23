@@ -1,5 +1,6 @@
 package org.musicbrainz.android.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
@@ -33,6 +34,7 @@ import org.musicbrainz.android.communicator.OnReleaseCommunicator;
 import org.musicbrainz.android.communicator.OnTagCommunicator;
 import org.musicbrainz.android.communicator.SetWebViewCommunicator;
 import org.musicbrainz.android.communicator.ShowFloatingActionButtonCommunicator;
+import org.musicbrainz.android.data.DatabaseHelper;
 import org.musicbrainz.android.dialog.CollectionsDialogFragment;
 import org.musicbrainz.android.dialog.CreateCollectionDialogFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
@@ -151,6 +153,11 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
                                 }
                                 release.setReleaseGroup(rg);
                                 configPager();
+
+                                //todo: сделать асинхронно
+                                DatabaseHelper databaseHelper = new DatabaseHelper(this);
+                                databaseHelper.setRecommends(rg.getTags());
+                                databaseHelper.close();
                             },
                             this::showConnectionWarning
                     );
@@ -194,6 +201,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
         return super.onKeyDown(keyCode, event);
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void showFloatingActionButton(boolean visible, FloatingButtonType floatingButtonType) {
         floatingActionButton.setVisibility(visible ? View.VISIBLE : View.GONE);
