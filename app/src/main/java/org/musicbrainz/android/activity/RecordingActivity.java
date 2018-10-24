@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.RecordingNavigationPagerAdapter;
+import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Collection;
 import org.musicbrainz.android.api.model.Recording;
@@ -23,7 +24,6 @@ import org.musicbrainz.android.api.model.Url;
 import org.musicbrainz.android.api.model.Work;
 import org.musicbrainz.android.api.model.relations.Relation;
 import org.musicbrainz.android.api.site.SiteService;
-import org.musicbrainz.android.api.site.TagServiceInterface;
 import org.musicbrainz.android.communicator.GetCollectionsCommunicator;
 import org.musicbrainz.android.communicator.GetRecordingCommunicator;
 import org.musicbrainz.android.communicator.GetUrlsCommunicator;
@@ -269,7 +269,7 @@ public class RecordingActivity extends BaseBottomNavActivity implements
 
     @Override
     public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagServiceInterface.TagType.RECORDING);
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RECORDING.ordinal());
     }
 
     @Override

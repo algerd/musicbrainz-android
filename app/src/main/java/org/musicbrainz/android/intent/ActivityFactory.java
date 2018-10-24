@@ -24,10 +24,10 @@ import static org.musicbrainz.android.activity.UserActivity.DEFAULT_USER_NAV_VIE
 
 public class ActivityFactory {
 
-    public static void startTagActivity(Context context, String tag, TagServiceInterface.TagType tagType) {
+    public static void startTagActivity(Context context, String tag, int tagTabOrdianl) {
         Intent intent = new Intent(context, TagActivity.class);
         intent.putExtra(TagActivity.MB_TAG, tag);
-        intent.putExtra(TagActivity.TAG_TYPE, tagType.toString());
+        intent.putExtra(TagActivity.TAG_TAB_ORDINAL, tagTabOrdianl);
         context.startActivity(intent);
     }
 

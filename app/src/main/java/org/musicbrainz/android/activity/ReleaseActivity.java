@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.ReleaseNavigationPagerAdapter;
+import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Collection;
 import org.musicbrainz.android.api.model.RelationExtractor;
@@ -24,7 +25,6 @@ import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.api.model.Url;
 import org.musicbrainz.android.api.other.CollectionServiceInterface;
 import org.musicbrainz.android.api.site.SiteService;
-import org.musicbrainz.android.api.site.TagServiceInterface;
 import org.musicbrainz.android.communicator.GetCollectionsCommunicator;
 import org.musicbrainz.android.communicator.GetReleaseCommunicator;
 import org.musicbrainz.android.communicator.GetUrlsCommunicator;
@@ -331,7 +331,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
 
     @Override
     public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagServiceInterface.TagType.RELEASE_GROUP);
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RELEASE_GROUP.ordinal());
     }
 
     @Override

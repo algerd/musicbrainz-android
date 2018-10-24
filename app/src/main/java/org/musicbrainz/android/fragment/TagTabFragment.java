@@ -16,33 +16,44 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.adapter.recycler.BasePagedListAdapter;
+import org.musicbrainz.android.adapter.recycler.PagedArtistTagAdapter;
 import org.musicbrainz.android.adapter.recycler.PagedEntityTagAdapter;
 import org.musicbrainz.android.adapter.recycler.RetryCallback;
+import org.musicbrainz.android.api.site.TagEntity;
+import org.musicbrainz.android.api.site.TagServiceInterface;
 import org.musicbrainz.android.communicator.GetTagCommunicator;
+import org.musicbrainz.android.communicator.OnArtistCommunicator;
+import org.musicbrainz.android.communicator.OnRecordingCommunicator;
 import org.musicbrainz.android.communicator.OnReleaseGroupCommunicator;
 import org.musicbrainz.android.data.Status;
 import org.musicbrainz.android.ui.TagViewModel;
 
+import static org.musicbrainz.android.api.site.TagServiceInterface.TagType.ARTIST;
+import static org.musicbrainz.android.api.site.TagServiceInterface.TagType.RECORDING;
 import static org.musicbrainz.android.api.site.TagServiceInterface.TagType.RELEASE_GROUP;
 
 
-public class TagReleaseGroupsFragment extends Fragment implements
-        RetryCallback {
+public class TagTabFragment extends Fragment implements RetryCallback {
 
+    private static final String TAG_TAB = "TAG_TAB";
+
+    private TagServiceInterface.TagType tagType;
     private TagViewModel tagViewModel;
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView tagRecycler;
-    private PagedEntityTagAdapter adapter;
+    private BasePagedListAdapter<TagEntity> adapter;
 
     private TextView errorMessageTextView;
     private Button retryLoadingButton;
     private ProgressBar loadingProgressBar;
     private View itemNetworkState;
 
-    public static TagReleaseGroupsFragment newInstance() {
+    public static TagTabFragment newInstance(int tagTab) {
         Bundle args = new Bundle();
-        TagReleaseGroupsFragment fragment = new TagReleaseGroupsFragment();
+        args.putInt(TAG_TAB, tagTab);
+        TagTabFragment fragment = new TagTabFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,6 +61,8 @@ public class TagReleaseGroupsFragment extends Fragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_tag, container, false);
+
+        tagType = TagServiceInterface.TagType.values()[getArguments().getInt(TAG_TAB)];
 
         tagRecycler = layout.findViewById(R.id.tag_recycler);
         swipeRefreshLayout = layout.findViewById(R.id.swipe_refresh_layout);
@@ -67,16 +80,34 @@ public class TagReleaseGroupsFragment extends Fragment implements
     public void load() {
         String tag = ((GetTagCommunicator) getContext()).getTag();
         if (tag != null) {
-            adapter = new PagedEntityTagAdapter(this);
-            adapter.setHolderClickListener(tagEntity -> ((OnReleaseGroupCommunicator) getContext()).onReleaseGroup(tagEntity.getMbid()));
+            switch (tagType) {
+                case ARTIST:
+                    PagedArtistTagAdapter pagedArtistTagAdapter = new PagedArtistTagAdapter(this);
+                    pagedArtistTagAdapter.setHolderClickListener(tagEntity -> ((OnArtistCommunicator) getContext()).onArtist(tagEntity.getMbid()));
+                    adapter = pagedArtistTagAdapter;
+                    break;
+
+                case RELEASE_GROUP:
+                    PagedEntityTagAdapter pagedRgTagAdapter = new PagedEntityTagAdapter(this);
+                    pagedRgTagAdapter.setHolderClickListener(tagEntity -> ((OnReleaseGroupCommunicator) getContext()).onReleaseGroup(tagEntity.getMbid()));
+                    adapter = pagedRgTagAdapter;
+                    break;
+
+                case RECORDING:
+                    PagedEntityTagAdapter pagedRecordingTagAdapter = new PagedEntityTagAdapter(this);
+                    pagedRecordingTagAdapter.setHolderClickListener(tagEntity -> ((OnRecordingCommunicator) getContext()).onRecording(tagEntity.getMbid()));
+                    adapter = pagedRecordingTagAdapter;
+                    break;
+            }
 
             tagViewModel = ViewModelProviders.of(this).get(TagViewModel.class);
-            tagViewModel.load(RELEASE_GROUP, tag);
+            tagViewModel.load(tagType, tag);
             tagViewModel.tagLiveData.observe(this, adapter::submitList);
             tagViewModel.getNetworkState().observe(this, adapter::setNetworkState);
 
             tagRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
             tagRecycler.setNestedScrollingEnabled(true);
+            //tagRecycler.setHasFixedSize(true);
             tagRecycler.setAdapter(adapter);
 
             initSwipeToRefresh();
@@ -99,20 +130,20 @@ public class TagReleaseGroupsFragment extends Fragment implements
                     if (networkState.getMessage() != null) {
                         errorMessageTextView.setText(networkState.getMessage());
                     }
-
                     //loading and retry
                     retryLoadingButton.setVisibility(networkState.getStatus() == Status.FAILED ? View.VISIBLE : View.GONE);
                     loadingProgressBar.setVisibility(networkState.getStatus() == Status.RUNNING ? View.VISIBLE : View.GONE);
 
                     swipeRefreshLayout.setEnabled(networkState.getStatus() == Status.SUCCESS);
+                    tagRecycler.scrollToPosition(0);
                 }
-                tagRecycler.scrollToPosition(0);
             }
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             tagViewModel.refresh();
             swipeRefreshLayout.setRefreshing(false);
+            tagRecycler.scrollToPosition(0);
         });
     }
 

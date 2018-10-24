@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
-import org.musicbrainz.android.api.site.TagServiceInterface;
 import org.musicbrainz.android.communicator.GetTagCommunicator;
 import org.musicbrainz.android.communicator.OnArtistCommunicator;
 import org.musicbrainz.android.communicator.OnRecordingCommunicator;
@@ -29,10 +28,10 @@ public class TagActivity extends BaseOptionsMenuActivity implements
 
     public static final String PAGER_POSITION = "PAGER_POSITION";
     public static final String MB_TAG = "MB_TAG";
-    public static final String TAG_TYPE = "TAG_TYPE";
+    public static final String TAG_TAB_ORDINAL = "TAG_TAB_ORDINAL";
 
     private String tag;
-    private String tagType;
+    private int tagTabOrdianal;
     private boolean isLoading;
     private boolean isError;
 
@@ -57,10 +56,10 @@ public class TagActivity extends BaseOptionsMenuActivity implements
 
         if (savedInstanceState != null) {
             tag = savedInstanceState.getString(MB_TAG);
-            tagType = savedInstanceState.getString(TAG_TYPE);
+            tagTabOrdianal = savedInstanceState.getInt(TAG_TAB_ORDINAL);
         } else {
             tag = getIntent().getStringExtra(MB_TAG);
-            tagType = getIntent().getStringExtra(TAG_TYPE);
+            tagTabOrdianal = getIntent().getIntExtra(TAG_TAB_ORDINAL, 0);
         }
 
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -78,21 +77,14 @@ public class TagActivity extends BaseOptionsMenuActivity implements
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         tabLayout.setupWithViewPager(viewPager);
         pagerAdapter.setupTabViews(tabLayout);
-
-        if (tagType.equals(TagServiceInterface.TagType.ARTIST.toString())) {
-            viewPager.setCurrentItem(TagPagerAdapter.TAB_ARTISTS_POS);
-        } else if (tagType.equals(TagServiceInterface.TagType.RELEASE_GROUP.toString())) {
-            viewPager.setCurrentItem(TagPagerAdapter.TAB_RELEASE_GROUPS_POS);
-        } else if (tagType.equals(TagServiceInterface.TagType.RECORDING.toString())) {
-            viewPager.setCurrentItem(TagPagerAdapter.TAB_RECORDINGS_POS);
-        }
+        viewPager.setCurrentItem(tagTabOrdianal);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(MB_TAG, tag);
-        outState.putString(TAG_TYPE, tagType);
+        outState.putInt(TAG_TAB_ORDINAL, tagTabOrdianal);
         outState.putInt(PAGER_POSITION, tabLayout.getSelectedTabPosition());
     }
 
@@ -100,7 +92,7 @@ public class TagActivity extends BaseOptionsMenuActivity implements
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         tag = savedInstanceState.getString(MB_TAG);
-        tagType = savedInstanceState.getString(TAG_TYPE);
+        tagTabOrdianal = savedInstanceState.getInt(TAG_TAB_ORDINAL, 0);
         viewPager.setCurrentItem(savedInstanceState.getInt(PAGER_POSITION));
     }
 

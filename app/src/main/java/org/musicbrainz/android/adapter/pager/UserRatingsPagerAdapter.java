@@ -28,10 +28,6 @@ public class UserRatingsPagerAdapter extends BaseFragmentPagerAdapter {
             this.icon = icon;
         }
 
-        public RatingServiceInterface.RatingType getRatingType() {
-            return type;
-        }
-
         public String getType() {
             return type.toString();
         }

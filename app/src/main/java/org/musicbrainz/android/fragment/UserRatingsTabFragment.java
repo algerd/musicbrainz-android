@@ -47,7 +47,6 @@ public class UserRatingsTabFragment extends Fragment implements RetryCallback {
     private ProgressBar loadingProgressBar;
     private View itemNetworkState;
 
-
     public static UserRatingsTabFragment newInstance(int ratingsTab) {
         Bundle args = new Bundle();
         args.putInt(RATINGS_TAB, ratingsTab);

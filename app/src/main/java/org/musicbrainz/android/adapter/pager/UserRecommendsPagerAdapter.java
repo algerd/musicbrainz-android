@@ -26,10 +26,6 @@ public class UserRecommendsPagerAdapter extends BaseFragmentPagerAdapter {
             this.icon = icon;
         }
 
-        public TagType getTagType() {
-            return type;
-        }
-
         public String getType() {
             return type.toString();
         }
