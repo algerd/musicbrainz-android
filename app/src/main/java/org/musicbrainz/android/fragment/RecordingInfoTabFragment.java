@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -13,9 +14,6 @@ import org.musicbrainz.android.R;
 
 public class RecordingInfoTabFragment extends Fragment {
 
-    private RecordingInformationFragment recordingInformationFragment;
-    private WikipediaWebViewFragment wikiFragment;
-
     public static RecordingInfoTabFragment newInstance() {
         Bundle args = new Bundle();
         RecordingInfoTabFragment fragment = new RecordingInfoTabFragment();
@@ -24,9 +22,8 @@ public class RecordingInfoTabFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_recording_info, container, false);
-        return layout;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_recording_info, container, false);
     }
 
     @Override
@@ -35,12 +32,10 @@ public class RecordingInfoTabFragment extends Fragment {
     }
 
     private void insertNestedFragments() {
-        recordingInformationFragment = new RecordingInformationFragment();
-        wikiFragment = new WikipediaWebViewFragment();
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction
-                .replace(R.id.fragment_recording_information, recordingInformationFragment)
-                .replace(R.id.fragment_wiki, wikiFragment)
+                .replace(R.id.fragment_recording_information, new RecordingInformationFragment())
+                .replace(R.id.fragment_wiki, new WikipediaWebViewFragment())
                 .commit();
     }
 

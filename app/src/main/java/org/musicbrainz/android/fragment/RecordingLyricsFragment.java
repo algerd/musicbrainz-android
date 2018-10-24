@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +24,6 @@ import static org.musicbrainz.android.api.lyrics.model.LyricsApi.LYRICS_NOT_FOUN
 
 public class RecordingLyricsFragment extends Fragment {
 
-    private Recording recording;
-
     private View content;
     private View error;
     private View loading;
@@ -39,7 +38,7 @@ public class RecordingLyricsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_recording_lyrics, container, false);
 
         content = layout.findViewById(R.id.content);
@@ -58,7 +57,7 @@ public class RecordingLyricsFragment extends Fragment {
         error.setVisibility(View.GONE);
         noresults.setVisibility(View.GONE);
 
-        recording = ((GetRecordingCommunicator) getContext()).getRecording();
+        Recording recording = ((GetRecordingCommunicator) getContext()).getRecording();
         if (recording != null) {
             List<Artist.ArtistCredit> artists = recording.getArtistCredits();
             if (!artists.isEmpty()) {

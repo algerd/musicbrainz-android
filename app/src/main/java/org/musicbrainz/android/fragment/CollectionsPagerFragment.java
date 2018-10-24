@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -54,12 +55,10 @@ public class CollectionsPagerFragment extends Fragment implements
         int getCollectionTabOrdinal();
     }
 
-    private String username;
     private boolean isLoading;
     private boolean isError;
     private List<Collection> collections;
 
-    private CollectionsPagerAdapter pagerAdapter;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private View error;
@@ -74,7 +73,7 @@ public class CollectionsPagerFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_collections_pager, container, false);
 
         viewPager = layout.findViewById(R.id.pager);
@@ -93,7 +92,7 @@ public class CollectionsPagerFragment extends Fragment implements
     }
 
     private void configurePager(List<CollectionsPagerAdapter.CollectionTab> collectionTabs) {
-        pagerAdapter = new CollectionsPagerAdapter(getChildFragmentManager(), getResources(), collectionTabs);
+        CollectionsPagerAdapter pagerAdapter = new CollectionsPagerAdapter(getChildFragmentManager(), getResources(), collectionTabs);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         tabLayout.setupWithViewPager(viewPager);
@@ -112,7 +111,7 @@ public class CollectionsPagerFragment extends Fragment implements
     private void load() {
         noresults.setVisibility(View.GONE);
         viewError(false);
-        username = ((GetUsernameCommunicator) getContext()).getUsername();
+        String username = ((GetUsernameCommunicator) getContext()).getUsername();
 
         //TODO: make .browse(n, m)
         viewProgressLoading(true);

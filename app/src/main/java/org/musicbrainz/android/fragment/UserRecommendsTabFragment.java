@@ -3,6 +3,7 @@ package org.musicbrainz.android.fragment;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,8 @@ import static org.musicbrainz.android.MusicBrainzApp.oauth;
 public class UserRecommendsTabFragment extends Fragment {
 
     private static final String RECOMMENDS_TAB = "RECOMMENDS_TAB";
+    //LIMIT_RECOMMENDS range: 0 - 200
+    private final int LIMIT_RECOMMENDS = 100;
 
     private TagServiceInterface.TagType tagType;
 
@@ -55,7 +58,7 @@ public class UserRecommendsTabFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_recycler_view, container, false);
 
         tagType = TagServiceInterface.TagType.values()[getArguments().getInt(RECOMMENDS_TAB)];
@@ -136,9 +139,9 @@ public class UserRecommendsTabFragment extends Fragment {
                     recommends.add(secondaryEntities.get(k));
                     k++;
                 }
-            }
-            if (secondarySize > k) {
-                recommends.addAll(secondaryEntities.subList(k, secondarySize));
+                if (i + k == LIMIT_RECOMMENDS) {
+                    break;
+                }
             }
         }
 

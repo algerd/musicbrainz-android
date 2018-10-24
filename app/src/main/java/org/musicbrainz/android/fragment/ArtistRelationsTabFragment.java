@@ -94,8 +94,6 @@ public class ArtistRelationsTabFragment extends BaseComplexRecyclerFragment<Rela
         }
     }
 
-    private Artist artist;
-
     private View noresults;
 
     public static ArtistRelationsTabFragment newInstance() {
@@ -132,7 +130,7 @@ public class ArtistRelationsTabFragment extends BaseComplexRecyclerFragment<Rela
     public void load() {
         recycler.removeAllViewsInLayout();
 
-        artist = ((GetArtistCommunicator) getContext()).getArtist();
+        Artist artist = ((GetArtistCommunicator) getContext()).getArtist();
         if (artist != null) {
             List<Relation> artistRelations = new RelationExtractor(artist).getArtistRelations();
             Comparator<Relation> sortDate = (r1, r2) -> (r1.getArtist().getName()).compareTo(r2.getArtist().getName());

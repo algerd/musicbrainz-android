@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -25,8 +26,6 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
 
 public class ReleaseCoverArtFragment extends Fragment {
 
-    private String releaseMbid;
-
     private RecyclerView coverartRecycler;
     private View loading;
     private View noresults;
@@ -40,7 +39,7 @@ public class ReleaseCoverArtFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_cover_art, container, false);
 
         loading = layout.findViewById(R.id.loading);
@@ -55,7 +54,7 @@ public class ReleaseCoverArtFragment extends Fragment {
     public void load() {
         noresults.setVisibility(View.GONE);
 
-        releaseMbid = ((GetReleaseCommunicator) getContext()).getReleaseMbid();
+        String releaseMbid = ((GetReleaseCommunicator) getContext()).getReleaseMbid();
         if (!TextUtils.isEmpty(releaseMbid)) {
             loading.setVisibility(View.VISIBLE);
             api.getReleaseCoverArt(

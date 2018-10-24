@@ -3,6 +3,7 @@ package org.musicbrainz.android.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.os.ConfigurationCompat;
 import android.text.TextUtils;
@@ -49,12 +50,11 @@ public class WikipediaWebViewFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_web_view, container, false);
 
         loading = layout.findViewById(R.id.loading);
         error = layout.findViewById(R.id.error);
-
         webView = layout.findViewById(R.id.web_view);
 
         webView.setWebViewClient(new WebViewClient() {

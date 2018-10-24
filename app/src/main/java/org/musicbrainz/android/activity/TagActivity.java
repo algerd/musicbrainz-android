@@ -6,13 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.TextView;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
-import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.api.site.TagServiceInterface;
-import org.musicbrainz.android.communicator.GetReleasesCommunicator;
 import org.musicbrainz.android.communicator.GetTagCommunicator;
 import org.musicbrainz.android.communicator.OnArtistCommunicator;
 import org.musicbrainz.android.communicator.OnRecordingCommunicator;
@@ -29,7 +25,6 @@ public class TagActivity extends BaseOptionsMenuActivity implements
         OnReleaseGroupCommunicator,
         OnRecordingCommunicator,
         OnReleaseCommunicator,
-        GetReleasesCommunicator,
         GetTagCommunicator {
 
     public static final String PAGER_POSITION = "PAGER_POSITION";
@@ -38,10 +33,8 @@ public class TagActivity extends BaseOptionsMenuActivity implements
 
     private String tag;
     private String tagType;
-    private TagPagerAdapter pagerAdapter;
     private boolean isLoading;
     private boolean isError;
-    private List<Release> releases;
 
     private ViewPager viewPager;
     private TabLayout tabLayout;
@@ -80,7 +73,7 @@ public class TagActivity extends BaseOptionsMenuActivity implements
     }
 
     private void configurePager() {
-        pagerAdapter = new TagPagerAdapter(getSupportFragmentManager(), getResources());
+        TagPagerAdapter pagerAdapter = new TagPagerAdapter(getSupportFragmentManager(), getResources());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         tabLayout.setupWithViewPager(viewPager);
@@ -182,12 +175,6 @@ public class TagActivity extends BaseOptionsMenuActivity implements
     @Override
     public void onRelease(String releaseMbid) {
         ActivityFactory.startReleaseActivity(this, releaseMbid);
-    }
-
-
-    @Override
-    public List<Release> getReleases() {
-        return releases;
     }
 
 }

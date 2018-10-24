@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -24,7 +25,6 @@ public class CollectionCreateFragment extends Fragment {
     private Spinner typeSpinner;
     private EditText descriptionEditText;
     private CheckBox publicCheckBox;
-    private Button createButton;
 
     public static CollectionCreateFragment newInstance() {
         Bundle args = new Bundle();
@@ -34,14 +34,14 @@ public class CollectionCreateFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_collection_create, container, false);
 
         nameEditText = layout.findViewById(R.id.collection_name);
         descriptionEditText = layout.findViewById(R.id.collection_description);
         publicCheckBox = layout.findViewById(R.id.collection_public);
 
-        createButton = layout.findViewById(R.id.collection_create_btn);
+        Button createButton = layout.findViewById(R.id.collection_create_btn);
         createButton.setOnClickListener(v -> create());
 
         typeSpinner = layout.findViewById(R.id.collection_type);

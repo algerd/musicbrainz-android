@@ -13,9 +13,6 @@ import org.musicbrainz.android.R;
 
 public class ReleaseInfoTabFragment extends Fragment {
 
-    private ReleaseInformationFragment releaseInformationFragment;
-    private WikipediaWebViewFragment wikiFragment;
-
     public static ReleaseInfoTabFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -26,8 +23,7 @@ public class ReleaseInfoTabFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_release_info_tab, container, false);
-        return layout;
+        return inflater.inflate(R.layout.fragment_release_info_tab, container, false);
     }
 
     @Override
@@ -36,12 +32,9 @@ public class ReleaseInfoTabFragment extends Fragment {
     }
 
     private void insertNestedFragments() {
-        releaseInformationFragment = new ReleaseInformationFragment();
-        wikiFragment = new WikipediaWebViewFragment();
-
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_release_information, releaseInformationFragment)
-                .replace(R.id.fragment_wiki, wikiFragment)
+        transaction.replace(R.id.fragment_release_information, new ReleaseInformationFragment())
+                .replace(R.id.fragment_wiki, new WikipediaWebViewFragment())
                 .commit();
     }
 
