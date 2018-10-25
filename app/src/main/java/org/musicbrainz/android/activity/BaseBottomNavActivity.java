@@ -15,7 +15,7 @@ import org.musicbrainz.android.ui.CustomViewPager;
 import org.musicbrainz.android.util.BottomNavigationBehavior;
 import org.musicbrainz.android.util.ShowUtil;
 
-public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity implements
+public abstract class BaseBottomNavActivity extends BaseActivity implements
         ShowTitleCommunicator {
 
     public static final String NAV_VIEW = "NAV_VIEW";
@@ -78,7 +78,6 @@ public abstract class BaseBottomNavActivity extends BaseOptionsMenuActivity impl
         super.onRestoreInstanceState(savedInstanceState);
         navViewId = getDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
     }
-
 
     protected abstract void onCreateActivity(Bundle savedInstanceState);
 

@@ -7,8 +7,8 @@ import org.musicbrainz.android.fragment.SearchFragment;
 import org.musicbrainz.android.fragment.UserSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 
-public class MainActivity extends BaseOptionsMenuActivity implements
-        SearchFragment.FragmentListener,
+public class MainActivity extends BaseActivity implements
+        SearchFragment.SearchFragmentListener,
         UserSearchFragment.FragmentListener {
 
     @Override
@@ -22,18 +22,8 @@ public class MainActivity extends BaseOptionsMenuActivity implements
     }
 
     @Override
-    public void searchArtist(String artist) {
-        ActivityFactory.startArtistSearchActivity(this, artist);
-    }
-
-    @Override
-    public void searchAlbum(String artist, String album) {
-        ActivityFactory.startAlbumSearchActivity(this, artist, album);
-    }
-
-    @Override
     public void searchTrack(String artist, String album, String track) {
-        ActivityFactory.startTrackSearchActivity(this, artist, album, track);
+        ActivityFactory.startSearchActivity(this, artist, album, track);
     }
 
     @Override

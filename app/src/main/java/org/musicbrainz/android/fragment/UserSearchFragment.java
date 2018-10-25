@@ -2,6 +2,7 @@ package org.musicbrainz.android.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -15,6 +16,7 @@ import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.site.UserProfileServiceInterface;
 import org.musicbrainz.android.suggestion.SuggestionHelper;
+import org.musicbrainz.android.suggestion.SuggestionProvider;
 import org.musicbrainz.android.util.ShowUtil;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
@@ -58,6 +60,8 @@ public class UserSearchFragment extends Fragment {
                     responseBody -> {
                         viewProgressLoading(false);
                         ((FragmentListener) getContext()).searchUser(user);
+                        new SearchRecentSuggestions(getContext(), SuggestionProvider.AUTHORITY, SuggestionProvider.MODE)
+                                .saveRecentQuery(user, null);
                         userField.setText("");
                     },
                     t -> {

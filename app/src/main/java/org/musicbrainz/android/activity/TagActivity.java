@@ -19,7 +19,7 @@ import org.musicbrainz.android.util.ShowUtil;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
-public class TagActivity extends BaseOptionsMenuActivity implements
+public class TagActivity extends BaseActivity implements
         OnArtistCommunicator,
         OnReleaseGroupCommunicator,
         OnRecordingCommunicator,

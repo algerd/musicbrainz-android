@@ -17,7 +17,7 @@ import org.musicbrainz.android.util.ShowUtil;
 
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
-public class LoginActivity extends BaseOptionsMenuActivity {
+public class LoginActivity extends BaseActivity {
 
     private final String CREATE_ACCOUNT_URI = "https://musicbrainz.org/register";
     private final String FORGOT_USERNAME_URI = "https://musicbrainz.org/lost-username";

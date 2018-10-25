@@ -12,9 +12,6 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.ReleaseNavigationPagerAdapter;
 import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
@@ -40,6 +37,9 @@ import org.musicbrainz.android.dialog.CreateCollectionDialogFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.FloatingActionButtonBehavior;
 import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
@@ -91,7 +91,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
 
     @Override
     protected int getBottomMenuId() {
-        return R.menu.release_nav;
+        return R.menu.release_bottom_nav;
     }
 
     @Override

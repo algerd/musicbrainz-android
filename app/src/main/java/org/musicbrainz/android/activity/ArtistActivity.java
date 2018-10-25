@@ -115,7 +115,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
 
     @Override
     protected int getBottomMenuId() {
-        return R.menu.artist_nav;
+        return R.menu.artist_bottom_nav;
     }
 
     @Override

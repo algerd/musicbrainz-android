@@ -61,11 +61,8 @@ public abstract class BaseActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.nav_home:
+            case R.id.nav_search:
                 ActivityFactory.startMainActivity(this);
-                break;
-            case R.id.nav_about:
-                ActivityFactory.startAboutActivity(this);
                 break;
             case R.id.nav_scan_barcode:
                 IntentIntegrator.initiateScan(this, getString(R.string.zx_title), getString(R.string.zx_message),
@@ -73,9 +70,6 @@ public abstract class BaseActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_settings:
                 ActivityFactory.startSettingsActivity(this);
-                break;
-            case R.id.nav_feedback:
-                ActivityFactory.startFeedbackActivity(this);
                 break;
 
             // User nav:
@@ -93,6 +87,14 @@ public abstract class BaseActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_user_recommends:
                 startUserActivity(R.id.user_navigation_recommends);
+                break;
+
+            // Support:
+            case R.id.nav_feedback:
+                ActivityFactory.startFeedbackActivity(this);
+                break;
+            case R.id.nav_about:
+                ActivityFactory.startAboutActivity(this);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -128,13 +130,13 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search, menu);
+        getMenuInflater().inflate(R.menu.base_top_nav, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setOnQueryTextListener(this);
 
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, ArtistSearchActivity.class)));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
         searchView.setIconifiedByDefault(false);
 
         if (MusicBrainzApp.getPreferences().isSearchSuggestionsEnabled()) {
@@ -159,8 +161,29 @@ public abstract class BaseActivity extends AppCompatActivity implements
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_user_profile:
+                if (oauth.hasAccount()) {
+                    ActivityFactory.startUserActivity(this, oauth.getName());
+                } else {
+                    ActivityFactory.startLoginActivity(this);
+                }
+                return true;
+
+            case R.id.action_scan_barcode:
+                IntentIntegrator.initiateScan(this, getString(R.string.zx_title), getString(R.string.zx_message),
+                        getString(R.string.zx_pos), getString(R.string.zx_neg), IntentIntegrator.PRODUCT_CODE_TYPES);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
-        ActivityFactory.startArtistSearchActivity(this, query);
+        ActivityFactory.startSearchActivity(this, query, null, null);
         return false;
     }
 

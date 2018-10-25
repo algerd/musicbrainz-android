@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import org.musicbrainz.android.R;
 
-public class AboutActivity extends BaseOptionsMenuActivity {
+public class AboutActivity extends BaseActivity {
 
     @Override
     protected int getContentLayout() {

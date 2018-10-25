@@ -5,8 +5,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.Toast;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.communicator.GetReleasesCommunicator;
@@ -19,9 +17,11 @@ import org.musicbrainz.android.fragment.BarcodeSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
 
+import java.util.List;
+
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
-public class BarcodeSearchActivity extends BaseOptionsMenuActivity implements
+public class BarcodeSearchActivity extends BaseActivity implements
         BarcodeSearchFragment.FragmentListener,
         BarcodeNotFoundDialog.DialogFragmentListener,
         OnReleaseCommunicator,

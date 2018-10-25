@@ -5,7 +5,7 @@ import android.os.Bundle;
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.fragment.SettingsFragment;
 
-public class SettingsActivity extends BaseOptionsMenuActivity {
+public class SettingsActivity extends BaseActivity {
 
     @Override
     protected int getContentLayout() {

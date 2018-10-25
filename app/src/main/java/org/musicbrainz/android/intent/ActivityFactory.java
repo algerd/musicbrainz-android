@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import org.musicbrainz.android.activity.AboutActivity;
-import org.musicbrainz.android.activity.AlbumSearchActivity;
 import org.musicbrainz.android.activity.ArtistActivity;
-import org.musicbrainz.android.activity.ArtistSearchActivity;
 import org.musicbrainz.android.activity.BarcodeSearchActivity;
 import org.musicbrainz.android.activity.FeedbackActivity;
 import org.musicbrainz.android.activity.ImageActivity;
@@ -14,11 +12,10 @@ import org.musicbrainz.android.activity.LoginActivity;
 import org.musicbrainz.android.activity.MainActivity;
 import org.musicbrainz.android.activity.RecordingActivity;
 import org.musicbrainz.android.activity.ReleaseActivity;
+import org.musicbrainz.android.activity.SearchActivity;
 import org.musicbrainz.android.activity.SettingsActivity;
 import org.musicbrainz.android.activity.TagActivity;
-import org.musicbrainz.android.activity.TrackSearchActivity;
 import org.musicbrainz.android.activity.UserActivity;
-import org.musicbrainz.android.api.site.TagServiceInterface;
 
 import static org.musicbrainz.android.activity.UserActivity.DEFAULT_USER_NAV_VIEW;
 
@@ -42,24 +39,11 @@ public class ActivityFactory {
         context.startActivity(intent);
     }
 
-    public static void startArtistSearchActivity(Context context, String artist) {
-        Intent intent = new Intent(context, ArtistSearchActivity.class);
-        intent.putExtra(ArtistSearchActivity.QUERY, artist);
-        context.startActivity(intent);
-    }
-
-    public static void startAlbumSearchActivity(Context context, String artist, String album) {
-        Intent intent = new Intent(context, AlbumSearchActivity.class);
-        intent.putExtra(AlbumSearchActivity.ARTIST_SEARCH, artist);
-        intent.putExtra(AlbumSearchActivity.ALBUM_SEARCH, album);
-        context.startActivity(intent);
-    }
-
-    public static void startTrackSearchActivity(Context context, String artist, String album, String track) {
-        Intent intent = new Intent(context, TrackSearchActivity.class);
-        intent.putExtra(TrackSearchActivity.ARTIST_SEARCH, artist);
-        intent.putExtra(TrackSearchActivity.ALBUM_SEARCH, album);
-        intent.putExtra(TrackSearchActivity.TRACK_SEARCH, track);
+    public static void startSearchActivity(Context context, String artist, String album, String recording) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra(SearchActivity.QUERY, artist);
+        intent.putExtra(SearchActivity.ALBUM_SEARCH, album);
+        intent.putExtra(SearchActivity.TRACK_SEARCH, recording);
         context.startActivity(intent);
     }
 

@@ -73,7 +73,7 @@ public class UserActivity extends BaseBottomNavActivity implements
 
     @Override
     protected int getBottomMenuId() {
-        return isPrivate ? R.menu.private_user_nav : R.menu.user_nav;
+        return isPrivate ? R.menu.private_user_bottom_nav : R.menu.user_bottom_nav;
     }
 
     @Override

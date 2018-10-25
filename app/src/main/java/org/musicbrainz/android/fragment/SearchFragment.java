@@ -17,9 +17,7 @@ import org.musicbrainz.android.suggestion.SuggestionHelper;
 
 public class SearchFragment extends Fragment {
 
-    public interface FragmentListener {
-        void searchArtist(String artist);
-        void searchAlbum(String artist, String album);
+    public interface SearchFragmentListener {
         void searchTrack(String artist, String album, String track);
     }
 
@@ -52,16 +50,11 @@ public class SearchFragment extends Fragment {
         String album = albumField.getText().toString().trim();
         String track = trackField.getText().toString().trim();
 
-        if (!TextUtils.isEmpty(track)) {
+        if (!TextUtils.isEmpty(track) || !TextUtils.isEmpty(album) || !TextUtils.isEmpty(artist)) {
             hideKeyboard();
-            ((FragmentListener) getContext()).searchTrack(artist, album, track);
-        } else if (!TextUtils.isEmpty(album)) {
-            hideKeyboard();
-            ((FragmentListener) getContext()).searchAlbum(artist, album);
-        } else if (!TextUtils.isEmpty(artist)) {
-            hideKeyboard();
-            ((FragmentListener) getContext()).searchArtist(artist);
+            ((SearchFragmentListener) getContext()).searchTrack(artist, album, track);
         }
+
         artistField.setText("");
         albumField.setText("");
         trackField.setText("");
@@ -69,8 +62,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(artistField.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(albumField.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(trackField.getWindowToken(), 0);
@@ -90,9 +82,10 @@ public class SearchFragment extends Fragment {
             albumField.setAdapter(suggestionHelper.getAdapter());
             trackField.setAdapter(suggestionHelper.getAdapter());
         } else {
-            //artistField.setAdapter(suggestionHelper.getEmptyAdapter());
+            artistField.setAdapter(suggestionHelper.getEmptyAdapter());
+            albumField.setAdapter(suggestionHelper.getEmptyAdapter());
+            trackField.setAdapter(suggestionHelper.getEmptyAdapter());
         }
     }
-
 
 }
