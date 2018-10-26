@@ -143,7 +143,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected void refreshTokenAndLoad() {
+    protected void load() {
         viewError(false);
 
         viewProgressLoading(true);

@@ -141,10 +141,10 @@ public class UserActivity extends BaseBottomNavActivity implements
         };
     }
 
+    /*
     @Override
-    protected void refreshTokenAndLoad() {
+    protected void load() {
         viewError(false);
-
         if (isPrivate) {
             viewProgressLoading(true);
             oauth.refreshToken(
@@ -159,6 +159,7 @@ public class UserActivity extends BaseBottomNavActivity implements
             configBottomNavigationPager();
         }
     }
+    */
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

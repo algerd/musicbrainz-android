@@ -5,7 +5,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -67,20 +66,14 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
         // attaching behaviours - hide / showFloatingActionButton on scroll
         ((CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams()).setBehavior(new BottomNavigationBehavior());
 
-        refreshTokenAndLoad();
+        load();
     }
 
     protected void configBottomNavigationPager() {
         bottomNavigationPagerAdapter = initBottomNavigationPagerAdapter();
         viewPager.setAdapter(bottomNavigationPagerAdapter);
         viewPager.setPagingEnabled(false);
-
-        /* todo: low perfomance with bottomNavigationPagerAdapter.getCount(), but bad usability without - (default = 1)
-             при bottomNavigationPagerAdapter.getCount() надо обязательно рефрешить токен перед конфигурированием пейджера
-             если в фрагментах пейджера осуществляются загрузки. Это сделано в UserActivity:refreshTokenAndLoad().
-             без setOffscreenPageLimit, предварительный рефрешинг токена можно пропустить
-             и не будет конфликта авторизационных токенов при множественной асинхронной загрузке.
-        */
+        // lazy loading of pager fragments
         viewPager.setOffscreenPageLimit(bottomNavigationPagerAdapter.getCount());
         bottomNavigationView.setSelectedItemId(getNavViewId());
     }
@@ -109,7 +102,7 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
 
     protected abstract BottomNavigationView.OnNavigationItemSelectedListener initOnNavigationItemSelectedListener();
 
-    protected void refreshTokenAndLoad() {
+    protected void load() {
         configBottomNavigationPager();
     }
 
@@ -141,7 +134,7 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
         ShowUtil.showError(this, t);
         viewProgressLoading(false);
         viewError(true);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> refreshTokenAndLoad());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
     }
 
     protected void loadFragment(Fragment fragment) {

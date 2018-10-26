@@ -137,11 +137,10 @@ public class RecordingActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected void refreshTokenAndLoad() {
+    protected void load() {
         viewError(false);
 
         viewProgressLoading(true);
-        // refresh token and configure pager fragments
         api.getRecording(
                 mbid,
                 recording -> {
