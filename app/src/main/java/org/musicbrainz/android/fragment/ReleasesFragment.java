@@ -27,7 +27,7 @@ import org.musicbrainz.android.data.Status;
 import org.musicbrainz.android.ui.ReleasesViewModel;
 
 
-public class ReleasesFragment extends Fragment implements RetryCallback {
+public class ReleasesFragment extends LazyFragment implements RetryCallback {
 
     private int type = 1;
     private ReleasesViewModel releasesViewModel;
@@ -68,11 +68,12 @@ public class ReleasesFragment extends Fragment implements RetryCallback {
         retryLoadingButton = layout.findViewById(R.id.retryLoadingButton);
         retryLoadingButton.setOnClickListener(view -> retry());
 
-        load();
+        loadView();
         return layout;
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         String mbid = null;
         String releaseId = null;
         ReleaseBrowseService.ReleaseBrowseEntityType entityType = null;

@@ -1,10 +1,10 @@
 package org.musicbrainz.android.adapter.pager;
 
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import org.musicbrainz.android.fragment.CollectionsPagerFragment;
+import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.UserProfileFragment;
 import org.musicbrainz.android.fragment.UserRatingsPagerFragment;
 import org.musicbrainz.android.fragment.UserRecommendsPagerFragment;
@@ -25,7 +25,7 @@ public class UserNavigationPagerAdapter extends BaseFragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public LazyFragment getItem(int position) {
         switch (position) {
             case TAB_PROFILE_POS:
                 return UserProfileFragment.newInstance();

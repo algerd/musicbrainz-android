@@ -52,11 +52,12 @@ public class ReleaseTracksFragment extends BaseComplexRecyclerFragment<Media.Tra
         noresults = frame.findViewById(R.id.noresults);
         addFrameView(frame);
 
-        load();
+        loadView();
         return layout;
     }
 
-    private void load() {
+    @Override
+    protected void lazyLoad() {
         noresults.setVisibility(View.GONE);
         error.setVisibility(View.GONE);
         recycler.removeAllViewsInLayout();
@@ -179,7 +180,7 @@ public class ReleaseTracksFragment extends BaseComplexRecyclerFragment<Media.Tra
         loading.setVisibility(View.GONE);
         ShowUtil.showError(getActivity(), t);
         error.setVisibility(View.VISIBLE);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }

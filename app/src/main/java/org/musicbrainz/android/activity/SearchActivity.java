@@ -51,7 +51,7 @@ public class SearchActivity extends BaseActivity implements
     private TextView bottomTitle;
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_search;
     }
 

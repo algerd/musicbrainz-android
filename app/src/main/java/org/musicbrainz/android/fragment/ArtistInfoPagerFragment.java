@@ -14,7 +14,10 @@ import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.ArtistInfoPagerAdapter;
 
 
-public class ArtistInfoPagerFragment extends Fragment {
+public class ArtistInfoPagerFragment extends LazyFragment {
+
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
 
     public static ArtistInfoPagerFragment newInstance() {
         Bundle args = new Bundle();
@@ -27,16 +30,19 @@ public class ArtistInfoPagerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_pager_with_icons, container, false);
 
-        ViewPager viewPager = layout.findViewById(R.id.pager);
-        TabLayout tabLayout = layout.findViewById(R.id.tabs);
+        viewPager = layout.findViewById(R.id.pager);
+        tabLayout = layout.findViewById(R.id.tabs);
 
+        loadView();
+        return layout;
+    }
+
+    @Override
+    protected void lazyLoad() {
         ArtistInfoPagerAdapter pagerAdapter = new ArtistInfoPagerAdapter(getChildFragmentManager(), getResources());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         tabLayout.setupWithViewPager(viewPager);
         pagerAdapter.setupTabViews(tabLayout);
-
-        return layout;
     }
-
 }

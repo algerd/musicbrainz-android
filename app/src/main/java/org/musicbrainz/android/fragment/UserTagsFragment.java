@@ -20,7 +20,7 @@ import org.musicbrainz.android.util.ShowUtil;
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
 
-public class UserTagsFragment extends Fragment {
+public class UserTagsFragment extends LazyFragment {
 
     private String username;
     private boolean isLoading;
@@ -47,7 +47,7 @@ public class UserTagsFragment extends Fragment {
         noresults = layout.findViewById(R.id.noresults);
         tagsRecycler = layout.findViewById(R.id.recycler);
 
-        load();
+        loadView();
         return layout;
     }
 
@@ -57,7 +57,8 @@ public class UserTagsFragment extends Fragment {
         tagsRecycler.setHasFixedSize(true);
     }
 
-    private void load() {
+    @Override
+    protected void lazyLoad() {
         viewError(false);
         noresults.setVisibility(View.GONE);
 
@@ -105,7 +106,7 @@ public class UserTagsFragment extends Fragment {
         ShowUtil.showError(getContext(), t);
         viewProgressLoading(false);
         viewError(true);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }

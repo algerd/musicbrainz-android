@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.PagerAdapter;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.ArtistNavigationPagerAdapter;
+import org.musicbrainz.android.adapter.pager.BaseFragmentPagerAdapter;
 import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Collection;
@@ -84,7 +86,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
+    protected BottomNavigationView.OnNavigationItemSelectedListener initOnNavigationItemSelectedListener() {
         return item -> {
             frameContainer.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
@@ -114,13 +116,18 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected int getBottomMenuId() {
+    protected int initBottomMenuId() {
         return R.menu.artist_bottom_nav;
     }
 
     @Override
-    protected int getDefaultNavViewId() {
+    protected int initDefaultNavViewId() {
         return DEFAULT_ARTIST_NAV_VIEW;
+    }
+
+    @Override
+    protected BaseFragmentPagerAdapter initBottomNavigationPagerAdapter() {
+        return new ArtistNavigationPagerAdapter(getSupportFragmentManager(), getResources());
     }
 
     @Override
@@ -148,21 +155,13 @@ public class ArtistActivity extends BaseBottomNavActivity implements
                         bottomTitle.setText(artist.getName());
                     }
                     this.artist = artist;
-                    configPager();
+                    configBottomNavigationPager();
                     //todo: сделать асинхронно
                     DatabaseHelper databaseHelper = new DatabaseHelper(this);
                     databaseHelper.setRecommends(artist.getTags());
                     databaseHelper.close();
                 },
                 this::showConnectionWarning);
-    }
-
-    private void configPager() {
-        ArtistNavigationPagerAdapter pagerAdapter = new ArtistNavigationPagerAdapter(getSupportFragmentManager(), getResources());
-        viewPager.setPagingEnabled(false);
-        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
-        viewPager.setAdapter(pagerAdapter);
-        bottomNavigationView.setSelectedItemId(getNavViewId());
     }
 
     @Override

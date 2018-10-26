@@ -12,7 +12,7 @@ public class MainActivity extends BaseActivity implements
         UserSearchFragment.FragmentListener {
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_main;
     }
 

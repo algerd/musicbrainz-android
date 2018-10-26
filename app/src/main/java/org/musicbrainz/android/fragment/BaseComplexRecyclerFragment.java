@@ -25,7 +25,7 @@ import org.musicbrainz.android.adapter.recycler.expandedRecycler.BaseExpandedRec
 import org.musicbrainz.android.adapter.recycler.expandedRecycler.Section;
 
 
-public abstract class BaseComplexRecyclerFragment<T> extends Fragment {
+public abstract class BaseComplexRecyclerFragment<T> extends LazyFragment {
 
     protected static final String CHECKED_ITEMS = "CHECKED_ITEMS";
     protected static final String EXPANDED_ITEMS = "EXPANDED_ITEMS";

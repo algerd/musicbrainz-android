@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.EditText;
 
@@ -69,16 +70,20 @@ public class UserActivity extends BaseBottomNavActivity implements
     private boolean isPrivate;
 
     private FloatingActionButton floatingActionButton;
-    private UserNavigationPagerAdapter pagerAdapter;
 
     @Override
-    protected int getBottomMenuId() {
+    protected int initBottomMenuId() {
         return isPrivate ? R.menu.private_user_bottom_nav : R.menu.user_bottom_nav;
     }
 
     @Override
-    protected int getDefaultNavViewId() {
+    protected int initDefaultNavViewId() {
         return DEFAULT_USER_NAV_VIEW;
+    }
+
+    @Override
+    protected BaseFragmentPagerAdapter initBottomNavigationPagerAdapter() {
+        return new UserNavigationPagerAdapter(getSupportFragmentManager(), getResources());
     }
 
     @Override
@@ -97,7 +102,7 @@ public class UserActivity extends BaseBottomNavActivity implements
 
     @SuppressLint("RestrictedApi")
     @Override
-    protected BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
+    protected BottomNavigationView.OnNavigationItemSelectedListener initOnNavigationItemSelectedListener() {
         return item -> {
             frameContainer.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
@@ -145,22 +150,14 @@ public class UserActivity extends BaseBottomNavActivity implements
             oauth.refreshToken(
                     () -> {
                         viewProgressLoading(false);
-                        configPager();
+                        configBottomNavigationPager();
                         return null;
                     },
                     this::showConnectionWarning
             );
         } else {
-            configPager();
+            configBottomNavigationPager();
         }
-    }
-
-    private void configPager() {
-        pagerAdapter = new UserNavigationPagerAdapter(getSupportFragmentManager(), getResources());
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.setPagingEnabled(false);
-        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
-        bottomNavigationView.setSelectedItemId(getNavViewId());
     }
 
     @Override
@@ -308,7 +305,7 @@ public class UserActivity extends BaseBottomNavActivity implements
                                     responseBody -> {
                                         viewProgressLoading(false);
                                         collectionTabOrdinal = CollectionsPagerAdapter.collectionTabTypeSpinner[type - 1].ordinal();
-                                        ((BaseFragmentPagerAdapter.Updatable) pagerAdapter.getFragment(TAB_COLLECTIONS_POS)).update();
+                                        ((BaseFragmentPagerAdapter.Updatable) getBottomNavigationPagerAdapter().getFragment(TAB_COLLECTIONS_POS)).update();
                                         bottomNavigationView.setSelectedItemId(R.id.user_navigation_collections);
                                     },
                                     t -> {
@@ -333,7 +330,7 @@ public class UserActivity extends BaseBottomNavActivity implements
                     responseBody -> {
                         viewProgressLoading(false);
                         collectionTabOrdinal = CollectionsPagerAdapter.collectionTabTypeSpinner[type - 1].ordinal();
-                        ((BaseFragmentPagerAdapter.Updatable) pagerAdapter.getFragment(TAB_COLLECTIONS_POS)).update();
+                        ((BaseFragmentPagerAdapter.Updatable) getBottomNavigationPagerAdapter().getFragment(TAB_COLLECTIONS_POS)).update();
                         bottomNavigationView.setSelectedItemId(R.id.user_navigation_collections);
                     },
                     t -> {

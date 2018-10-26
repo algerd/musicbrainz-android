@@ -33,12 +33,12 @@ public abstract class BaseActivity extends AppCompatActivity implements
     protected NavigationView navigationView;
     protected Toolbar toolbar;
 
-    abstract protected int getContentLayout();
+    abstract protected int initContentLayout();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getContentLayout());
+        setContentView(initContentLayout());
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

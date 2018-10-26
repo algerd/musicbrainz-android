@@ -41,7 +41,7 @@ public class TagActivity extends BaseActivity implements
     private View loading;
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_tag;
     }
 

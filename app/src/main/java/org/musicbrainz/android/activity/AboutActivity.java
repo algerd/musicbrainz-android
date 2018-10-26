@@ -7,7 +7,7 @@ import org.musicbrainz.android.R;
 public class AboutActivity extends BaseActivity {
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_about;
     }
 

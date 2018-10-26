@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -13,6 +14,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.adapter.pager.BaseFragmentPagerAdapter;
 import org.musicbrainz.android.adapter.pager.ReleaseNavigationPagerAdapter;
 import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
 import org.musicbrainz.android.api.model.Artist;
@@ -90,17 +92,22 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    protected int getBottomMenuId() {
+    protected int initBottomMenuId() {
         return R.menu.release_bottom_nav;
     }
 
     @Override
-    protected int getDefaultNavViewId() {
+    protected int initDefaultNavViewId() {
         return DEFAULT_RELEASE_NAV_VIEW;
     }
 
     @Override
-    protected BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener() {
+    protected BaseFragmentPagerAdapter initBottomNavigationPagerAdapter() {
+        return new ReleaseNavigationPagerAdapter(getSupportFragmentManager(), getResources());
+    }
+
+    @Override
+    protected BottomNavigationView.OnNavigationItemSelectedListener initOnNavigationItemSelectedListener() {
         return item -> {
             frameContainer.setVisibility(View.GONE);
             viewPager.setVisibility(View.VISIBLE);
@@ -152,7 +159,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
                                     bottomTitle.setText(rg.getTitle());
                                 }
                                 release.setReleaseGroup(rg);
-                                configPager();
+                                configBottomNavigationPager();
 
                                 //todo: сделать асинхронно
                                 DatabaseHelper databaseHelper = new DatabaseHelper(this);
@@ -163,14 +170,6 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
                     );
                 },
                 this::showConnectionWarning);
-    }
-
-    private void configPager() {
-        ReleaseNavigationPagerAdapter pagerAdapter = new ReleaseNavigationPagerAdapter(getSupportFragmentManager(), getResources());
-        viewPager.setPagingEnabled(false);
-        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
-        viewPager.setAdapter(pagerAdapter);
-        bottomNavigationView.setSelectedItemId(navViewId);
     }
 
     @Override

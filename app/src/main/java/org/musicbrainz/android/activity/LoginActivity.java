@@ -29,7 +29,7 @@ public class LoginActivity extends BaseActivity {
     private View loginFormView;
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_login;
     }
 

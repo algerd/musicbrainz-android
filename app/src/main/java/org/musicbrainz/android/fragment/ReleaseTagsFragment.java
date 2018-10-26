@@ -34,7 +34,7 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 
-public class ReleaseTagsFragment extends Fragment {
+public class ReleaseTagsFragment extends LazyFragment {
 
     private ReleaseGroup releaseGroup;
 
@@ -67,11 +67,12 @@ public class ReleaseTagsFragment extends Fragment {
 
         setEditListeners();
         configTagRecycler();
-        load();
+        loadView();
         return layout;
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         viewProgressLoading(false);
         viewError(false);
 
@@ -206,7 +207,7 @@ public class ReleaseTagsFragment extends Fragment {
         viewProgressLoading(false);
         viewError(true);
         error.setVisibility(View.VISIBLE);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }

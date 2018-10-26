@@ -113,7 +113,7 @@ public class ArtistRelationsTabFragment extends BaseComplexRecyclerFragment<Rela
         addFrameView(frame);
 
         initSections();
-        load();
+        loadView();
         return layout;
     }
 
@@ -127,7 +127,8 @@ public class ArtistRelationsTabFragment extends BaseComplexRecyclerFragment<Rela
         }
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         recycler.removeAllViewsInLayout();
 
         Artist artist = ((GetArtistCommunicator) getContext()).getArtist();

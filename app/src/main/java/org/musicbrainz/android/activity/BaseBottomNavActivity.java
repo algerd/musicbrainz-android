@@ -5,11 +5,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.adapter.pager.BaseFragmentPagerAdapter;
 import org.musicbrainz.android.communicator.ShowTitleCommunicator;
 import org.musicbrainz.android.ui.CustomViewPager;
 import org.musicbrainz.android.util.BottomNavigationBehavior;
@@ -31,9 +33,10 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
     protected View error;
     protected View loading;
     protected CustomViewPager viewPager;
+    protected BaseFragmentPagerAdapter bottomNavigationPagerAdapter;
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_bottom_nav;
     }
 
@@ -43,9 +46,9 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (savedInstanceState != null) {
-            navViewId = getDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
+            navViewId = initDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, initDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
         } else {
-            navViewId = getDefaultNavViewId() != -1 ? getIntent().getIntExtra(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
+            navViewId = initDefaultNavViewId() != -1 ? getIntent().getIntExtra(NAV_VIEW, initDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
         }
 
         error = findViewById(R.id.error);
@@ -58,13 +61,28 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
         onCreateActivity(savedInstanceState);
 
         bottomNavigationView = findViewById(R.id.bottom_nav);
-        bottomNavigationView.inflateMenu(getBottomMenuId());
-        bottomNavigationView.setOnNavigationItemSelectedListener(getOnNavigationItemSelectedListener());
+        bottomNavigationView.inflateMenu(initBottomMenuId());
+        bottomNavigationView.setOnNavigationItemSelectedListener(initOnNavigationItemSelectedListener());
 
         // attaching behaviours - hide / showFloatingActionButton on scroll
         ((CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams()).setBehavior(new BottomNavigationBehavior());
 
         refreshTokenAndLoad();
+    }
+
+    protected void configBottomNavigationPager() {
+        bottomNavigationPagerAdapter = initBottomNavigationPagerAdapter();
+        viewPager.setAdapter(bottomNavigationPagerAdapter);
+        viewPager.setPagingEnabled(false);
+
+        /* todo: low perfomance with bottomNavigationPagerAdapter.getCount(), but bad usability without - (default = 1)
+             при bottomNavigationPagerAdapter.getCount() надо обязательно рефрешить токен перед конфигурированием пейджера
+             если в фрагментах пейджера осуществляются загрузки. Это сделано в UserActivity:refreshTokenAndLoad().
+             без setOffscreenPageLimit, предварительный рефрешинг токена можно пропустить
+             и не будет конфликта авторизационных токенов при множественной асинхронной загрузке.
+        */
+        viewPager.setOffscreenPageLimit(bottomNavigationPagerAdapter.getCount());
+        bottomNavigationView.setSelectedItemId(getNavViewId());
     }
 
     @Override
@@ -76,21 +94,23 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        navViewId = getDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, getDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
+        navViewId = initDefaultNavViewId() != -1 ? savedInstanceState.getInt(NAV_VIEW, initDefaultNavViewId()) : savedInstanceState.getInt(NAV_VIEW);
     }
 
     protected abstract void onCreateActivity(Bundle savedInstanceState);
 
-    protected abstract int getBottomMenuId();
+    protected abstract BaseFragmentPagerAdapter initBottomNavigationPagerAdapter();
 
-    protected int getDefaultNavViewId() {
+    protected abstract int initBottomMenuId();
+
+    protected int initDefaultNavViewId() {
         return -1;
     }
 
-    protected abstract BottomNavigationView.OnNavigationItemSelectedListener getOnNavigationItemSelectedListener();
+    protected abstract BottomNavigationView.OnNavigationItemSelectedListener initOnNavigationItemSelectedListener();
 
     protected void refreshTokenAndLoad() {
-
+        configBottomNavigationPager();
     }
 
     protected void viewProgressLoading(boolean isView) {
@@ -145,5 +165,9 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
 
     public int getNavViewId() {
         return navViewId;
+    }
+
+    public BaseFragmentPagerAdapter getBottomNavigationPagerAdapter() {
+        return bottomNavigationPagerAdapter;
     }
 }

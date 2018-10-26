@@ -4,6 +4,7 @@ import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.ReleaseInfoPagerFragment;
 import org.musicbrainz.android.fragment.ReleaseRatingsFragment;
 import org.musicbrainz.android.fragment.ReleaseTagsFragment;
@@ -25,7 +26,7 @@ public class ReleaseNavigationPagerAdapter extends BaseFragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public LazyFragment getItem(int position) {
         switch (position) {
             case TAB_TRACKS_POS:
                 return ReleaseTracksFragment.newInstance();

@@ -1,9 +1,9 @@
 package org.musicbrainz.android.adapter.pager;
 
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.RecordingInfoPagerFragment;
 import org.musicbrainz.android.fragment.RecordingLyricsFragment;
 import org.musicbrainz.android.fragment.RecordingRatingsFragment;
@@ -25,7 +25,7 @@ public class RecordingNavigationPagerAdapter extends BaseFragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public LazyFragment getItem(int position) {
         switch (position) {
             case TAB_LYRICS_POS:
                 return RecordingLyricsFragment.newInstance();

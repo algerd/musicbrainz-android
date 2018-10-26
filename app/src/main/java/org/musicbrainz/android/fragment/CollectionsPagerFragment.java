@@ -47,7 +47,7 @@ import static org.musicbrainz.android.api.model.Collection.SERIES_ENTITY_TYPE;
 import static org.musicbrainz.android.api.model.Collection.WORK_ENTITY_TYPE;
 
 
-public class CollectionsPagerFragment extends Fragment implements
+public class CollectionsPagerFragment extends LazyFragment implements
         GetCollectionsCommunicator,
         BaseFragmentPagerAdapter.Updatable {
 
@@ -82,13 +82,13 @@ public class CollectionsPagerFragment extends Fragment implements
         loading = layout.findViewById(R.id.loading);
         noresults = layout.findViewById(R.id.noresults);
 
-        load();
+        loadView();
         return layout;
     }
 
     @Override
     public void update() {
-        load();
+        lazyLoad();
     }
 
     private void configurePager(List<CollectionsPagerAdapter.CollectionTab> collectionTabs) {
@@ -108,7 +108,8 @@ public class CollectionsPagerFragment extends Fragment implements
         }
     }
 
-    private void load() {
+    @Override
+    protected void lazyLoad() {
         noresults.setVisibility(View.GONE);
         viewError(false);
         String username = ((GetUsernameCommunicator) getContext()).getUsername();

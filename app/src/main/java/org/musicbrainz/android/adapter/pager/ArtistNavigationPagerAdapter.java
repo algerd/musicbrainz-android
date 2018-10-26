@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import org.musicbrainz.android.fragment.ArtistInfoPagerFragment;
 import org.musicbrainz.android.fragment.ArtistRatingsFragment;
 import org.musicbrainz.android.fragment.ArtistTagsFragment;
+import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.ReleaseGroupsPagerFragment;
 
 
@@ -23,7 +24,7 @@ public class ArtistNavigationPagerAdapter extends BaseFragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public LazyFragment getItem(int position) {
         switch (position) {
             case TAB_RELEASES_POS:
                 return ReleaseGroupsPagerFragment.newInstance();

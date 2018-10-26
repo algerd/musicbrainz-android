@@ -8,7 +8,7 @@ import org.musicbrainz.android.fragment.SettingsFragment;
 public class SettingsActivity extends BaseActivity {
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_settings;
     }
 

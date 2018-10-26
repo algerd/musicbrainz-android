@@ -33,7 +33,7 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 
-public class RecordingTagsFragment extends Fragment {
+public class RecordingTagsFragment extends LazyFragment {
 
     private Recording recording;
 
@@ -66,11 +66,12 @@ public class RecordingTagsFragment extends Fragment {
 
         setEditListeners();
         configTagRecycler();
-        load();
+        loadView();
         return layout;
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         viewProgressLoading(false);
         viewError(false);
 
@@ -204,7 +205,7 @@ public class RecordingTagsFragment extends Fragment {
         viewProgressLoading(false);
         viewError(true);
         error.setVisibility(View.VISIBLE);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }

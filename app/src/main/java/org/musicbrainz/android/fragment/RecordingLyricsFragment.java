@@ -22,7 +22,7 @@ import static org.musicbrainz.android.api.lyrics.model.LyricsApi.LYRICS_INSTRUME
 import static org.musicbrainz.android.api.lyrics.model.LyricsApi.LYRICS_NOT_FOUND;
 
 
-public class RecordingLyricsFragment extends Fragment {
+public class RecordingLyricsFragment extends LazyFragment {
 
     private View content;
     private View error;
@@ -47,11 +47,12 @@ public class RecordingLyricsFragment extends Fragment {
         noresults = layout.findViewById(R.id.noresults);
         lyrics = layout.findViewById(R.id.lyrics);
 
-        load();
+        loadView();
         return layout;
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         content.setVisibility(View.GONE);
         loading.setVisibility(View.GONE);
         error.setVisibility(View.GONE);
@@ -129,7 +130,7 @@ public class RecordingLyricsFragment extends Fragment {
         ShowUtil.showError(getActivity(), t);
         viewProgressLoading(false);
         viewError(true);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }

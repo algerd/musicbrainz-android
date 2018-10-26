@@ -25,7 +25,7 @@ import org.musicbrainz.android.util.StringFormat;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
-public class UserProfileFragment extends Fragment {
+public class UserProfileFragment extends LazyFragment {
 
     private String username;
     private boolean isLoading;
@@ -70,11 +70,13 @@ public class UserProfileFragment extends Fragment {
         languagesView = layout.findViewById(R.id.languages);
         bioView = layout.findViewById(R.id.bio);
 
-        load();
+        loadView();
         return layout;
     }
 
-    private void load() {
+
+    @Override
+    protected void lazyLoad() {
         viewError(false);
         viewProgressLoading(false);
         username = ((GetUsernameCommunicator) getContext()).getUsername();
@@ -163,7 +165,7 @@ public class UserProfileFragment extends Fragment {
         ShowUtil.showError(getContext(), t);
         viewProgressLoading(false);
         viewError(true);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }

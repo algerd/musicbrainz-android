@@ -43,7 +43,7 @@ public class BarcodeSearchActivity extends BaseActivity implements
     private View loading;
 
     @Override
-    protected int getContentLayout() {
+    protected int initContentLayout() {
         return R.layout.activity_barcode_search;
     }
 

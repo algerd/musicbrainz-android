@@ -28,7 +28,7 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 
-public class ReleaseRatingsFragment extends Fragment {
+public class ReleaseRatingsFragment extends LazyFragment {
 
     private final float LASTFM_ALBUM_LISTENERS_COEFF = 75;
     private final float LASTFM_ALBUM_PLAYCOUNT_COEFF = 300;
@@ -71,7 +71,7 @@ public class ReleaseRatingsFragment extends Fragment {
         lastfmPlaycountRatingBar = layout.findViewById(R.id.lastfm_playcount_rating_bar);
 
         setEditListeners();
-        load();
+        loadView();
 
         return layout;
     }
@@ -97,7 +97,8 @@ public class ReleaseRatingsFragment extends Fragment {
         });
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         viewProgressLoading(false);
         viewError(false);
 
@@ -218,7 +219,7 @@ public class ReleaseRatingsFragment extends Fragment {
         viewProgressLoading(false);
         viewError(true);
         error.setVisibility(View.VISIBLE);
-        error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
+        error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }
 
 }
