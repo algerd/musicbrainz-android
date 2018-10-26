@@ -216,6 +216,7 @@
     <!-- Toasts -->
     <string name="toast_search_err">Add some text to search</string>
     <string name="toast_search_cleared">Search history deleted</string>
+    <string name="toast_recommends_cleared">Recommends deleted</string>
 
     <!-- Navigation -->
     <string name="nav_search">Advanced Search</string>
@@ -245,7 +246,8 @@
     <string name="settings_search">Search</string>
     <string name="settings_suggestions">Suggestions</string>
     <string name="settings_suggestions_summary">Store and display search suggestions</string>
-    <string name="settings_clear">Clear search history</string>
+    <string name="settings_clear_suggestions">Clear search history</string>
+    <string name="settings_clear_recommends">Clear recommends</string>
 
     <!-- ImageActivity -->
     <string name="error_image_loading">Error loading of image</string>

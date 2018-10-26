@@ -159,7 +159,7 @@ public class UserActivity extends BaseBottomNavActivity implements
         pagerAdapter = new UserNavigationPagerAdapter(getSupportFragmentManager(), getResources());
         viewPager.setAdapter(pagerAdapter);
         viewPager.setPagingEnabled(false);
-        viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
+        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         bottomNavigationView.setSelectedItemId(getNavViewId());
     }
 

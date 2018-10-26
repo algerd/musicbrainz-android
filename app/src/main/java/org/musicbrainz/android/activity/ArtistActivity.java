@@ -160,7 +160,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     private void configPager() {
         ArtistNavigationPagerAdapter pagerAdapter = new ArtistNavigationPagerAdapter(getSupportFragmentManager(), getResources());
         viewPager.setPagingEnabled(false);
-        viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
+        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         viewPager.setAdapter(pagerAdapter);
         bottomNavigationView.setSelectedItemId(getNavViewId());
     }

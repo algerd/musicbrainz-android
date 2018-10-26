@@ -9,6 +9,7 @@ import android.provider.SearchRecentSuggestions;
 import android.widget.Toast;
 
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.data.DatabaseHelper;
 import org.musicbrainz.android.suggestion.SuggestionProvider;
 
 
@@ -16,6 +17,7 @@ public class SettingsFragment extends PreferenceFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static final String CLEAR_SUGGESTIONS = "clear_suggestions";
+    private static final String CLEAR_RECOMMENDS = "clear_recommends";
 
     private SharedPreferences prefs;
 
@@ -39,6 +41,14 @@ public class SettingsFragment extends PreferenceFragment implements
             }
             return false;
         });
+
+        findPreference(CLEAR_RECOMMENDS).setOnPreferenceClickListener(preference -> {
+            if (preference.getKey().equals(CLEAR_RECOMMENDS)) {
+                clearRecommends();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void clearSuggestionHistory() {
@@ -46,6 +56,13 @@ public class SettingsFragment extends PreferenceFragment implements
                 new SearchRecentSuggestions(getActivity(), SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
         suggestions.clearHistory();
         Toast.makeText(getActivity(), R.string.toast_search_cleared, Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearRecommends() {
+        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
+        databaseHelper.deleteAllTags();
+        databaseHelper.close();
+        Toast.makeText(getActivity(), R.string.toast_recommends_cleared, Toast.LENGTH_SHORT).show();
     }
 
     @Override

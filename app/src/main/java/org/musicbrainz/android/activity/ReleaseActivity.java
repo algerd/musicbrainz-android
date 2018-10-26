@@ -168,7 +168,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
     private void configPager() {
         ReleaseNavigationPagerAdapter pagerAdapter = new ReleaseNavigationPagerAdapter(getSupportFragmentManager(), getResources());
         viewPager.setPagingEnabled(false);
-        viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
+        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         viewPager.setAdapter(pagerAdapter);
         bottomNavigationView.setSelectedItemId(navViewId);
     }

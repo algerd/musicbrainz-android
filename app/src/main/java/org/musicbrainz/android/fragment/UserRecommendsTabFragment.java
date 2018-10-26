@@ -105,10 +105,7 @@ public class UserRecommendsTabFragment extends Fragment {
                     primaryPage -> {
                         if (secondaryTag != null) {
                             api.getTagEntities(tagType, secondaryTag, 1,
-                                    secondaryPage -> {
-                                        viewProgressLoading(false);
-                                        handleResult(primaryPage, secondaryPage);
-                                    },
+                                    secondaryPage -> handleResult(primaryPage, secondaryPage),
                                     this::showConnectionWarning);
                         } else {
                             handleResult(primaryPage, null);
@@ -116,6 +113,7 @@ public class UserRecommendsTabFragment extends Fragment {
                     },
                     this::showConnectionWarning);
         } else {
+            viewProgressLoading(false);
             noresults.setVisibility(View.VISIBLE);
         }
     }
@@ -123,6 +121,7 @@ public class UserRecommendsTabFragment extends Fragment {
     // сделать общий список из соотношения тегов rateTags
     // перемешать из соотношения rateTags (напр. rateTags=2.6, округл до 2 и тогда после каждых 2 primaryTag должен идти 1 secondaryTag
     private void handleResult(TagEntity.Page primaryPage, TagEntity.Page secondaryPage) {
+        viewProgressLoading(false);
 
         final List<TagEntity> recommends = new ArrayList<>();
         if (secondaryPage == null || secondaryPage.getTagEntities().isEmpty()) {

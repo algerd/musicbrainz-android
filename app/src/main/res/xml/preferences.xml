@@ -12,7 +12,11 @@
 
         <Preference
             android:key="clear_suggestions"
-            android:title="@string/settings_clear"/>
+            android:title="@string/settings_clear_suggestions"/>
+
+        <Preference
+            android:key="clear_recommends"
+            android:title="@string/settings_clear_recommends"/>
 
     </PreferenceCategory>
 

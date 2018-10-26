@@ -175,7 +175,7 @@ public class RecordingActivity extends BaseBottomNavActivity implements
     private void configPager() {
         RecordingNavigationPagerAdapter pagerAdapter = new RecordingNavigationPagerAdapter(getSupportFragmentManager(), getResources());
         viewPager.setPagingEnabled(false);
-        viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
+        //viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
         viewPager.setAdapter(pagerAdapter);
         bottomNavigationView.setSelectedItemId(navViewId);
     }
