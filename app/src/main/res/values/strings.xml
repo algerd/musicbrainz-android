@@ -44,6 +44,7 @@
 
     <!-- MainActivity -->
     <string name="description_search">Search</string>
+    <string name="log_in_btn">LOG IN</string>
 
     <!-- SearchFragment -->
     <string name="artist_field_hint">Artist</string>
