@@ -6,7 +6,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.widget.EditText;
 
@@ -140,26 +139,6 @@ public class UserActivity extends BaseBottomNavActivity implements
             return true;
         };
     }
-
-    /*
-    @Override
-    protected void load() {
-        viewError(false);
-        if (isPrivate) {
-            viewProgressLoading(true);
-            oauth.refreshToken(
-                    () -> {
-                        viewProgressLoading(false);
-                        configBottomNavigationPager();
-                        return null;
-                    },
-                    this::showConnectionWarning
-            );
-        } else {
-            configBottomNavigationPager();
-        }
-    }
-    */
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
