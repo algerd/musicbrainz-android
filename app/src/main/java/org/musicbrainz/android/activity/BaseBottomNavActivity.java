@@ -110,10 +110,12 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
         if (isView) {
             isLoading = true;
             frameContainer.setAlpha(0.3F);
+            viewPager.setAlpha(0.3F);
             loading.setVisibility(View.VISIBLE);
         } else {
             isLoading = false;
             frameContainer.setAlpha(1.0F);
+            viewPager.setAlpha(1.0F);
             loading.setVisibility(View.GONE);
         }
     }

@@ -24,7 +24,7 @@ import org.musicbrainz.android.intent.ActivityFactory;
 import static org.musicbrainz.android.MusicBrainzApp.api;
 
 
-public class ReleaseCoverArtFragment extends Fragment {
+public class ReleaseCoverArtFragment extends LazyFragment {
 
     private RecyclerView coverartRecycler;
     private View loading;
@@ -47,11 +47,12 @@ public class ReleaseCoverArtFragment extends Fragment {
         coverartRecycler = layout.findViewById(R.id.coverart_recycler);
 
         configCoverartRecycler();
-        load();
+        loadView();
         return layout;
     }
 
-    public void load() {
+    @Override
+    public void lazyLoad() {
         noresults.setVisibility(View.GONE);
 
         String releaseMbid = ((GetReleaseCommunicator) getContext()).getReleaseMbid();
