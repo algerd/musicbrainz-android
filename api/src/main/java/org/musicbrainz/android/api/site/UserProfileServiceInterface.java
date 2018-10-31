@@ -16,8 +16,6 @@ public interface UserProfileServiceInterface {
         }
     }
 
-    Flowable<Result<ResponseBody>> searchUser(String username);
-
     Flowable<Result<UserProfile>> getUserProfile(String username);
 
 }

@@ -6,7 +6,6 @@ import org.musicbrainz.android.api.model.Tag.TagSearch;
 
 /**
  * Require only digest autorization.
- * unconditional search: Release group search terms with no fields search the RELEASE_GROUP field only.
  *  new TagSearchService().search("rock")
  *  new TagSearchService().search("rock", 1, 10)
  *

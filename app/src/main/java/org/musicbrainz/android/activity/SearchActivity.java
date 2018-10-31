@@ -12,16 +12,19 @@ import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.recycler.ArtistSearchAdapter;
 import org.musicbrainz.android.adapter.recycler.ReleaseGroupSearchAdapter;
+import org.musicbrainz.android.adapter.recycler.SearchListAdapter;
 import org.musicbrainz.android.adapter.recycler.TrackSearchAdapter;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Recording;
 import org.musicbrainz.android.api.model.ReleaseGroup;
+import org.musicbrainz.android.api.model.Tag;
 import org.musicbrainz.android.communicator.OnReleaseCommunicator;
 import org.musicbrainz.android.dialog.PagedReleaseDialogFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.suggestion.SuggestionProvider;
 import org.musicbrainz.android.util.ShowUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
@@ -37,9 +40,14 @@ public class SearchActivity extends BaseActivity implements
     public static final String ALBUM_SEARCH = "ALBUM_SEARCH";
     public static final String TRACK_SEARCH = "TRACK_SEARCH";
 
+    public static final String SEARCH_QUERY = "SEARCH_QUERY";
+    public static final String SEARCH_TYPE = "SEARCH_TYPE";
+
     private String artistSearch;
     private String albumSearch;
     private String trackSearch;
+    private String searchQuery;
+    private int searchType = -1;
     private boolean isLoading;
     private boolean isError;
 
@@ -70,10 +78,14 @@ public class SearchActivity extends BaseActivity implements
             artistSearch = savedInstanceState.getString(QUERY);
             albumSearch = savedInstanceState.getString(ALBUM_SEARCH);
             trackSearch = savedInstanceState.getString(TRACK_SEARCH);
+            searchQuery = savedInstanceState.getString(SEARCH_QUERY);
+            searchType = savedInstanceState.getInt(SEARCH_TYPE, -1);
         } else {
             artistSearch = getIntent().getStringExtra(QUERY);
             albumSearch = getIntent().getStringExtra(ALBUM_SEARCH);
             trackSearch = getIntent().getStringExtra(TRACK_SEARCH);
+            searchQuery = getIntent().getStringExtra(SEARCH_QUERY);
+            searchType = getIntent().getIntExtra(SEARCH_TYPE, -1);
         }
         configSearchRecycler();
         search();
@@ -85,6 +97,8 @@ public class SearchActivity extends BaseActivity implements
         outState.putString(QUERY, artistSearch);
         outState.putString(ALBUM_SEARCH, albumSearch);
         outState.putString(TRACK_SEARCH, trackSearch);
+        outState.putString(SEARCH_QUERY, searchQuery);
+        outState.putInt(SEARCH_TYPE, searchType);
     }
 
     private void configSearchRecycler() {
@@ -101,7 +115,17 @@ public class SearchActivity extends BaseActivity implements
         viewError(false);
 
         viewProgressLoading(true);
-        if (!TextUtils.isEmpty(trackSearch)) {
+        if (searchType != -1) {
+            bottomTitle.setText(searchQuery);
+            if (searchType == SearchType.TAG.ordinal()) {
+                topTitle.setText(R.string.search_tag_title);
+                searchTag();
+            } else if (searchType == SearchType.USER.ordinal()) {
+                topTitle.setText(R.string.search_user_title);
+                searchUser();
+            }
+
+        } else if (!TextUtils.isEmpty(trackSearch)) {
             topTitle.setText(R.string.search_track_title);
             bottomTitle.setText(!TextUtils.isEmpty(artistSearch) ? artistSearch + " / " + trackSearch : trackSearch);
             searchRecording();
@@ -114,6 +138,82 @@ public class SearchActivity extends BaseActivity implements
             bottomTitle.setText(artistSearch);
             searchArtist();
         }
+    }
+
+    private void searchTag() {
+        api.searchTagFromSite(
+                searchQuery, 1, 100,
+                strings -> {
+                    viewProgressLoading(false);
+                    if (strings.isEmpty()) {
+                        noresults.setVisibility(View.VISIBLE);
+                    } else {
+                        SearchListAdapter adapter = new SearchListAdapter(strings);
+                        searchRecycler.setAdapter(adapter);
+                        adapter.setHolderClickListener(position ->
+                                ActivityFactory.startTagActivity(this, strings.get(position)));
+                        saveQueryAsSuggestion();
+                        if (strings.size() == 1) {
+                            ActivityFactory.startTagActivity(this, strings.get(0));
+                        }
+                    }
+                },
+                this::showConnectionWarning
+        );
+
+        /*
+        //bad result
+        api.searchTagFromWebservice(
+                searchQuery, 1, 100,
+                tagSearch -> {
+                    viewProgressLoading(false);
+                    if (tagSearch.getCount() == 0) {
+                        noresults.setVisibility(View.VISIBLE);
+                    } else {
+                        List<Tag> tags = tagSearch.getTags();
+                        List<String> strings = new ArrayList<>();
+                        for (Tag tag : tags) {
+                            strings.add(tag.getName());
+                        }
+                        if (strings.isEmpty()) {
+                            noresults.setVisibility(View.VISIBLE);
+                        } else {
+                            SearchListAdapter adapter = new SearchListAdapter(strings);
+                            searchRecycler.setAdapter(adapter);
+                            adapter.setHolderClickListener(position ->
+                                    ActivityFactory.startTagActivity(this, strings.get(position)));
+                            saveQueryAsSuggestion();
+                            if (strings.size() == 1) {
+                                ActivityFactory.startTagActivity(this, strings.get(0));
+                            }
+                        }
+                    }
+                },
+                this::showConnectionWarning
+        );
+        */
+    }
+
+    private void searchUser() {
+        api.searchUserFromSite(
+                searchQuery, 1, 100,
+                strings -> {
+                    viewProgressLoading(false);
+                    if (strings.isEmpty()) {
+                        noresults.setVisibility(View.VISIBLE);
+                    } else {
+                        SearchListAdapter adapter = new SearchListAdapter(strings);
+                        searchRecycler.setAdapter(adapter);
+                        adapter.setHolderClickListener(position ->
+                                ActivityFactory.startUserActivity(this, strings.get(position)));
+                        saveQueryAsSuggestion();
+                        if (strings.size() == 1) {
+                            ActivityFactory.startUserActivity(this, strings.get(0));
+                        }
+                    }
+                },
+                this::showConnectionWarning
+        );
     }
 
     private void searchRecording() {
@@ -130,6 +230,9 @@ public class SearchActivity extends BaseActivity implements
                         adapter.setHolderClickListener(position ->
                                 ActivityFactory.startRecordingActivity(this, recordings.get(position).getId()));
                         saveQueryAsSuggestion();
+                        if (recordings.size() == 1) {
+                            ActivityFactory.startRecordingActivity(this, recordings.get(0).getId());
+                        }
                     }
                 },
                 this::showConnectionWarning
@@ -143,12 +246,15 @@ public class SearchActivity extends BaseActivity implements
                     viewProgressLoading(false);
                     if (result.getCount() == 0) {
                         noresults.setVisibility(View.VISIBLE);
-                    } else {
+                    }  else {
                         List<ReleaseGroup> releaseGroups = result.getReleaseGroups();
                         ReleaseGroupSearchAdapter adapter = new ReleaseGroupSearchAdapter(releaseGroups);
                         searchRecycler.setAdapter(adapter);
                         adapter.setHolderClickListener(position -> showReleases(releaseGroups.get(position).getId()));
                         saveQueryAsSuggestion();
+                        if (releaseGroups.size() == 1) {
+                            showReleases(releaseGroups.get(0).getId());
+                        }
                     }
                 },
                 this::showConnectionWarning);
@@ -168,6 +274,9 @@ public class SearchActivity extends BaseActivity implements
                         adapter.setHolderClickListener(position ->
                                 ActivityFactory.startArtistActivity(this, artists.get(position).getId()));
                         saveQueryAsSuggestion();
+                        if (artists.size() == 1) {
+                            ActivityFactory.startArtistActivity(this, artists.get(0).getId());
+                        }
                     }
                 },
                 this::showConnectionWarning);
@@ -210,6 +319,7 @@ public class SearchActivity extends BaseActivity implements
             searchRecentSuggestions.saveRecentQuery(artistSearch, null);
             searchRecentSuggestions.saveRecentQuery(albumSearch, null);
             searchRecentSuggestions.saveRecentQuery(trackSearch, null);
+            searchRecentSuggestions.saveRecentQuery(searchQuery, null);
         }
     }
 

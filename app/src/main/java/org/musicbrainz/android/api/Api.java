@@ -59,9 +59,11 @@ import org.musicbrainz.android.api.search.RecordingSearchService;
 import org.musicbrainz.android.api.search.RecordingSearchService.RecordingSearchField;
 import org.musicbrainz.android.api.search.ReleaseGroupSearchService;
 import org.musicbrainz.android.api.search.ReleaseSearchService;
+import org.musicbrainz.android.api.search.TagSearchService;
 import org.musicbrainz.android.api.site.Rating;
 import org.musicbrainz.android.api.site.RatingService;
 import org.musicbrainz.android.api.site.RatingServiceInterface;
+import org.musicbrainz.android.api.site.SearchService;
 import org.musicbrainz.android.api.site.SiteService;
 import org.musicbrainz.android.api.site.TagEntity;
 import org.musicbrainz.android.api.site.TagService;
@@ -81,6 +83,7 @@ import static org.musicbrainz.android.api.browse.ReleaseBrowseService.ReleaseBro
 import static org.musicbrainz.android.api.browse.ReleaseGroupBrowseService.ReleaseGroupBrowseEntityType.ARTIST;
 import static org.musicbrainz.android.api.lookup.LookupServiceInterface.RelsType.ARTIST_RELS;
 import static org.musicbrainz.android.api.lookup.LookupServiceInterface.RelsType.URL_RELS;
+import static org.musicbrainz.android.api.search.TagSearchService.TagSearchField.TAG;
 
 
 public class Api {
@@ -640,9 +643,22 @@ public class Api {
                 consumer, errorHandler);
     }
 
-    public Disposable searchUser(String username, Consumer<ResponseBody> consumer, ErrorHandler errorHandler) {
+    public Disposable searchTagFromWebservice(String tag, int page, int limit, Consumer<Tag.TagSearch> consumer, ErrorHandler errorHandler) {
+        return ApiHandler.subscribe503(
+                new TagSearchService().search(tag, limit, page),
+                //new TagSearchService().add(TAG, tag).search(limit, page),
+                consumer, errorHandler);
+    }
+
+    public Disposable searchTagFromSite(String tag, int page, int limit, Consumer<List<String>> consumer, ErrorHandler errorHandler) {
         return ApiHandler.subscribe(
-                new UserProfileService().searchUser(username),
+                new SearchService().searchTag(tag, page, limit),
+                consumer, errorHandler);
+    }
+
+    public Disposable searchUserFromSite(String user, int page, int limit, Consumer<List<String>> consumer, ErrorHandler errorHandler) {
+        return ApiHandler.subscribe(
+                new SearchService().searchUser(user, page, limit),
                 consumer, errorHandler);
     }
 

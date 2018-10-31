@@ -13,19 +13,33 @@ import org.musicbrainz.android.activity.MainActivity;
 import org.musicbrainz.android.activity.RecordingActivity;
 import org.musicbrainz.android.activity.ReleaseActivity;
 import org.musicbrainz.android.activity.SearchActivity;
+import org.musicbrainz.android.activity.SearchType;
 import org.musicbrainz.android.activity.SettingsActivity;
 import org.musicbrainz.android.activity.TagActivity;
 import org.musicbrainz.android.activity.UserActivity;
+import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
+import org.musicbrainz.android.fragment.OtherSearchFragment;
 
 import static org.musicbrainz.android.activity.UserActivity.DEFAULT_USER_NAV_VIEW;
 
 public class ActivityFactory {
 
-    public static void startTagActivity(Context context, String tag, int tagTabOrdianl) {
+    public static void startSearchActivity(Context context, String searchQuery, SearchType searchType) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra(SearchActivity.SEARCH_QUERY, searchQuery);
+        intent.putExtra(SearchActivity.SEARCH_TYPE, searchType.ordinal());
+        context.startActivity(intent);
+    }
+
+    public static void startTagActivity(Context context, String tag, TagPagerAdapter.TagTab tagTab) {
         Intent intent = new Intent(context, TagActivity.class);
         intent.putExtra(TagActivity.MB_TAG, tag);
-        intent.putExtra(TagActivity.TAG_TAB_ORDINAL, tagTabOrdianl);
+        intent.putExtra(TagActivity.TAG_TAB_ORDINAL, tagTab.ordinal());
         context.startActivity(intent);
+    }
+
+    public static void startTagActivity(Context context, String tag) {
+        startTagActivity(context, tag, TagPagerAdapter.TagTab.ARTIST);
     }
 
     public static void startUserActivity(Context context, String username) {

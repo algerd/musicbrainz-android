@@ -329,7 +329,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
 
     @Override
     public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RELEASE_GROUP.ordinal());
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RELEASE_GROUP);
     }
 
     @Override

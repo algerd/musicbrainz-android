@@ -4,15 +4,15 @@ import android.os.Bundle;
 import android.view.View;
 
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.fragment.OtherSearchFragment;
 import org.musicbrainz.android.fragment.SearchFragment;
-import org.musicbrainz.android.fragment.UserSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 public class MainActivity extends BaseActivity implements
         SearchFragment.SearchFragmentListener,
-        UserSearchFragment.FragmentListener {
+        OtherSearchFragment.OtherSearchFragmentListener {
 
     private View logInBtn;
 
@@ -46,7 +46,16 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void searchUser(String user) {
-        ActivityFactory.startUserActivity(this, user);
+    public void searchType(SearchType searchType, String query) {
+        switch (searchType) {
+            case USER:
+            case TAG:
+                ActivityFactory.startSearchActivity(this, query, searchType);
+                break;
+            case BARCODE:
+
+                break;
+        }
     }
+
 }

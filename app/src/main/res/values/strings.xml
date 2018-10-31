@@ -56,11 +56,17 @@
     <string name="search_artist_title">Search Artist</string>
     <string name="search_album_title">Search Album</string>
     <string name="search_track_title">Search Track</string>
+    <string name="search_tag_title">Search Tag</string>
+    <string name="search_user_title">Search User</string>
     <string name="no_results">No results found</string>
     <string name="connection_error">Could not connect to server…</string>
     <string name="connection_error_retry">Retry</string>
     <string name="search_track_artist_name">Artist: %1$s</string>
     <string name="search_track_album_name">Album: %1$s</string>
+    <string name="searchtype_user">User</string>
+    <string name="searchtype_tag">Tag</string>
+    <string name="searchtype_barcode">Barcode</string>
+    <string name="search_hint">Search field</string>
 
     <!-- AboutActivity -->
     <string name="about_title">About</string>

@@ -3,7 +3,6 @@ package org.musicbrainz.android.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,12 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.recycler.TagAdapter;
@@ -28,6 +25,8 @@ import org.musicbrainz.android.communicator.GetRecordingCommunicator;
 import org.musicbrainz.android.communicator.OnTagCommunicator;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
@@ -42,7 +41,7 @@ public class RecordingTagsFragment extends LazyFragment {
     private View loading;
     private RecyclerView tagRecycler;
     private TextView loginWarning;
-    private EditText tagInput;
+    private AutoCompleteTextView tagInput;
     private ImageButton tagBtn;
 
     public static RecordingTagsFragment newInstance() {

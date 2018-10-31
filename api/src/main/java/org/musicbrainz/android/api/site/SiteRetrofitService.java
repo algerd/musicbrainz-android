@@ -75,4 +75,12 @@ public interface SiteRetrofitService {
     @GET("/user/{username}")
     Flowable<Result<ResponseBody>> getUserProfile(@Path("username") String user);
 
+    @GET("/search")
+    Flowable<Result<ResponseBody>> search(
+            @Query("query") String query,
+            @Query("type") String type,
+            @Query("page") int page,
+            @Query("limit") int limit,
+            @Query("method") String method
+    );
 }

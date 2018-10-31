@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -42,7 +43,7 @@ public class ArtistTagsFragment extends LazyFragment {
     private View loading;
     private RecyclerView tagRecycler;
     private TextView loginWarning;
-    private EditText tagInput;
+    private AutoCompleteTextView tagInput;
     private ImageButton tagBtn;
 
     public static ArtistTagsFragment newInstance() {

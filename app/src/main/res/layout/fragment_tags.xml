@@ -34,24 +34,28 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
 
-                <EditText
-                    android:id="@+id/tag_input"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:hint="@string/tag_hint"
-                    android:imeOptions="actionDone"
-                    android:inputType="textFilter"
-                    android:singleLine="true"
-                    android:textSize="16sp"/>
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/tag_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/tag_hint"
+                        android:imeOptions="actionDone"
+                        android:inputType="textAutoComplete"
+                        android:maxLines="1"
+                        android:singleLine="true"/>
+
+                </android.support.design.widget.TextInputLayout>
 
                 <ImageButton
                     android:id="@+id/tag_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:background="@color/colorPrimaryLight"
-                    android:padding="8dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:backgroundTint="@color/colorPrimaryLight"
                     android:src="@drawable/ic_pencil_24"/>
 
             </LinearLayout>

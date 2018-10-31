@@ -24,28 +24,6 @@ public class UserProfileService implements UserProfileServiceInterface {
     }
 
     @Override
-    public Flowable<Result<ResponseBody>> searchUser(String username) {
-        return webService.getRetrofitService().getUserProfile(username)
-                .flatMap((Function<Result<ResponseBody>, Flowable<Result<ResponseBody>>>) result -> {
-                    if (!result.isError()) {
-                        ResponseBody errorBody = result.response().errorBody();
-                        if (errorBody != null) {
-                            String h1 = Jsoup.parse(errorBody.string()).getElementsByTag("h1").first().text();
-                            if (h1.equals("Editor Not Found")) {
-                                return Flowable.error(new EditorNotFoundException());
-                            } else {
-                                //todo: send message
-                                return Flowable.error(new EditorNotFoundException());
-                            }
-                        }
-                        return Flowable.just(Result.response(Response.success(result.response().body())));
-                    } else {
-                        return Flowable.error(result.error());
-                    }
-                });
-    }
-
-    @Override
     public Flowable<Result<UserProfile>> getUserProfile(String username) {
         return webService.getRetrofitService().getUserProfile(username)
                 .flatMap((Function<Result<ResponseBody>, Flowable<Result<UserProfile>>>) result -> {

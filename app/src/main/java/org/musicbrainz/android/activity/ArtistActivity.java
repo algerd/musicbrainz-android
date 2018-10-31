@@ -339,7 +339,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
 
     @Override
     public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.ARTIST.ordinal());
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.ARTIST);
     }
 
     @Override
