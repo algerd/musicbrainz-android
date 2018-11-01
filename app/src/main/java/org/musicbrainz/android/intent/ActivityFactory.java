@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import org.musicbrainz.android.activity.AboutActivity;
 import org.musicbrainz.android.activity.ArtistActivity;
-import org.musicbrainz.android.activity.BarcodeSearchActivity;
 import org.musicbrainz.android.activity.FeedbackActivity;
 import org.musicbrainz.android.activity.ImageActivity;
 import org.musicbrainz.android.activity.LoginActivity;
@@ -18,7 +17,6 @@ import org.musicbrainz.android.activity.SettingsActivity;
 import org.musicbrainz.android.activity.TagActivity;
 import org.musicbrainz.android.activity.UserActivity;
 import org.musicbrainz.android.adapter.pager.TagPagerAdapter;
-import org.musicbrainz.android.fragment.OtherSearchFragment;
 
 import static org.musicbrainz.android.activity.UserActivity.DEFAULT_USER_NAV_VIEW;
 
@@ -28,6 +26,14 @@ public class ActivityFactory {
         Intent intent = new Intent(context, SearchActivity.class);
         intent.putExtra(SearchActivity.SEARCH_QUERY, searchQuery);
         intent.putExtra(SearchActivity.SEARCH_TYPE, searchType.ordinal());
+        context.startActivity(intent);
+    }
+
+    public static void startSearchActivity(Context context, String artist, String album, String recording) {
+        Intent intent = new Intent(context, SearchActivity.class);
+        intent.putExtra(SearchActivity.QUERY, artist);
+        intent.putExtra(SearchActivity.ALBUM_SEARCH, album);
+        intent.putExtra(SearchActivity.TRACK_SEARCH, recording);
         context.startActivity(intent);
     }
 
@@ -53,14 +59,6 @@ public class ActivityFactory {
         context.startActivity(intent);
     }
 
-    public static void startSearchActivity(Context context, String artist, String album, String recording) {
-        Intent intent = new Intent(context, SearchActivity.class);
-        intent.putExtra(SearchActivity.QUERY, artist);
-        intent.putExtra(SearchActivity.ALBUM_SEARCH, album);
-        intent.putExtra(SearchActivity.TRACK_SEARCH, recording);
-        context.startActivity(intent);
-    }
-
     public static void startLoginActivity(Context context) {
         context.startActivity(new Intent(context, LoginActivity.class));
     }
@@ -71,12 +69,6 @@ public class ActivityFactory {
 
     public static void startMainActivity(Context context) {
         context.startActivity(new Intent(context, MainActivity.class));
-    }
-
-    public static void startBarcodeSearchActivity(Context context, String barcode) {
-        Intent intent = new Intent(context, BarcodeSearchActivity.class);
-        intent.putExtra(BarcodeSearchActivity.BARCODE, barcode);
-        context.startActivity(intent);
     }
 
     public static void startImageActivity(Context context, String imageUrl) {

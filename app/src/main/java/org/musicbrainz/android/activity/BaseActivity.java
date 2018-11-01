@@ -114,7 +114,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
         if (requestCode == IntentIntegrator.BARCODE_REQUEST) {
             String barcode = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent).getContents();
             if (barcode != null) {
-                ActivityFactory.startBarcodeSearchActivity(this, barcode);
+                ActivityFactory.startSearchActivity(this, barcode, SearchType.BARCODE);
             }
         }
     }

@@ -34,108 +34,90 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <RelativeLayout
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/barcode_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/barcode"
-                android:layout_marginEnd="7dp"
-                android:layout_marginStart="7dp"
-                android:text="@string/barcode_text"/>
-
-            <EditText
-                android:id="@+id/barcode"
+            <AutoCompleteTextView
+                android:id="@+id/barcode_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/barcode_label"
-                android:inputType="number"/>
+                android:hint="@string/barcode_text_hint"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <AutoCompleteTextView
+                    android:id="@+id/release_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/barcode_release_hint"
+                    android:inputType="textAutoComplete"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <ImageButton
                 android:id="@+id/barcode_search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@+id/barcode"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:backgroundTint="@color/colorPrimaryLight"
                 android:contentDescription="@string/description_search"
-                android:src="@android:drawable/ic_menu_search"/>
+                android:src="@drawable/ic_search_24"/>
 
-            <TextView
-                android:id="@+id/release_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/barcode_search"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                android:text="@string/barcode_release_text"/>
+        </LinearLayout>
 
-            <EditText
-                android:id="@+id/barcode_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/barcode_search_btn"
-                android:layout_alignStart="@id/barcode"
-                android:layout_below="@id/barcode"
-                android:layout_toStartOf="@id/barcode_search_btn"
-                android:hint="@string/barcode_hint"
-                android:imeOptions="actionSearch"
-                android:inputType="textFilter"
-                android:singleLine="true"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/artist_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_marginRight="7dp"
-                android:layout_below="@+id/release_label"
-                android:layout_alignBaseline="@+id/artist_search"
-                android:text="@string/barcode_artist_label"/>
-
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/artist_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@id/barcode_search"
-                android:layout_below="@id/barcode_search"
-                android:hint="@string/barcode_artist_hint"
-                android:imeOptions="actionSearch"
-                android:inputType="textFilter"
+                android:hint="@string/barcode_artist_text_hint"
+                android:inputType="textAutoComplete"
+                android:maxLines="1"
                 android:singleLine="true"/>
 
-        </RelativeLayout>
+        </android.support.design.widget.TextInputLayout>
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
 
-            <View
-                android:id="@+id/topline"
+            <TextView
+                android:id="@+id/barcode_instructions"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentTop="true"
-                android:background="@color/md_deep_purple_100"/>
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/barcode_instructions"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/release_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/barcode_instructions"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/topline"
-                android:gravity="center"
-                android:text="@string/barcode_instructions"/>
-
-        </RelativeLayout>
+        </FrameLayout>
 
     </LinearLayout>
 

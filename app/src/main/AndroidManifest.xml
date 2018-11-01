@@ -102,13 +102,6 @@
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <activity
-            android:name="org.musicbrainz.android.activity.BarcodeSearchActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/barcode_title"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-
-        <activity
             android:name="org.musicbrainz.android.activity.FeedbackActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/feedback_title"

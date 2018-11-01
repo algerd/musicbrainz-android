@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,16 +33,16 @@ import static org.musicbrainz.android.MusicBrainzApp.api;
 public class BarcodeSearchFragment extends Fragment implements
         TextWatcher {
 
-    public interface FragmentListener {
-        void onRelease(Release release);
+    public interface BarcodeSearchFragmentListener {
+        void onBarcodeRelease(Release release);
     }
 
     private static final String BARCODE = "barcode";
 
     private RecyclerView releaseRecycler;
-    private EditText barcodeText;
-    private EditText searchBox;
-    private EditText searchArtist;
+    private AutoCompleteTextView barcodeText;
+    private AutoCompleteTextView searchBox;
+    private AutoCompleteTextView searchArtist;
     private ImageButton searchButton;
     private TextView instructions;
     private TextView noResults;
@@ -61,9 +61,10 @@ public class BarcodeSearchFragment extends Fragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_barcode_search, container, false);
-        searchBox = layout.findViewById(R.id.barcode_search);
+
+        searchBox = layout.findViewById(R.id.release_search);
         searchArtist = layout.findViewById(R.id.artist_search);
-        barcodeText = layout.findViewById(R.id.barcode);
+        barcodeText = layout.findViewById(R.id.barcode_text);
         searchButton = layout.findViewById(R.id.barcode_search_btn);
         instructions = layout.findViewById(R.id.barcode_instructions);
         noResults = layout.findViewById(R.id.noresults);
@@ -88,7 +89,7 @@ public class BarcodeSearchFragment extends Fragment implements
 
     private void setListeners() {
         searchBox.setOnEditorActionListener((v, actionId, event) -> {
-            if (v.getId() == R.id.barcode_search && actionId == EditorInfo.IME_NULL) {
+            if (v.getId() == R.id.release_search && actionId == EditorInfo.IME_NULL) {
                 search();
             }
             return false;
@@ -98,8 +99,7 @@ public class BarcodeSearchFragment extends Fragment implements
     }
 
     private void hideKeyboard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchBox.getWindowToken(), 0);
     }
 
@@ -124,7 +124,7 @@ public class BarcodeSearchFragment extends Fragment implements
                             ReleaseAdapter adapter = new ReleaseAdapter(releases, "");
                             releaseRecycler.setAdapter(adapter);
                             adapter.setHolderClickListener(position ->
-                                    ((FragmentListener) getContext()).onRelease(releases.get(position)));
+                                    ((BarcodeSearchFragmentListener) getContext()).onBarcodeRelease(releases.get(position)));
                         } else {
                             noResults.setVisibility(View.VISIBLE);
                         }

@@ -37,6 +37,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.fragment_search, container, false);
+
         artistField = layout.findViewById(R.id.artist_field);
         albumField = layout.findViewById(R.id.album_field);
         trackField = layout.findViewById(R.id.track_field);

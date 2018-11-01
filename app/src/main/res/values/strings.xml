@@ -58,6 +58,7 @@
     <string name="search_track_title">Search Track</string>
     <string name="search_tag_title">Search Tag</string>
     <string name="search_user_title">Search User</string>
+    <string name="search_barcode_title">Search Barcode</string>
     <string name="no_results">No results found</string>
     <string name="connection_error">Could not connect to server…</string>
     <string name="connection_error_retry">Retry</string>
@@ -196,18 +197,17 @@
     <string name="barcode_btn">Add barcode</string>
     <string name="barcode_cancel">Cancel</string>
 
-    <!-- BarcodeSearchActivity -->
-    <string name="barcode_title">Barcode</string>
+    <!-- SearchActivity -->
     <string name="barcodesearch_title">Submit Barcode</string>
-    <string name="barcode_text">BARCODE</string>
-    <string name="barcode_release_text">RELEASE</string>
+    <string name="barcode_text_hint">Barcode</string>
+    <string name="barcode_release_hint">Release</string>
     <string name="barcode_hint">Search release</string>
     <string name="barcode_instructions">Search for release to add barcode.</string>
     <string name="barcode_invalid_length">Expected 12 digits for UPC or 13 digits for EAN</string>
     <string name="barcode_invalid_chars">Should only contain digits</string>
     <string name="barcode_added">Barcode was added successfully!</string>
     <string name="barcode_artist_hint">Search artist</string>
-    <string name="barcode_artist_label">ARTIST</string>
+    <string name="barcode_artist_text_hint">Artist</string>
 
     <!-- ConfirmBarcodeDialog -->
     <string name="barcode_add_header">Submit barcode?</string>

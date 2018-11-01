@@ -47,15 +47,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void searchType(SearchType searchType, String query) {
-        switch (searchType) {
-            case USER:
-            case TAG:
-                ActivityFactory.startSearchActivity(this, query, searchType);
-                break;
-            case BARCODE:
-
-                break;
-        }
+        ActivityFactory.startSearchActivity(this, query, searchType);
     }
 
 }

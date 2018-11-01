@@ -2,36 +2,48 @@ package org.musicbrainz.android.activity;
 
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.recycler.ArtistSearchAdapter;
+import org.musicbrainz.android.adapter.recycler.ReleaseAdapter;
 import org.musicbrainz.android.adapter.recycler.ReleaseGroupSearchAdapter;
 import org.musicbrainz.android.adapter.recycler.SearchListAdapter;
 import org.musicbrainz.android.adapter.recycler.TrackSearchAdapter;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Recording;
+import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.api.model.ReleaseGroup;
-import org.musicbrainz.android.api.model.Tag;
+import org.musicbrainz.android.communicator.GetReleasesCommunicator;
+import org.musicbrainz.android.communicator.LoadingCommunicator;
 import org.musicbrainz.android.communicator.OnReleaseCommunicator;
+import org.musicbrainz.android.dialog.ConfirmBarcodeDialog;
 import org.musicbrainz.android.dialog.PagedReleaseDialogFragment;
+import org.musicbrainz.android.fragment.BarcodeSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.suggestion.SuggestionProvider;
 import org.musicbrainz.android.util.ShowUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
+import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 
 public class SearchActivity extends BaseActivity implements
-        OnReleaseCommunicator {
+        OnReleaseCommunicator,
+        BarcodeSearchFragment.BarcodeSearchFragmentListener,
+        GetReleasesCommunicator,
+        ConfirmBarcodeDialog.DialogFragmentListener,
+        LoadingCommunicator {
 
     // artistSearch:
     // !!! for SearchView.OnQueryTextListener (BaseActivity)
@@ -43,6 +55,8 @@ public class SearchActivity extends BaseActivity implements
     public static final String SEARCH_QUERY = "SEARCH_QUERY";
     public static final String SEARCH_TYPE = "SEARCH_TYPE";
 
+    private List<Release> releases;
+    private Release release;
     private String artistSearch;
     private String albumSearch;
     private String trackSearch;
@@ -51,6 +65,7 @@ public class SearchActivity extends BaseActivity implements
     private boolean isLoading;
     private boolean isError;
 
+    private View content;
     private RecyclerView searchRecycler;
     private View error;
     private View loading;
@@ -68,6 +83,7 @@ public class SearchActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        content = findViewById(R.id.content);
         error = findViewById(R.id.error);
         loading = findViewById(R.id.loading);
         noresults = findViewById(R.id.noresults);
@@ -113,16 +129,20 @@ public class SearchActivity extends BaseActivity implements
     private void search() {
         noresults.setVisibility(View.GONE);
         viewError(false);
-
         viewProgressLoading(true);
+
         if (searchType != -1) {
             bottomTitle.setText(searchQuery);
+
             if (searchType == SearchType.TAG.ordinal()) {
                 topTitle.setText(R.string.search_tag_title);
                 searchTag();
             } else if (searchType == SearchType.USER.ordinal()) {
                 topTitle.setText(R.string.search_user_title);
                 searchUser();
+            } else if (searchType == SearchType.BARCODE.ordinal()) {
+                topTitle.setText(R.string.search_barcode_title);
+                searchBarcode();
             }
 
         } else if (!TextUtils.isEmpty(trackSearch)) {
@@ -137,6 +157,51 @@ public class SearchActivity extends BaseActivity implements
             topTitle.setText(R.string.search_artist_title);
             bottomTitle.setText(artistSearch);
             searchArtist();
+        }
+    }
+
+    private void searchBarcode() {
+        api.searchReleasesByBarcode(searchQuery,
+                releaseSearch -> {
+                    viewProgressLoading(false);
+                    releases = releaseSearch.getReleases();
+                    if (releaseSearch.getCount() == 0) {
+                        showAddBarcodeDialog();
+                    } else {
+                        ReleaseAdapter adapter = new ReleaseAdapter(releases, null);
+                        searchRecycler.setAdapter(adapter);
+                        adapter.setHolderClickListener(position -> onRelease(releases.get(position).getId()));
+                        if (releases.size() == 1) {
+                            onRelease(releases.get(0).getId());
+                        }
+                    }
+                },
+                this::showConnectionWarning);
+    }
+
+    private void showAddBarcodeDialog() {
+        View titleView = getLayoutInflater().inflate(R.layout.layout_custom_alert_dialog_title, null);
+        TextView titleText = titleView.findViewById(R.id.title_text);
+        titleText.setText(getString(R.string.barcode_header, searchQuery));
+        if (oauth.hasAccount()) {
+            new AlertDialog.Builder(this)
+                    .setCustomTitle(titleView)
+                    .setMessage(getString(R.string.barcode_info_log))
+                    .setPositiveButton(R.string.barcode_btn, (dialog, which) ->
+                            getSupportFragmentManager().beginTransaction().add(R.id.content, BarcodeSearchFragment.newInstance(searchQuery)).commit())
+                    .setNegativeButton(R.string.barcode_cancel, (dialog, which) -> {
+                        dialog.cancel();
+                        SearchActivity.this.finish();
+                    })
+                    .show();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setCustomTitle(titleView)
+                    .setMessage(R.string.barcode_info_nolog)
+                    .setPositiveButton(R.string.login, (dialog, which) -> {
+                        ActivityFactory.startLoginActivity(this);
+                        SearchActivity.this.finish();
+                    });
         }
     }
 
@@ -246,7 +311,7 @@ public class SearchActivity extends BaseActivity implements
                     viewProgressLoading(false);
                     if (result.getCount() == 0) {
                         noresults.setVisibility(View.VISIBLE);
-                    }  else {
+                    } else {
                         List<ReleaseGroup> releaseGroups = result.getReleaseGroups();
                         ReleaseGroupSearchAdapter adapter = new ReleaseGroupSearchAdapter(releaseGroups);
                         searchRecycler.setAdapter(adapter);
@@ -306,7 +371,8 @@ public class SearchActivity extends BaseActivity implements
         ActivityFactory.startReleaseActivity(this, releaseMbid);
     }
 
-    private void showConnectionWarning(Throwable t) {
+    @Override
+    public void showConnectionWarning(Throwable t) {
         ShowUtil.showError(this, t);
         viewProgressLoading(false);
         viewError(true);
@@ -330,13 +396,16 @@ public class SearchActivity extends BaseActivity implements
         searchRecycler.setAdapter(null);
     }
 
-    private void viewProgressLoading(boolean isView) {
+    @Override
+    public void viewProgressLoading(boolean isView) {
         if (isView) {
             isLoading = true;
+            content.setAlpha(0.3F);
             searchRecycler.setAlpha(0.3F);
             loading.setVisibility(View.VISIBLE);
         } else {
             isLoading = false;
+            content.setAlpha(1.0F);
             searchRecycler.setAlpha(1.0F);
             loading.setVisibility(View.GONE);
         }
@@ -346,12 +415,54 @@ public class SearchActivity extends BaseActivity implements
         if (isView) {
             isError = true;
             searchRecycler.setVisibility(View.INVISIBLE);
+            content.setVisibility(View.INVISIBLE);
             error.setVisibility(View.VISIBLE);
         } else {
             isError = false;
             error.setVisibility(View.GONE);
+            content.setVisibility(View.VISIBLE);
             searchRecycler.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public List<Release> getReleases() {
+        return releases;
+    }
+
+    @Override
+    public void onBarcodeRelease(Release release) {
+        this.release = release;
+        DialogFragment submitDialog = new ConfirmBarcodeDialog();
+        submitDialog.show(getSupportFragmentManager(), ConfirmBarcodeDialog.TAG);
+    }
+
+    @Override
+    public Release getRelease() {
+        return release;
+    }
+
+    @Override
+    public void confirmSubmission() {
+        viewError(false);
+        viewProgressLoading(true);
+        api.postBarcode(
+                release.getId(), searchQuery,
+                metadata -> {
+                    viewProgressLoading(false);
+                    if (metadata.getMessage().getText().equals("OK")) {
+                        Toast.makeText(this, getString(R.string.barcode_added), Toast.LENGTH_SHORT).show();
+                    } else {
+                        ShowUtil.showMessage(this, "Error ");
+                    }
+                },
+                t -> {
+                    ShowUtil.showError(this, t);
+                    viewProgressLoading(false);
+                    viewError(true);
+                    error.findViewById(R.id.retry_button).setOnClickListener(v -> confirmSubmission());
+                }
+        );
     }
 
 }
