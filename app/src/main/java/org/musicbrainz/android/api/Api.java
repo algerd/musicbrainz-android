@@ -1,11 +1,5 @@
 package org.musicbrainz.android.api;
 
-import java.util.List;
-import java.util.Map;
-
-import io.reactivex.disposables.Disposable;
-import okhttp3.ResponseBody;
-
 import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.account.OAuth;
 import org.musicbrainz.android.api.browse.AreaBrowseService;
@@ -75,6 +69,12 @@ import org.musicbrainz.android.api.wiki.model.Wikipedia;
 import org.musicbrainz.android.functions.Consumer;
 import org.musicbrainz.android.functions.ErrorHandler;
 
+import java.util.List;
+import java.util.Map;
+
+import io.reactivex.disposables.Disposable;
+import okhttp3.ResponseBody;
+
 import static org.musicbrainz.android.api.browse.CollectionBrowseService.CollectionBrowseEntityType.EDITOR;
 import static org.musicbrainz.android.api.browse.CollectionBrowseService.CollectionIncType.USER_COLLECTIONS;
 import static org.musicbrainz.android.api.browse.RecordingBrowseService.RecordingBrowseEntityType.RELEASE;
@@ -83,7 +83,6 @@ import static org.musicbrainz.android.api.browse.ReleaseBrowseService.ReleaseBro
 import static org.musicbrainz.android.api.browse.ReleaseGroupBrowseService.ReleaseGroupBrowseEntityType.ARTIST;
 import static org.musicbrainz.android.api.lookup.LookupServiceInterface.RelsType.ARTIST_RELS;
 import static org.musicbrainz.android.api.lookup.LookupServiceInterface.RelsType.URL_RELS;
-import static org.musicbrainz.android.api.search.TagSearchService.TagSearchField.TAG;
 
 
 public class Api {
@@ -346,8 +345,16 @@ public class Api {
 
     public Disposable getArtist(String artistMbid, Consumer<Artist> consumer, ErrorHandler errorHandler) {
         ArtistLookupService.ArtistIncType[] incs = oauth.hasAccount() ?
-                new ArtistIncType[]{ArtistIncType.RATINGS, ArtistIncType.TAGS, ArtistIncType.USER_RATINGS, ArtistIncType.USER_TAGS} :
-                new ArtistIncType[]{ArtistIncType.RATINGS, ArtistIncType.TAGS};
+                new ArtistIncType[]{
+                        ArtistIncType.RATINGS,
+                        ArtistIncType.GENRES,
+                        ArtistIncType.TAGS,
+                        ArtistIncType.USER_RATINGS,
+                        ArtistIncType.USER_TAGS} :
+                new ArtistIncType[]{
+                        ArtistIncType.RATINGS,
+                        ArtistIncType.GENRES,
+                        ArtistIncType.TAGS};
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe503(
                         new ArtistLookupService(artistMbid)
@@ -360,8 +367,16 @@ public class Api {
 
     public Disposable getReleaseGroup(String releaseGroupMbid, Consumer<ReleaseGroup> consumer, ErrorHandler errorHandler) {
         ReleaseGroupLookupService.ReleaseGroupIncType[] incs = oauth.hasAccount() ?
-                new ReleaseGroupIncType[]{ReleaseGroupIncType.RATINGS, ReleaseGroupIncType.TAGS, ReleaseGroupIncType.USER_RATINGS, ReleaseGroupIncType.USER_TAGS} :
-                new ReleaseGroupIncType[]{ReleaseGroupIncType.RATINGS, ReleaseGroupIncType.TAGS};
+                new ReleaseGroupIncType[]{
+                        ReleaseGroupIncType.RATINGS,
+                        ReleaseGroupIncType.GENRES,
+                        ReleaseGroupIncType.TAGS,
+                        ReleaseGroupIncType.USER_RATINGS,
+                        ReleaseGroupIncType.USER_TAGS} :
+                new ReleaseGroupIncType[]{
+                        ReleaseGroupIncType.RATINGS,
+                        ReleaseGroupIncType.GENRES,
+                        ReleaseGroupIncType.TAGS};
 
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe503(
@@ -397,12 +412,9 @@ public class Api {
         ReleaseGroupBrowseService.ReleaseGroupIncType[] incs = oauth.hasAccount() ?
                 new ReleaseGroupBrowseService.ReleaseGroupIncType[]{
                         ReleaseGroupBrowseService.ReleaseGroupIncType.RATINGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.TAGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.USER_RATINGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.USER_TAGS} :
+                        ReleaseGroupBrowseService.ReleaseGroupIncType.USER_RATINGS} :
                 new ReleaseGroupBrowseService.ReleaseGroupIncType[]{
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.RATINGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.TAGS};
+                        ReleaseGroupBrowseService.ReleaseGroupIncType.RATINGS};
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe503(
                         new ReleaseGroupBrowseService(ARTIST, artistMbid)
@@ -424,8 +436,16 @@ public class Api {
 
     public Disposable getRecording(String recordingMbid, Consumer<Recording> consumer, ErrorHandler errorHandler) {
         RecordingLookupService.RecordingIncType[] incs = oauth.hasAccount() ?
-                new RecordingIncType[]{RecordingIncType.RATINGS, RecordingIncType.TAGS, RecordingIncType.USER_RATINGS, RecordingIncType.USER_TAGS} :
-                new RecordingIncType[]{RecordingIncType.RATINGS, RecordingIncType.TAGS};
+                new RecordingIncType[]{
+                        RecordingIncType.RATINGS,
+                        RecordingIncType.GENRES,
+                        RecordingIncType.TAGS,
+                        RecordingIncType.USER_RATINGS,
+                        RecordingIncType.USER_TAGS} :
+                new RecordingIncType[]{
+                        RecordingIncType.RATINGS,
+                        RecordingIncType.GENRES,
+                        RecordingIncType.TAGS};
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe503(
                         new RecordingLookupService(recordingMbid)

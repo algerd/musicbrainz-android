@@ -50,6 +50,7 @@ public class RecordingLookupService extends BaseLookupService<Recording, Recordi
 
         ALIASES(ALIASES_INC),
         ANNOTATION(ANNOTATION_INC),
+        GENRES(GENRES_INC),
         TAGS(TAGS_INC),
         RATINGS(RATINGS_INC),
         USER_TAGS(USER_TAGS_INC),         //require authorization

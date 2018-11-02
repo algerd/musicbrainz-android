@@ -37,6 +37,7 @@ public class ArtistLookupService extends BaseLookupService<Artist, ArtistLookupS
         ALIASES(ALIASES_INC),
         ANNOTATION(ANNOTATION_INC),
         TAGS(TAGS_INC),
+        GENRES(GENRES_INC),
         RATINGS(RATINGS_INC),
         USER_TAGS(USER_TAGS_INC),         //require authorization
         USER_RATINGS(USER_RATINGS_INC),   //require authorization

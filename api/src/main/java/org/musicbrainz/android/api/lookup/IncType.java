@@ -20,6 +20,7 @@ public class IncType {
     public static final String RELEASES_INC = "releases";
     public static final String RELEASE_GROUPS_INC = "release-groups";
     public static final String TAGS_INC = "tags";
+    public static final String GENRES_INC = "genres";
     public static final String USER_COLLECTIONS_INC = "user-collections";
     public static final String USER_RATINGS_INC = "user-ratings";   //require authorization
     public static final String USER_TAGS_INC = "user-tags";         //require authorization
