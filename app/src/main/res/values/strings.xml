@@ -303,6 +303,8 @@
     <string name="tag_tab_artists">Artists</string>
     <string name="tag_tab_releases">Releases</string>
     <string name="tag_tab_recordings">Recordings</string>
+    <string name="tags_tab_genres">Genres</string>
+    <string name="tags_tab_tags">Tags</string>
 
     <!-- TagActivity -->
     <string name="tag_title">Tag</string>

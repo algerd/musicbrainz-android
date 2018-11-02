@@ -4,12 +4,18 @@ import com.squareup.moshi.Json;
 
 import java.util.List;
 
+import static org.musicbrainz.android.api.model.Tag.TagType.TAG;
+
 /**
  * https://musicbrainz.org/doc/Folksonomy_Tagging
  * Created by Alex on 16.11.2017.
  */
 
 public class Tag {
+
+    public enum TagType {
+        GENRE, TAG
+    }
 
     public static class TagSearch extends BaseSearch {
         @Json(name = "tags")
@@ -23,6 +29,8 @@ public class Tag {
             this.tags = tags;
         }
     }
+
+    private TagType tagType = TAG;
 
     @Json(name = "name")
     private String name;
@@ -58,6 +66,14 @@ public class Tag {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public TagType getTagType() {
+        return tagType;
+    }
+
+    public void setTagType(TagType tagType) {
+        this.tagType = tagType;
     }
 
     @Override

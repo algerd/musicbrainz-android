@@ -7,6 +7,8 @@ import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -50,6 +52,7 @@ import static org.musicbrainz.android.api.Config.RELEASE_QUERY;
 import static org.musicbrainz.android.api.Config.SERIES_QUERY;
 import static org.musicbrainz.android.api.Config.TAG_QUERY;
 import static org.musicbrainz.android.api.Config.URL_QUERY;
+import static org.musicbrainz.android.api.Config.USER_AGENT_HEADER;
 import static org.musicbrainz.android.api.Config.WEB_SERVICE_PREFIX;
 import static org.musicbrainz.android.api.Config.WORK_QUERY;
 

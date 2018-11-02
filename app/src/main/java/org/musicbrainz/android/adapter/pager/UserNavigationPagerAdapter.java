@@ -8,7 +8,7 @@ import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.UserProfileFragment;
 import org.musicbrainz.android.fragment.UserRatingsPagerFragment;
 import org.musicbrainz.android.fragment.UserRecommendsPagerFragment;
-import org.musicbrainz.android.fragment.UserTagsFragment;
+import org.musicbrainz.android.fragment.UserTagsPagerFragment;
 
 
 public class UserNavigationPagerAdapter extends BaseFragmentPagerAdapter {
@@ -34,7 +34,7 @@ public class UserNavigationPagerAdapter extends BaseFragmentPagerAdapter {
             case TAB_RATINGS_POS:
                 return UserRatingsPagerFragment.newInstance();
             case TAB_TAGS_POS:
-                return UserTagsFragment.newInstance();
+                return UserTagsPagerFragment.newInstance();
             case TAB_RECOMMENDS_POS:
                 return UserRecommendsPagerFragment.newInstance();
         }

@@ -43,9 +43,19 @@ public class TagService implements TagServiceInterface {
                         Tag.TagSearch tagSearch = new Tag.TagSearch();
                         tagSearch.setTags(new ArrayList<>());
 
-                        Elements elements = doc.select("ul.tag-list > li");
-                        for (Element element : elements) {
+                        Elements genreElements = doc.select("ul.genre-list > li");
+                        for (Element element : genreElements) {
                             Tag tag = new Tag();
+                            tag.setTagType(Tag.TagType.GENRE);
+                            tag.setName(element.getElementsByTag("a").first().text());
+                            tag.setCount(Integer.valueOf(element.select("span.tag-count").first().text()));
+                            tagSearch.getTags().add(tag);
+                        }
+
+                        Elements tagElements = doc.select("ul.tag-list > li");
+                        for (Element element : tagElements) {
+                            Tag tag = new Tag();
+                            tag.setTagType(Tag.TagType.TAG);
                             tag.setName(element.getElementsByTag("a").first().text());
                             tag.setCount(Integer.valueOf(element.select("span.tag-count").first().text()));
                             tagSearch.getTags().add(tag);

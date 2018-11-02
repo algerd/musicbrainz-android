@@ -6,6 +6,7 @@ public class Config {
 
     public static String accessToken;
 
+
     public static final String WEB_SERVICE = "https://musicbrainz.org";
     public static final String WEB_SERVICE_PREFIX = "/ws/2/";
     public static final String FORMAT_JSON = "json";
@@ -44,4 +45,10 @@ public class Config {
         return credentials;
     }
 
+    //"org.musicbrainz.android/0.0.1 (algerd75@mail.ru)"
+    public static String USER_AGENT_HEADER = "";
+
+    public static void setUserAgentHeader(String userAgentHeader) {
+        USER_AGENT_HEADER = userAgentHeader;
+    }
 }
