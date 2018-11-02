@@ -22,6 +22,7 @@ import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Recording;
 import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.api.model.ReleaseGroup;
+import org.musicbrainz.android.api.model.Tag;
 import org.musicbrainz.android.communicator.GetReleasesCommunicator;
 import org.musicbrainz.android.communicator.LoadingCommunicator;
 import org.musicbrainz.android.communicator.OnReleaseCommunicator;
@@ -32,6 +33,7 @@ import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.suggestion.SuggestionProvider;
 import org.musicbrainz.android.util.ShowUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;

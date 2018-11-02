@@ -49,7 +49,7 @@ public class SearchService implements SearchServiceInterface {
                         Document doc = Jsoup.parse(html);
                         List<String> results = new ArrayList<>();
 
-                        Elements elements = doc.select("table bdi");
+                        Elements elements = doc.select("table.tbl a");
                         for (Element element : elements) {
                             String str = element.text();
                             if (str != null && !str.equals("")) {
