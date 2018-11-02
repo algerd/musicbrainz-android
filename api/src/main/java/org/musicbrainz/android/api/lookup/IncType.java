@@ -24,6 +24,7 @@ public class IncType {
     public static final String USER_COLLECTIONS_INC = "user-collections";
     public static final String USER_RATINGS_INC = "user-ratings";   //require authorization
     public static final String USER_TAGS_INC = "user-tags";         //require authorization
+    public static final String USER_GENRES_INC = "user-genres";     //require authorization
     public static final String VARIOUS_ARTISTS_INC = "various-artists";
     public static final String WORKS_INC = "works";
 

@@ -44,6 +44,7 @@ public class RecordingBrowseService extends
         GENRES(GENRES_INC),
         TAGS(TAGS_INC),
         RATINGS(RATINGS_INC),
+        USER_GENRES(USER_GENRES_INC),     //require authorization
         USER_TAGS(USER_TAGS_INC),         //require authorization
         USER_RATINGS(USER_RATINGS_INC),   //require authorization
 

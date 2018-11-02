@@ -44,6 +44,7 @@ public class ReleaseLookupService extends BaseLookupService<Release, ReleaseLook
         ANNOTATION(ANNOTATION_INC),
         GENRES(GENRES_INC),
         TAGS(TAGS_INC),
+        USER_GENRES(USER_GENRES_INC),     //require authorization
         USER_TAGS(USER_TAGS_INC);         //require authorization
 
         private final String inc;

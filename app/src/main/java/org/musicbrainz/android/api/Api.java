@@ -350,6 +350,7 @@ public class Api {
                         ArtistIncType.GENRES,
                         ArtistIncType.TAGS,
                         ArtistIncType.USER_RATINGS,
+                        ArtistIncType.USER_GENRES,
                         ArtistIncType.USER_TAGS} :
                 new ArtistIncType[]{
                         ArtistIncType.RATINGS,
@@ -372,6 +373,7 @@ public class Api {
                         ReleaseGroupIncType.GENRES,
                         ReleaseGroupIncType.TAGS,
                         ReleaseGroupIncType.USER_RATINGS,
+                        ReleaseGroupIncType.USER_GENRES,
                         ReleaseGroupIncType.USER_TAGS} :
                 new ReleaseGroupIncType[]{
                         ReleaseGroupIncType.RATINGS,
@@ -393,12 +395,9 @@ public class Api {
         ReleaseGroupBrowseService.ReleaseGroupIncType[] incs = oauth.hasAccount() ?
                 new ReleaseGroupBrowseService.ReleaseGroupIncType[]{
                         ReleaseGroupBrowseService.ReleaseGroupIncType.RATINGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.TAGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.USER_RATINGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.USER_TAGS} :
+                        ReleaseGroupBrowseService.ReleaseGroupIncType.USER_RATINGS} :
                 new ReleaseGroupBrowseService.ReleaseGroupIncType[]{
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.RATINGS,
-                        ReleaseGroupBrowseService.ReleaseGroupIncType.TAGS};
+                        ReleaseGroupBrowseService.ReleaseGroupIncType.RATINGS};
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe503(
                         new ReleaseGroupBrowseService(ARTIST, artistMbid)
@@ -440,6 +439,7 @@ public class Api {
                         RecordingIncType.RATINGS,
                         RecordingIncType.GENRES,
                         RecordingIncType.TAGS,
+                        RecordingIncType.USER_GENRES,
                         RecordingIncType.USER_RATINGS,
                         RecordingIncType.USER_TAGS} :
                 new RecordingIncType[]{
