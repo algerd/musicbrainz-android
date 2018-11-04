@@ -174,6 +174,14 @@ public class ReleaseGroup extends BaseLookupEntity {
     @Json(name = "user-tags")
     private List<Tag> userTags;
 
+    //inc=genres
+    @Json(name = "genres")
+    private List<Tag> genres;
+
+    //inc=user-genres
+    @Json(name = "user-genres")
+    private List<Tag> userGenres;
+
     public ReleaseGroup() {
     }
 
@@ -311,6 +319,22 @@ public class ReleaseGroup extends BaseLookupEntity {
 
     public void setFirstReleaseDate(String firstReleaseDate) {
         this.firstReleaseDate = firstReleaseDate;
+    }
+
+    public List<Tag> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Tag> genres) {
+        this.genres = genres;
+    }
+
+    public List<Tag> getUserGenres() {
+        return userGenres;
+    }
+
+    public void setUserGenres(List<Tag> userGenres) {
+        this.userGenres = userGenres;
     }
 
     public Integer getYear() {

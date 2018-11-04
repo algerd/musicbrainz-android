@@ -226,6 +226,14 @@ public class Release extends BaseLookupEntity {
     @Json(name = "user-tags")
     private List<Tag> userTags;
 
+    //inc=genres
+    @Json(name = "genres")
+    private List<Tag> genres;
+
+    //inc=user-genres
+    @Json(name = "user-genres")
+    private List<Tag> userGenres;
+
     //inc=artists
     //inc=artist-credits
     @Json(name = "artist-credit")
@@ -459,4 +467,19 @@ public class Release extends BaseLookupEntity {
         this.collections = collections;
     }
 
+    public List<Tag> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Tag> genres) {
+        this.genres = genres;
+    }
+
+    public List<Tag> getUserGenres() {
+        return userGenres;
+    }
+
+    public void setUserGenres(List<Tag> userGenres) {
+        this.userGenres = userGenres;
+    }
 }

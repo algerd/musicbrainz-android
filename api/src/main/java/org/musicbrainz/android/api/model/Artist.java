@@ -228,6 +228,14 @@ public class Artist extends BaseLookupEntity {
     @Json(name = "user-tags")
     private List<Tag> userTags;
 
+    //inc=genres
+    @Json(name = "genres")
+    private List<Tag> genres;
+
+    //inc=user-genres
+    @Json(name = "user-genres")
+    private List<Tag> userGenres;
+
     public Artist() {}
 
     public String getName() {
@@ -412,6 +420,22 @@ public class Artist extends BaseLookupEntity {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public List<Tag> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Tag> genres) {
+        this.genres = genres;
+    }
+
+    public List<Tag> getUserGenres() {
+        return userGenres;
+    }
+
+    public void setUserGenres(List<Tag> userGenres) {
+        this.userGenres = userGenres;
     }
 
     public List<Tag> getUserTags() {
