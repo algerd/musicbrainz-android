@@ -639,7 +639,7 @@ public class Api {
                 consumer, errorHandler);
     }
 
-    public Disposable getTags(String username, Consumer<Tag.TagSearch> consumer, ErrorHandler errorHandler) {
+    public Disposable getTags(String username, Consumer<Map<Tag.TagType, List<Tag>>> consumer, ErrorHandler errorHandler) {
         return ApiHandler.subscribe(
                 new TagService().getUserTags(username),
                 consumer, errorHandler);

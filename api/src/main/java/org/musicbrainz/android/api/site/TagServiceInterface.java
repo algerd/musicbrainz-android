@@ -1,11 +1,12 @@
 package org.musicbrainz.android.api.site;
 
+import org.musicbrainz.android.api.model.Tag;
+
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
 import retrofit2.adapter.rxjava2.Result;
-import org.musicbrainz.android.api.model.Tag;
 
 public interface TagServiceInterface {
 
@@ -45,7 +46,7 @@ public interface TagServiceInterface {
         }
     }
 
-    Flowable<Result<Tag.TagSearch>> getUserTags(String username);
+    Flowable<Result<Map<Tag.TagType, List<Tag>>>> getUserTags(String username);
 
     Flowable<Result<Map<UserTagType, List<TagEntity>>>> getUserTagEntities(String username, String tag);
 

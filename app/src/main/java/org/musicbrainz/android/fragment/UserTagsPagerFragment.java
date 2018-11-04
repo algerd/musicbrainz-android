@@ -13,7 +13,6 @@ import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.UserTagsPagerAdapter;
 import org.musicbrainz.android.api.model.Tag;
 import org.musicbrainz.android.communicator.GetGenresCommunicator;
-import org.musicbrainz.android.communicator.GetTagCommunicator;
 import org.musicbrainz.android.communicator.GetTagsCommunicator;
 import org.musicbrainz.android.communicator.GetUsernameCommunicator;
 import org.musicbrainz.android.util.ShowUtil;
@@ -68,21 +67,16 @@ public class UserTagsPagerFragment extends LazyFragment implements
         String username = ((GetUsernameCommunicator) getContext()).getUsername();
         if (username != null) {
             viewProgressLoading(true);
+
             api.getTags(username,
-                    tagSearch -> {
+                    tagMap -> {
                         viewProgressLoading(false);
-                        if (tagSearch.getTags().isEmpty()) {
+                        if (tagMap.get(Tag.TagType.GENRE).isEmpty() && tagMap.get(Tag.TagType.TAG).isEmpty()) {
                             noresults.setVisibility(View.VISIBLE);
                         } else {
-                            genres.clear();
-                            tags.clear();
-                            for (Tag tag : tagSearch.getTags()) {
-                                if (tag.getTagType().equals(Tag.TagType.GENRE)) {
-                                    genres.add(tag);
-                                } else if (tag.getTagType().equals(Tag.TagType.TAG)) {
-                                    tags.add(tag);
-                                }
-                            }
+                            setGenres(tagMap.get(Tag.TagType.GENRE));
+                            setTags(tagMap.get(Tag.TagType.TAG));
+
                             UserTagsPagerAdapter pagerAdapter = new UserTagsPagerAdapter(getChildFragmentManager(), getResources());
                             viewPager.setAdapter(pagerAdapter);
                             viewPager.setOffscreenPageLimit(pagerAdapter.getCount());
@@ -130,5 +124,13 @@ public class UserTagsPagerFragment extends LazyFragment implements
     @Override
     public List<Tag> getTags() {
         return tags;
+    }
+
+    public void setGenres(List<Tag> genres) {
+        this.genres = genres;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

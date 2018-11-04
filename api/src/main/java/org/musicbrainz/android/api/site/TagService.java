@@ -4,6 +4,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.musicbrainz.android.api.core.WebService;
+import org.musicbrainz.android.api.core.WebServiceInterface;
+import org.musicbrainz.android.api.model.Tag;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,9 +18,6 @@ import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
-import org.musicbrainz.android.api.core.WebService;
-import org.musicbrainz.android.api.core.WebServiceInterface;
-import org.musicbrainz.android.api.model.Tag;
 
 import static org.musicbrainz.android.api.Config.WEB_SERVICE;
 
@@ -34,36 +34,33 @@ public class TagService implements TagServiceInterface {
     }
 
     @Override
-    public Flowable<Result<Tag.TagSearch>> getUserTags(String username) {
+    public Flowable<Result<Map<Tag.TagType, List<Tag>>>> getUserTags(String username) {
         return webService.getRetrofitService().getUserTags(username)
-                .flatMap((Function<Result<ResponseBody>, Flowable<Result<Tag.TagSearch>>>) result -> {
+                .flatMap((Function<Result<ResponseBody>, Flowable<Result<Map<Tag.TagType, List<Tag>>>>>) result -> {
                     if (!result.isError()) {
                         String html = result.response().body().string();
                         Document doc = Jsoup.parse(html);
-                        Tag.TagSearch tagSearch = new Tag.TagSearch();
-                        tagSearch.setTags(new ArrayList<>());
 
-                        Elements genreElements = doc.select("ul.genre-list > li");
-                        for (Element element : genreElements) {
-                            Tag tag = new Tag();
-                            tag.setTagType(Tag.TagType.GENRE);
-                            tag.setName(element.getElementsByTag("a").first().text());
-                            tag.setCount(Integer.valueOf(element.select("span.tag-count").first().text()));
-                            tagSearch.getTags().add(tag);
-                        }
+                        Map<Tag.TagType, List<Tag>> tagMap = new HashMap<>();
+                        tagMap.put(Tag.TagType.GENRE, extractTags(doc, "ul.genre-list > li"));
+                        tagMap.put(Tag.TagType.TAG, extractTags(doc, "ul.tag-list > li"));
 
-                        Elements tagElements = doc.select("ul.tag-list > li");
-                        for (Element element : tagElements) {
-                            Tag tag = new Tag();
-                            tag.setTagType(Tag.TagType.TAG);
-                            tag.setName(element.getElementsByTag("a").first().text());
-                            tag.setCount(Integer.valueOf(element.select("span.tag-count").first().text()));
-                            tagSearch.getTags().add(tag);
-                        }
-                        return Flowable.just(Result.response(Response.success(tagSearch)));
+                        return Flowable.just(Result.response(Response.success(tagMap)));
                     }
                     return Flowable.error(result.error());
                 });
+    }
+
+    private List<Tag> extractTags(Document doc, String sccQuery) {
+        List<Tag> tags = new ArrayList<>();
+        Elements genreElements = doc.select(sccQuery);
+        for (Element element : genreElements) {
+            Tag tag = new Tag();
+            tag.setName(element.getElementsByTag("a").first().text());
+            tag.setCount(Integer.valueOf(element.select("span.tag-count").first().text()));
+            tags.add(tag);
+        }
+        return tags;
     }
 
     @Override
@@ -120,8 +117,6 @@ public class TagService implements TagServiceInterface {
                     return Flowable.error(result.error());
                 });
     }
-
-    //////////////////////////////////////
 
     @Override
     public Flowable<Result<TagEntity.Page>> getTagEntities(String tag, TagType tagType, int page) {
