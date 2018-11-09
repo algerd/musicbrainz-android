@@ -21,11 +21,13 @@ import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Collection;
 import org.musicbrainz.android.api.model.RelationExtractor;
 import org.musicbrainz.android.api.model.Release;
+import org.musicbrainz.android.api.model.ReleaseGroup;
 import org.musicbrainz.android.api.model.Url;
 import org.musicbrainz.android.api.other.CollectionServiceInterface;
 import org.musicbrainz.android.api.site.SiteService;
 import org.musicbrainz.android.communicator.GetCollectionsCommunicator;
 import org.musicbrainz.android.communicator.GetReleaseCommunicator;
+import org.musicbrainz.android.communicator.GetReleaseGroupCommunicator;
 import org.musicbrainz.android.communicator.GetUrlsCommunicator;
 import org.musicbrainz.android.communicator.OnArtistCommunicator;
 import org.musicbrainz.android.communicator.OnRecordingCommunicator;
@@ -65,6 +67,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
         CreateCollectionDialogFragment.DialogFragmentListener,
         OnTagCommunicator,
         GetReleaseCommunicator,
+        GetReleaseGroupCommunicator,
         GetUrlsCommunicator,
         SetWebViewCommunicator {
 
@@ -73,6 +76,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
 
     private String releaseMbid;
     private Release release;
+    private ReleaseGroup releaseGroup;
     private List<Collection> collections;
     private String entityType;
 
@@ -149,6 +153,7 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
                             r.getReleaseGroup().getId(),
                             rg -> {
                                 viewProgressLoading(false);
+                                releaseGroup = rg;
                                 if (!rg.getArtistCredit().isEmpty()) {
                                     Artist.ArtistCredit artistCredit = rg.getArtistCredit().get(0);
                                     topTitle.setText(artistCredit.getName());
@@ -364,5 +369,15 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
         } else {
             return null;
         }
+    }
+
+    @Override
+    public ReleaseGroup getReleaseGroup() {
+        return releaseGroup;
+    }
+
+    @Override
+    public String getReleaseGroupMbid() {
+        return releaseGroup != null ? releaseGroup.getId() : null;
     }
 }

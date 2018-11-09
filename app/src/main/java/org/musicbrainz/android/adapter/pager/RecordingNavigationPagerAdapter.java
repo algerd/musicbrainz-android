@@ -3,12 +3,14 @@ package org.musicbrainz.android.adapter.pager;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 
+import org.musicbrainz.android.fragment.EditTagsPagerFragment;
 import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.RecordingInfoPagerFragment;
 import org.musicbrainz.android.fragment.RecordingLyricsFragment;
 import org.musicbrainz.android.fragment.RecordingRatingsFragment;
-import org.musicbrainz.android.fragment.RecordingTagsFragment;
 import org.musicbrainz.android.fragment.ReleasesFragment;
+
+import static org.musicbrainz.android.fragment.EditTagsPagerFragment.TagsPagerType.RECORDING;
 
 
 public class RecordingNavigationPagerAdapter extends BaseFragmentPagerAdapter {
@@ -36,7 +38,7 @@ public class RecordingNavigationPagerAdapter extends BaseFragmentPagerAdapter {
             case TAB_RATINGS_POS:
                 return RecordingRatingsFragment.newInstance();
             case TAB_TAGS_POS:
-                return RecordingTagsFragment.newInstance();
+                return EditTagsPagerFragment.newInstance(RECORDING.ordinal());
         }
         return null;
     }

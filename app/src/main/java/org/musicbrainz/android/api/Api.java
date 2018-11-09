@@ -48,6 +48,7 @@ import org.musicbrainz.android.api.model.xml.UserTagXML;
 import org.musicbrainz.android.api.other.CollectionService;
 import org.musicbrainz.android.api.other.CollectionServiceInterface;
 import org.musicbrainz.android.api.other.PostWebService;
+import org.musicbrainz.android.api.other.genres.GenresService;
 import org.musicbrainz.android.api.search.ArtistSearchService;
 import org.musicbrainz.android.api.search.RecordingSearchService;
 import org.musicbrainz.android.api.search.RecordingSearchService.RecordingSearchField;
@@ -498,7 +499,12 @@ public class Api {
     public Disposable getArtistTags(String artistMbid, Consumer<Artist> consumer, ErrorHandler errorHandler) {
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe(
-                        new ArtistLookupService(artistMbid).addIncs(ArtistIncType.TAGS, ArtistIncType.USER_TAGS).lookup(),
+                        new ArtistLookupService(artistMbid).addIncs(
+                                ArtistIncType.TAGS,
+                                ArtistIncType.USER_TAGS,
+                                ArtistIncType.GENRES,
+                                ArtistIncType.USER_GENRES)
+                                .lookup(),
                         consumer, errorHandler),
                 errorHandler);
     }
@@ -538,7 +544,12 @@ public class Api {
     public Disposable getRecordingTags(String recordingMbid, Consumer<Recording> consumer, ErrorHandler errorHandler) {
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe(
-                        new RecordingLookupService(recordingMbid).addIncs(RecordingIncType.TAGS, RecordingIncType.USER_TAGS).lookup(),
+                        new RecordingLookupService(recordingMbid).addIncs(
+                                RecordingIncType.TAGS,
+                                RecordingIncType.USER_TAGS,
+                                RecordingIncType.GENRES,
+                                RecordingIncType.USER_GENRES)
+                                .lookup(),
                         consumer, errorHandler),
                 errorHandler);
     }
@@ -570,7 +581,12 @@ public class Api {
     public Disposable getAlbumTags(String albumMbid, Consumer<ReleaseGroup> consumer, ErrorHandler errorHandler) {
         return oauth.refreshToken(
                 () -> ApiHandler.subscribe(
-                        new ReleaseGroupLookupService(albumMbid).addIncs(ReleaseGroupIncType.TAGS, ReleaseGroupIncType.USER_TAGS).lookup(),
+                        new ReleaseGroupLookupService(albumMbid).addIncs(
+                                ReleaseGroupIncType.TAGS,
+                                ReleaseGroupIncType.USER_TAGS,
+                                ReleaseGroupIncType.GENRES,
+                                ReleaseGroupIncType.USER_GENRES)
+                                .lookup(),
                         consumer, errorHandler),
                 errorHandler);
     }
@@ -679,6 +695,12 @@ public class Api {
     public Disposable searchUserFromSite(String user, int page, int limit, Consumer<List<String>> consumer, ErrorHandler errorHandler) {
         return ApiHandler.subscribe(
                 new SearchService().searchUser(user, page, limit),
+                consumer, errorHandler);
+    }
+
+    public Disposable getGenres(Consumer<List<String>> consumer, ErrorHandler errorHandler) {
+        return ApiHandler.subscribe(
+                new GenresService().gerGenres(),
                 consumer, errorHandler);
     }
 

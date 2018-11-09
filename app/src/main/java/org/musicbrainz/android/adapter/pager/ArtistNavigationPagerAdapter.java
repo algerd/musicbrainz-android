@@ -1,14 +1,15 @@
 package org.musicbrainz.android.adapter.pager;
 
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import org.musicbrainz.android.fragment.ArtistInfoPagerFragment;
 import org.musicbrainz.android.fragment.ArtistRatingsFragment;
-import org.musicbrainz.android.fragment.ArtistTagsFragment;
+import org.musicbrainz.android.fragment.EditTagsPagerFragment;
 import org.musicbrainz.android.fragment.LazyFragment;
 import org.musicbrainz.android.fragment.ReleaseGroupsPagerFragment;
+
+import static org.musicbrainz.android.fragment.EditTagsPagerFragment.TagsPagerType.ARTIST;
 
 
 public class ArtistNavigationPagerAdapter extends BaseFragmentPagerAdapter {
@@ -33,7 +34,7 @@ public class ArtistNavigationPagerAdapter extends BaseFragmentPagerAdapter {
             case TAB_RATINGS_POS:
                 return ArtistRatingsFragment.newInstance();
             case TAB_TAGS_POS:
-                return ArtistTagsFragment.newInstance();
+                return EditTagsPagerFragment.newInstance(ARTIST.ordinal());
         }
         return null;
     }
