@@ -107,7 +107,6 @@ public class ReleasesFragment extends LazyFragment implements RetryCallback {
             pagedRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
             pagedRecycler.setNestedScrollingEnabled(true);
             pagedRecycler.setItemViewCacheSize(100);
-            pagedRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             pagedRecycler.setHasFixedSize(true);
             pagedRecycler.setAdapter(adapter);
 

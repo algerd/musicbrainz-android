@@ -26,7 +26,7 @@ import org.musicbrainz.android.data.Status;
 import org.musicbrainz.android.ui.ReleaseGroupsViewModel;
 
 
-public class ReleaseGroupsTabFragment extends Fragment implements RetryCallback {
+public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallback {
 
     private static final String RELEASES_TAB = "RELEASES_TAB";
 
@@ -66,11 +66,12 @@ public class ReleaseGroupsTabFragment extends Fragment implements RetryCallback 
         retryLoadingButton = layout.findViewById(R.id.retryLoadingButton);
         retryLoadingButton.setOnClickListener(view -> retry());
 
-        load();
+        loadView();
         return layout;
     }
 
-    public void load() {
+    @Override
+    protected void lazyLoad() {
         String artistMbid = ((GetArtistCommunicator) getContext()).getArtistMbid();
         if (!TextUtils.isEmpty(artistMbid)) {
             adapter = new ReleaseGroupsAdapter(this);
@@ -84,7 +85,6 @@ public class ReleaseGroupsTabFragment extends Fragment implements RetryCallback 
             pagedRecycler.setLayoutManager(new GridLayoutManager(getContext(), 2));
             pagedRecycler.setNestedScrollingEnabled(true);
             pagedRecycler.setItemViewCacheSize(100);
-            pagedRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             pagedRecycler.setHasFixedSize(true);
             pagedRecycler.setAdapter(adapter);
 

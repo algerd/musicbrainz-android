@@ -66,8 +66,6 @@ public class LinksTabFragment extends Fragment {
     private void configLinksRecycler() {
         linksRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         linksRecycler.setItemViewCacheSize(100);
-        linksRecycler.setDrawingCacheEnabled(true);
-        linksRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         linksRecycler.setHasFixedSize(true);
     }
 

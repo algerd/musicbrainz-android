@@ -77,8 +77,6 @@ public class RecordingCreditsFragment extends Fragment {
     private void configReleaseRecycler() {
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         recycler.setItemViewCacheSize(25);
-        recycler.setDrawingCacheEnabled(true);
-        recycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recycler.setHasFixedSize(true);
     }
 

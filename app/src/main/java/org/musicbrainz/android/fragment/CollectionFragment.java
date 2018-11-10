@@ -99,8 +99,6 @@ public class CollectionFragment extends Fragment {
     private void configCollectionRecycler() {
         collectionRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         collectionRecycler.setItemViewCacheSize(50);
-        collectionRecycler.setDrawingCacheEnabled(true);
-        collectionRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         collectionRecycler.setHasFixedSize(true);
     }
 

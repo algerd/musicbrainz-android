@@ -72,8 +72,6 @@ public class ReleaseCoverArtFragment extends LazyFragment {
     private void configCoverartRecycler() {
         coverartRecycler.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         coverartRecycler.setItemViewCacheSize(50);
-        coverartRecycler.setDrawingCacheEnabled(false);
-        coverartRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         coverartRecycler.setHasFixedSize(true);
     }
 

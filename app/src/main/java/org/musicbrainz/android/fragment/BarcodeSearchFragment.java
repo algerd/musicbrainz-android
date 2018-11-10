@@ -82,8 +82,6 @@ public class BarcodeSearchFragment extends Fragment implements
     private void configReleaseRecycler() {
         releaseRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         releaseRecycler.setItemViewCacheSize(50);
-        releaseRecycler.setDrawingCacheEnabled(true);
-        releaseRecycler.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         releaseRecycler.setHasFixedSize(true);
     }
 
