@@ -5,5 +5,5 @@ package org.musicbrainz.android.communicator;
  */
 
 public interface OnTagCommunicator {
-    void onTag(String tag);
+    void onTag(String tag, boolean isGenre);
 }

@@ -29,7 +29,9 @@ public class TagActivity extends BaseActivity implements
     public static final String PAGER_POSITION = "PAGER_POSITION";
     public static final String MB_TAG = "MB_TAG";
     public static final String TAG_TAB_ORDINAL = "TAG_TAB_ORDINAL";
+    public static final String IS_GENRE = "IS_GENRE";
 
+    private boolean isGenre;
     private String tag;
     private int tagTabOrdianal;
     private boolean isLoading;
@@ -55,9 +57,11 @@ public class TagActivity extends BaseActivity implements
         loading = findViewById(R.id.loading);
 
         if (savedInstanceState != null) {
+            isGenre = savedInstanceState.getBoolean(IS_GENRE);
             tag = savedInstanceState.getString(MB_TAG);
             tagTabOrdianal = savedInstanceState.getInt(TAG_TAB_ORDINAL);
         } else {
+            isGenre = getIntent().getBooleanExtra(IS_GENRE, false);
             tag = getIntent().getStringExtra(MB_TAG);
             tagTabOrdianal = getIntent().getIntExtra(TAG_TAB_ORDINAL, 0);
         }
@@ -65,7 +69,7 @@ public class TagActivity extends BaseActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView topTitle = findViewById(R.id.toolbar_title_top);
         TextView bottomTitle = findViewById(R.id.toolbar_title_bottom);
-        topTitle.setText(R.string.tag_title);
+        topTitle.setText(isGenre ? R.string.genre_title : R.string.tag_title);
         bottomTitle.setText(tag);
 
         configurePager();
@@ -83,6 +87,7 @@ public class TagActivity extends BaseActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putBoolean(IS_GENRE, isGenre);
         outState.putString(MB_TAG, tag);
         outState.putInt(TAG_TAB_ORDINAL, tagTabOrdianal);
         outState.putInt(PAGER_POSITION, tabLayout.getSelectedTabPosition());
@@ -91,6 +96,7 @@ public class TagActivity extends BaseActivity implements
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        isGenre = savedInstanceState.getBoolean(IS_GENRE);
         tag = savedInstanceState.getString(MB_TAG);
         tagTabOrdianal = savedInstanceState.getInt(TAG_TAB_ORDINAL, 0);
         viewPager.setCurrentItem(savedInstanceState.getInt(PAGER_POSITION));

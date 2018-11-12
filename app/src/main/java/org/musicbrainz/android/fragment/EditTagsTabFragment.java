@@ -83,7 +83,8 @@ public class EditTagsTabFragment extends Fragment {
         final List<Tag> tags = new ArrayList<>();
         final List<Tag> userTags = new ArrayList<>();
 
-        switch (EditTagsPagerAdapter.TagsTab.values()[tagsTab]) {
+        EditTagsPagerAdapter.TagsTab tagType = EditTagsPagerAdapter.TagsTab.values()[tagsTab];
+        switch (tagType) {
             case TAGS:
                 List<Tag> genres = parent.getGenres();
                 for (Tag tag : parent.getTags()) {
@@ -108,8 +109,9 @@ public class EditTagsTabFragment extends Fragment {
         if (!tags.isEmpty()) {
             configRecycler();
             TagAdapter adapter = new TagAdapter(tags, userTags);
+
             adapter.setHolderClickListener(pos ->
-                    ((OnTagCommunicator) getContext()).onTag(tags.get(pos).getName()));
+                    ((OnTagCommunicator) getContext()).onTag(tags.get(pos).getName(), tagType.equals(EditTagsPagerAdapter.TagsTab.GENRES)));
             tagsRecycler.setAdapter(adapter);
 
             adapter.setOnVoteTagListener((position) -> {

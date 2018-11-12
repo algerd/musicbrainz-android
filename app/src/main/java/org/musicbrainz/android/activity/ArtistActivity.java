@@ -108,7 +108,7 @@ public class ArtistActivity extends BaseBottomNavActivity implements
 
                 case R.id.artist_nav_tags:
                     viewPager.setCurrentItem(TAB_TAGS_POS);
-                    topTitle.setText(R.string.title_artist_tags);
+                    topTitle.setText(R.string.title_tags_genres);
                     break;
             }
             return true;
@@ -338,8 +338,8 @@ public class ArtistActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.ARTIST);
+    public void onTag(String tag, boolean isGenre) {
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.ARTIST, isGenre);
     }
 
     @Override

@@ -37,15 +37,16 @@ public class ActivityFactory {
         context.startActivity(intent);
     }
 
-    public static void startTagActivity(Context context, String tag, TagPagerAdapter.TagTab tagTab) {
+    public static void startTagActivity(Context context, String tag, TagPagerAdapter.TagTab tagTab, boolean isGenre) {
         Intent intent = new Intent(context, TagActivity.class);
+        intent.putExtra(TagActivity.IS_GENRE, isGenre);
         intent.putExtra(TagActivity.MB_TAG, tag);
         intent.putExtra(TagActivity.TAG_TAB_ORDINAL, tagTab.ordinal());
         context.startActivity(intent);
     }
 
-    public static void startTagActivity(Context context, String tag) {
-        startTagActivity(context, tag, TagPagerAdapter.TagTab.ARTIST);
+    public static void startTagActivity(Context context, String tag, boolean isGenre) {
+        startTagActivity(context, tag, TagPagerAdapter.TagTab.ARTIST, isGenre);
     }
 
     public static void startUserActivity(Context context, String username) {

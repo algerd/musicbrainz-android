@@ -266,8 +266,8 @@ public class RecordingActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RECORDING);
+    public void onTag(String tag, boolean isGenre) {
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RECORDING, isGenre);
     }
 
     @Override

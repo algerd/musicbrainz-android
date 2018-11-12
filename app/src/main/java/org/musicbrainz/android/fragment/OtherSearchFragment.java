@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Spinner;
@@ -15,6 +16,7 @@ import android.widget.Spinner;
 import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.activity.SearchType;
+import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.suggestion.SuggestionHelper;
 
 import java.util.ArrayList;
@@ -25,11 +27,15 @@ public class OtherSearchFragment extends Fragment {
 
     public interface OtherSearchFragmentListener {
         void searchType(SearchType searchType, String query);
+        List<String> getGenres();
     }
+
+    private List<String> genres = new ArrayList<>();
 
     private SuggestionHelper suggestionHelper;
     private AutoCompleteTextView searchField;
     private Spinner searchTypeSpinner;
+    private ArrayAdapter<String> adapter;
 
     public static SearchFragment newInstance() {
         Bundle args = new Bundle();
@@ -44,6 +50,7 @@ public class OtherSearchFragment extends Fragment {
 
         searchTypeSpinner = layout.findViewById(R.id.search_spin);
         searchField = layout.findViewById(R.id.query_input);
+
         searchField.setOnEditorActionListener((view, actionId, event) -> search());
         layout.findViewById(R.id.search_btn).setOnClickListener(view -> search());
 
@@ -65,15 +72,48 @@ public class OtherSearchFragment extends Fragment {
         ArrayAdapter<CharSequence> typeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, types);
         typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         searchTypeSpinner.setAdapter(typeAdapter);
+
+        searchTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
+                if (SearchType.TAG.ordinal() == pos) {
+                    if (genres.isEmpty()) {
+                        genres = ((OtherSearchFragmentListener) getContext()).getGenres();
+                    }
+                    if (!genres.isEmpty()) {
+                        if (adapter == null) {
+                            adapter = new ArrayAdapter<>(
+                                    getContext(),
+                                    android.R.layout.simple_dropdown_item_1line,
+                                    genres.toArray(new String[genres.size()]));
+                        }
+                        searchField.setThreshold(1);
+                        searchField.setAdapter(adapter);
+                    }
+                } else {
+                    if (MusicBrainzApp.getPreferences().isSearchSuggestionsEnabled()) {
+                        searchField.setThreshold(2);
+                        searchField.setAdapter(suggestionHelper.getAdapter());
+                    } else {
+                        searchField.setAdapter(suggestionHelper.getEmptyAdapter());
+                    }
+                }
+            }
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
     }
 
     private boolean search() {
-        String query = searchField.getText().toString().trim();
+        String query = searchField.getText().toString().trim().toLowerCase();
         if (!TextUtils.isEmpty(query)) {
             hideKeyboard();
-            SearchType searchType = SearchType.values()[searchTypeSpinner.getSelectedItemPosition()];
-            ((OtherSearchFragmentListener) getContext()).searchType(searchType, query);
-            searchField.setText("");
+
+            if (genres.contains(query)) {
+                ActivityFactory.startTagActivity(getContext(), query, true);
+            } else {
+                SearchType searchType = SearchType.values()[searchTypeSpinner.getSelectedItemPosition()];
+                ((OtherSearchFragmentListener) getContext()).searchType(searchType, query);
+            }
         }
         return false;
     }
@@ -81,16 +121,6 @@ public class OtherSearchFragment extends Fragment {
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(searchField.getWindowToken(), 0);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (MusicBrainzApp.getPreferences().isSearchSuggestionsEnabled()) {
-            searchField.setAdapter(suggestionHelper.getAdapter());
-        } else {
-            searchField.setAdapter(suggestionHelper.getEmptyAdapter());
-        }
     }
 
 }

@@ -28,6 +28,14 @@
 
         </android.support.design.widget.AppBarLayout>
 
+        <include
+            android:id="@+id/error"
+            layout="@layout/layout_retry"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:visibility="gone"/>
+
         <fragment
             android:id="@+id/search_fragment"
             android:name="org.musicbrainz.android.fragment.SearchFragment"
@@ -38,7 +46,7 @@
             android:layout_marginEnd="10dp"/>
 
         <fragment
-            android:id="@+id/user_search_fragment"
+            android:id="@+id/selected_search_fragment"
             android:name="org.musicbrainz.android.fragment.OtherSearchFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,9 +63,9 @@
             android:layout_marginEnd="10dp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="gone"
             cardview:cardBackgroundColor="@color/colorPrimaryLight"
-            cardview:cardCornerRadius="2dp"
-            android:visibility="gone">
+            cardview:cardCornerRadius="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

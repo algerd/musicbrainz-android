@@ -333,8 +333,8 @@ public class ReleaseActivity extends BaseBottomNavActivity implements
     }
 
     @Override
-    public void onTag(String tag) {
-        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RELEASE_GROUP);
+    public void onTag(String tag, boolean isGenre) {
+        ActivityFactory.startTagActivity(this, tag, TagPagerAdapter.TagTab.RELEASE_GROUP, isGenre);
     }
 
     @Override

@@ -218,10 +218,10 @@ public class SearchActivity extends BaseActivity implements
                         SearchListAdapter adapter = new SearchListAdapter(strings);
                         searchRecycler.setAdapter(adapter);
                         adapter.setHolderClickListener(position ->
-                                ActivityFactory.startTagActivity(this, strings.get(position)));
+                                ActivityFactory.startTagActivity(this, strings.get(position), false));
                         saveQueryAsSuggestion();
                         if (strings.size() == 1) {
-                            ActivityFactory.startTagActivity(this, strings.get(0));
+                            ActivityFactory.startTagActivity(this, strings.get(0), false);
                         }
                     }
                 },

@@ -152,8 +152,6 @@ public class EditTagsPagerFragment extends LazyFragment implements
                                 allGenres.toArray(new String[allGenres.size()]));
                         tagInput.setThreshold(1);
                         tagInput.setAdapter(adapter);
-                        //tagInput.setOnItemSelectedListener(this);
-                        //tagInput.setOnItemClickListener(this);
                     },
                     this::showConnectionWarning);
         }

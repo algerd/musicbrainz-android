@@ -37,7 +37,7 @@
     <string name="vote_tag">Vote Tag</string>
     <string name="rate_entity">Rate: %1$s</string>
     <string name="edit_login">You must log in before you can edit!</string>
-    <string name="tag_hint">Tag</string>
+    <string name="tag_hint">Tag (genre)</string>
 
     <!-- UserActivity -->
     <string name="user_field_hint">Username</string>
@@ -308,6 +308,9 @@
 
     <!-- TagActivity -->
     <string name="tag_title">Tag</string>
+    <string name="genre_title">Genre</string>
+
+    <string name="title_tags_genres">Tags/Genres</string>
 
     <!-- UserActivity -->
     <string name="title_user_profile">Profile</string>

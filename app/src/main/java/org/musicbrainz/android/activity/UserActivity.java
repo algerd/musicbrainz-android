@@ -128,7 +128,7 @@ public class UserActivity extends BaseBottomNavActivity implements
 
                 case R.id.user_navigation_tags:
                     viewPager.setCurrentItem(TAB_TAGS_POS);
-                    topTitle.setText(R.string.title_user_tags);
+                    topTitle.setText(R.string.title_tags_genres);
                     break;
 
                 case R.id.user_navigation_recommends:
