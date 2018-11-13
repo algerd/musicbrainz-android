@@ -2,14 +2,12 @@ package org.musicbrainz.android.activity;
 
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.R;
@@ -22,18 +20,15 @@ import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Recording;
 import org.musicbrainz.android.api.model.Release;
 import org.musicbrainz.android.api.model.ReleaseGroup;
-import org.musicbrainz.android.api.model.Tag;
 import org.musicbrainz.android.communicator.GetReleasesCommunicator;
 import org.musicbrainz.android.communicator.LoadingCommunicator;
 import org.musicbrainz.android.communicator.OnReleaseCommunicator;
-import org.musicbrainz.android.dialog.ConfirmBarcodeDialog;
 import org.musicbrainz.android.dialog.PagedReleaseDialogFragment;
 import org.musicbrainz.android.fragment.BarcodeSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.suggestion.SuggestionProvider;
 import org.musicbrainz.android.util.ShowUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
@@ -42,9 +37,7 @@ import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 public class SearchActivity extends BaseActivity implements
         OnReleaseCommunicator,
-        BarcodeSearchFragment.BarcodeSearchFragmentListener,
         GetReleasesCommunicator,
-        ConfirmBarcodeDialog.DialogFragmentListener,
         LoadingCommunicator {
 
     // artistSearch:
@@ -58,7 +51,6 @@ public class SearchActivity extends BaseActivity implements
     public static final String SEARCH_TYPE = "SEARCH_TYPE";
 
     private List<Release> releases;
-    private Release release;
     private String artistSearch;
     private String albumSearch;
     private String trackSearch;
@@ -430,41 +422,6 @@ public class SearchActivity extends BaseActivity implements
     @Override
     public List<Release> getReleases() {
         return releases;
-    }
-
-    @Override
-    public void onBarcodeRelease(Release release) {
-        this.release = release;
-        DialogFragment submitDialog = new ConfirmBarcodeDialog();
-        submitDialog.show(getSupportFragmentManager(), ConfirmBarcodeDialog.TAG);
-    }
-
-    @Override
-    public Release getRelease() {
-        return release;
-    }
-
-    @Override
-    public void confirmSubmission() {
-        viewError(false);
-        viewProgressLoading(true);
-        api.postBarcode(
-                release.getId(), searchQuery,
-                metadata -> {
-                    viewProgressLoading(false);
-                    if (metadata.getMessage().getText().equals("OK")) {
-                        Toast.makeText(this, getString(R.string.barcode_added), Toast.LENGTH_SHORT).show();
-                    } else {
-                        ShowUtil.showMessage(this, "Error ");
-                    }
-                },
-                t -> {
-                    ShowUtil.showError(this, t);
-                    viewProgressLoading(false);
-                    viewError(true);
-                    error.findViewById(R.id.retry_button).setOnClickListener(v -> confirmSubmission());
-                }
-        );
     }
 
 }

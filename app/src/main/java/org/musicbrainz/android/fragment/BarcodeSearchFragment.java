@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -20,24 +21,25 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.recycler.ReleaseAdapter;
 import org.musicbrainz.android.api.model.Release;
+import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
 
+import java.util.List;
+
 import static org.musicbrainz.android.MusicBrainzApp.api;
+import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 
-public class BarcodeSearchFragment extends Fragment implements
-        TextWatcher {
-
-    public interface BarcodeSearchFragmentListener {
-        void onBarcodeRelease(Release release);
-    }
+public class BarcodeSearchFragment extends Fragment implements TextWatcher {
 
     private static final String BARCODE = "barcode";
+
+    private String barcode;
+    private boolean isLoading;
+    private boolean isError;
 
     private RecyclerView releaseRecycler;
     private AutoCompleteTextView barcodeText;
@@ -46,6 +48,7 @@ public class BarcodeSearchFragment extends Fragment implements
     private ImageButton searchButton;
     private TextView instructions;
     private TextView noResults;
+    private View contentContainer;
     private View loading;
     private View error;
 
@@ -70,9 +73,11 @@ public class BarcodeSearchFragment extends Fragment implements
         noResults = layout.findViewById(R.id.noresults);
         loading = layout.findViewById(R.id.loading);
         error = layout.findViewById(R.id.error);
+        contentContainer = layout.findViewById(R.id.container);
         releaseRecycler = layout.findViewById(R.id.release_recycler);
 
-        barcodeText.setText(getArguments().getString(BARCODE));
+        barcode = getArguments().getString(BARCODE);
+        barcodeText.setText(barcode);
 
         setListeners();
         configReleaseRecycler();
@@ -87,12 +92,16 @@ public class BarcodeSearchFragment extends Fragment implements
 
     private void setListeners() {
         searchBox.setOnEditorActionListener((v, actionId, event) -> {
-            if (v.getId() == R.id.release_search && actionId == EditorInfo.IME_NULL) {
+            if (v.getId() == R.id.release_search && actionId == EditorInfo.IME_NULL && !isLoading) {
                 search();
             }
             return false;
         });
-        searchButton.setOnClickListener(v -> search());
+        searchButton.setOnClickListener(v -> {
+            if (!isLoading) {
+                search();
+            }
+        });
         barcodeText.addTextChangedListener(this);
     }
 
@@ -102,27 +111,31 @@ public class BarcodeSearchFragment extends Fragment implements
     }
 
     private void search() {
-        error.setVisibility(View.GONE);
-        instructions.setVisibility(View.INVISIBLE);
         noResults.setVisibility(View.GONE);
-        loading.setVisibility(View.GONE);
+        viewError(false);
+        viewProgressLoading(false);
+
+        instructions.setVisibility(View.INVISIBLE);
         releaseRecycler.setAdapter(null);
 
         String term = searchBox.getText().toString().trim();
         if (!TextUtils.isEmpty(term)) {
             hideKeyboard();
 
-            loading.setVisibility(View.VISIBLE);
+            viewProgressLoading(true);
             api.searchRelease(
                     searchArtist.getText().toString().trim(), term,
                     releaseSearch -> {
-                        loading.setVisibility(View.GONE);
+                        viewProgressLoading(false);
                         if (releaseSearch.getCount() > 0) {
                             List<Release> releases = releaseSearch.getReleases();
                             ReleaseAdapter adapter = new ReleaseAdapter(releases, "");
                             releaseRecycler.setAdapter(adapter);
-                            adapter.setHolderClickListener(position ->
-                                    ((BarcodeSearchFragmentListener) getContext()).onBarcodeRelease(releases.get(position)));
+                            adapter.setHolderClickListener(position -> {
+                                if (!isLoading) {
+                                    showAddBarcodeDialog(releases.get(position).getId());
+                                }
+                            });
                         } else {
                             noResults.setVisibility(View.VISIBLE);
                         }
@@ -135,10 +148,51 @@ public class BarcodeSearchFragment extends Fragment implements
         }
     }
 
+    private void showAddBarcodeDialog(String releaseMbid) {
+        View titleView = getLayoutInflater().inflate(R.layout.layout_custom_alert_dialog_title, null);
+        TextView titleText = titleView.findViewById(R.id.title_text);
+        titleText.setText(getString(R.string.barcode_add_header));
+        if (oauth.hasAccount()) {
+            new AlertDialog.Builder(getContext())
+                    .setCustomTitle(titleView)
+                    .setMessage(getString(R.string.barcode_add_info))
+                    .setPositiveButton(R.string.barcode_add_btn, (dialog, which) -> confirmSubmission(releaseMbid))
+                    .setNegativeButton(R.string.barcode_cancel, (dialog, which) -> dialog.cancel())
+                    .show();
+        } else {
+            new AlertDialog.Builder(getContext())
+                    .setCustomTitle(titleView)
+                    .setMessage(R.string.barcode_info_nolog)
+                    .setPositiveButton(R.string.login, (dialog, which) -> ActivityFactory.startLoginActivity(getContext()));
+        }
+    }
+
+    public void confirmSubmission(String releaseMbid) {
+        viewError(false);
+        viewProgressLoading(true);
+        api.postBarcode(
+                releaseMbid, barcode,
+                metadata -> {
+                    viewProgressLoading(false);
+                    if (metadata.getMessage().getText().equals("OK")) {
+                        Toast.makeText(getContext(), getString(R.string.barcode_added), Toast.LENGTH_SHORT).show();
+                    } else {
+                        ShowUtil.showMessage(getActivity(), "Error ");
+                    }
+                },
+                t -> {
+                    ShowUtil.showError(getActivity(), t);
+                    viewProgressLoading(false);
+                    viewError(true);
+                    error.findViewById(R.id.retry_button).setOnClickListener(v -> confirmSubmission(releaseMbid));
+                }
+        );
+    }
+
     private void showConnectionWarning(Throwable t) {
         ShowUtil.showError(getActivity(), t);
-        loading.setVisibility(View.GONE);
-        error.setVisibility(View.VISIBLE);
+        viewProgressLoading(false);
+        viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> search());
     }
 
@@ -174,6 +228,30 @@ public class BarcodeSearchFragment extends Fragment implements
             }
         }
         return true;
+    }
+
+    protected void viewProgressLoading(boolean isView) {
+        if (isView) {
+            isLoading = true;
+            contentContainer.setAlpha(0.3F);
+            loading.setVisibility(View.VISIBLE);
+        } else {
+            isLoading = false;
+            contentContainer.setAlpha(1.0F);
+            loading.setVisibility(View.GONE);
+        }
+    }
+
+    protected void viewError(boolean isView) {
+        if (isView) {
+            isError = true;
+            contentContainer.setVisibility(View.INVISIBLE);
+            error.setVisibility(View.VISIBLE);
+        } else {
+            isError = false;
+            contentContainer.setVisibility(View.VISIBLE);
+            error.setVisibility(View.GONE);
+        }
     }
 
 }

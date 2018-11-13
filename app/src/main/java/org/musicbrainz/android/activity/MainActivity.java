@@ -2,11 +2,10 @@ package org.musicbrainz.android.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 
 import org.musicbrainz.android.R;
-import org.musicbrainz.android.fragment.OtherSearchFragment;
 import org.musicbrainz.android.fragment.SearchFragment;
+import org.musicbrainz.android.fragment.SelectedSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.util.ShowUtil;
 
@@ -16,9 +15,10 @@ import java.util.List;
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
+
 public class MainActivity extends BaseActivity implements
         SearchFragment.SearchFragmentListener,
-        OtherSearchFragment.OtherSearchFragmentListener {
+        SelectedSearchFragment.SelectedSearchFragmentListener {
 
     private List<String> genres = new ArrayList<>();
 
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     @Override
-    public void searchTrack(String artist, String album, String track) {
+    public void searchEntity(String artist, String album, String track) {
         ActivityFactory.startSearchActivity(this, artist, album, track);
     }
 

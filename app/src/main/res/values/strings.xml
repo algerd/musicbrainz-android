@@ -209,7 +209,7 @@
     <string name="barcode_artist_hint">Search artist</string>
     <string name="barcode_artist_text_hint">Artist</string>
 
-    <!-- ConfirmBarcodeDialog -->
+    <!-- ConfirmBarcode -->
     <string name="barcode_add_header">Submit barcode?</string>
     <string name="barcode_add_info">This will submit an edit for peer review. The barcode will not be added immediately.</string>
     <string name="barcode_add_btn">Submit</string>

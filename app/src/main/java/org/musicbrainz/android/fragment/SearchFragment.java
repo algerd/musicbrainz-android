@@ -18,7 +18,7 @@ import org.musicbrainz.android.suggestion.SuggestionHelper;
 public class SearchFragment extends Fragment {
 
     public interface SearchFragmentListener {
-        void searchTrack(String artist, String album, String track);
+        void searchEntity(String artist, String album, String track);
     }
 
     private SuggestionHelper suggestionHelper;
@@ -53,7 +53,7 @@ public class SearchFragment extends Fragment {
 
         if (!TextUtils.isEmpty(track) || !TextUtils.isEmpty(album) || !TextUtils.isEmpty(artist)) {
             hideKeyboard();
-            ((SearchFragmentListener) getContext()).searchTrack(artist, album, track);
+            ((SearchFragmentListener) getContext()).searchEntity(artist, album, track);
         }
 
         artistField.setText("");

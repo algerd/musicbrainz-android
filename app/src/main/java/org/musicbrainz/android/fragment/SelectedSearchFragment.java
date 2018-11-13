@@ -23,9 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class OtherSearchFragment extends Fragment {
+public class SelectedSearchFragment extends Fragment {
 
-    public interface OtherSearchFragmentListener {
+    public interface SelectedSearchFragmentListener {
         void searchType(SearchType searchType, String query);
         List<String> getGenres();
     }
@@ -46,7 +46,7 @@ public class OtherSearchFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_other_search, container, false);
+        View layout = inflater.inflate(R.layout.fragment_selected_search, container, false);
 
         searchTypeSpinner = layout.findViewById(R.id.search_spin);
         searchField = layout.findViewById(R.id.query_input);
@@ -77,7 +77,7 @@ public class OtherSearchFragment extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
                 if (SearchType.TAG.ordinal() == pos) {
                     if (genres.isEmpty()) {
-                        genres = ((OtherSearchFragmentListener) getContext()).getGenres();
+                        genres = ((SelectedSearchFragmentListener) getContext()).getGenres();
                     }
                     if (!genres.isEmpty()) {
                         if (adapter == null) {
@@ -112,7 +112,7 @@ public class OtherSearchFragment extends Fragment {
                 ActivityFactory.startTagActivity(getContext(), query, true);
             } else {
                 SearchType searchType = SearchType.values()[searchTypeSpinner.getSelectedItemPosition()];
-                ((OtherSearchFragmentListener) getContext()).searchType(searchType, query);
+                ((SelectedSearchFragmentListener) getContext()).searchType(searchType, query);
             }
         }
         return false;

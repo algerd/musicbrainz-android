@@ -47,7 +47,7 @@
 
         <fragment
             android:id="@+id/selected_search_fragment"
-            android:name="org.musicbrainz.android.fragment.OtherSearchFragment"
+            android:name="org.musicbrainz.android.fragment.SelectedSearchFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
