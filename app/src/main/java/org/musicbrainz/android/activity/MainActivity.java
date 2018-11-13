@@ -7,7 +7,6 @@ import org.musicbrainz.android.R;
 import org.musicbrainz.android.fragment.SearchFragment;
 import org.musicbrainz.android.fragment.SelectedSearchFragment;
 import org.musicbrainz.android.intent.ActivityFactory;
-import org.musicbrainz.android.util.ShowUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,12 @@ public class MainActivity extends BaseActivity implements
         SelectedSearchFragment.SelectedSearchFragmentListener {
 
     private List<String> genres = new ArrayList<>();
+    private boolean isLoading;
+    private boolean isError;
 
+    private View contentView;
     private View errorView;
+    protected View loading;
     private View logInBtn;
 
     @Override
@@ -34,8 +37,10 @@ public class MainActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        contentView = findViewById(R.id.content);
         logInBtn = findViewById(R.id.log_in_btn);
         errorView = findViewById(R.id.error);
+        loading = findViewById(R.id.loading);
 
         if (!oauth.hasAccount()) {
             logInBtn.setVisibility(View.VISIBLE);
@@ -45,8 +50,14 @@ public class MainActivity extends BaseActivity implements
     }
 
     private void load() {
-        errorView.setVisibility(View.GONE);
-        api.getGenres(g -> genres = g, this::showConnectionWarning);
+        viewError(false);
+
+        viewProgressLoading(true);
+        api.getGenres(g -> {
+                    viewProgressLoading(false);
+                    genres = g;
+                },
+                this::showConnectionWarning);
     }
 
     @Override
@@ -59,23 +70,51 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void searchEntity(String artist, String album, String track) {
-        ActivityFactory.startSearchActivity(this, artist, album, track);
+        if (!isLoading && !isError) {
+            ActivityFactory.startSearchActivity(this, artist, album, track);
+        }
     }
 
     @Override
     public void searchType(SearchType searchType, String query) {
-        ActivityFactory.startSearchActivity(this, query, searchType);
+        if (!isLoading && !isError) {
+            ActivityFactory.startSearchActivity(this, query, searchType);
+        }
     }
 
     protected void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(this, t);
-        errorView.setVisibility(View.VISIBLE);
+        viewProgressLoading(false);
+        viewError(true);
         errorView.findViewById(R.id.retry_button).setOnClickListener(v -> load());
     }
 
     @Override
     public List<String> getGenres() {
         return genres;
+    }
+
+    protected void viewError(boolean isView) {
+        if (isView) {
+            isError = true;
+            contentView.setVisibility(View.INVISIBLE);
+            errorView.setVisibility(View.VISIBLE);
+        } else {
+            isError = false;
+            errorView.setVisibility(View.GONE);
+            contentView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void viewProgressLoading(boolean isView) {
+        if (isView) {
+            isLoading = true;
+            contentView.setAlpha(0.25F);
+            loading.setVisibility(View.VISIBLE);
+        } else {
+            isLoading = false;
+            contentView.setAlpha(1.0F);
+            loading.setVisibility(View.GONE);
+        }
     }
 
 }
