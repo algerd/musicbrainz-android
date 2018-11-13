@@ -102,8 +102,9 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
             String f = StringFormat.buildReleaseFormatsString(itemView.getContext(), medias);
             format.setText(itemView.getResources().getString(R.string.r_tracks, f, trackCount));
 
-            if (release.getCoverArt() != null &&
-                    release.getCoverArt().getFront() != null && release.getCoverArt().getFront()) {
+            // api.searchRelease() не возвращает release.coverArt, поэтому необходимо убрать это условие
+            //if (release.getCoverArt() != null &&
+            //        release.getCoverArt().getFront() != null && release.getCoverArt().getFront()) {
 
                 showImageProgressLoading(true);
                 api.getReleaseCoverArt(
@@ -128,9 +129,9 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
                             }
                         },
                         t -> showImageProgressLoading(false));
-            } else {
-                showImageProgressLoading(false);
-            }
+            //} else {
+            //    showImageProgressLoading(false);
+            //}
         }
 
         private void showImageProgressLoading(boolean show) {
