@@ -236,6 +236,8 @@
     <string name="nav_user_ratings">Ratings</string>
     <string name="nav_user_tags">Tags</string>
     <string name="nav_user_recommends">Recommends</string>
+    <string name="nav_user_logout">Log Out</string>
+    <string name="nav_user_login">Log In</string>
     <string name="nav_support">Support</string>
     <string name="nav_feedback">Feedback</string>
     <string name="nav_open_drawer">Open navigation drawer</string>

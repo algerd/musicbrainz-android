@@ -44,7 +44,11 @@ public class MainActivity extends BaseActivity implements
 
         if (!oauth.hasAccount()) {
             logInBtn.setVisibility(View.VISIBLE);
-            logInBtn.setOnClickListener(v -> ActivityFactory.startLoginActivity(this));
+            logInBtn.setOnClickListener(v -> {
+                if (!isLoading && !isError) {
+                    ActivityFactory.startLoginActivity(this);
+                }
+            });
         }
         load();
     }

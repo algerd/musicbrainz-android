@@ -88,6 +88,11 @@ public abstract class BaseActivity extends AppCompatActivity implements
             case R.id.nav_user_recommends:
                 startUserActivity(R.id.user_navigation_recommends);
                 break;
+            case R.id.nav_user_logout:
+                //todo: add confirm dialog?
+                oauth.logOut();
+                ActivityFactory.startMainActivity(this);
+                break;
 
             // Support:
             case R.id.nav_feedback:

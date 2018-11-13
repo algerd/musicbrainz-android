@@ -18,6 +18,7 @@ import org.musicbrainz.android.functions.DisposableAction;
 import org.musicbrainz.android.functions.ErrorHandler;
 import org.musicbrainz.android.util.ShowUtil;
 
+import static org.musicbrainz.android.MusicBrainzApp.oauth;
 import static org.musicbrainz.android.account.MusicBrainzAccount.ACCESS_TOKEN;
 import static org.musicbrainz.android.account.MusicBrainzAccount.ACCOUNT_TYPE;
 import static org.musicbrainz.android.account.MusicBrainzAccount.EXPIRE_IN;
@@ -71,6 +72,13 @@ public class OAuth {
                     if (action != null) action.run();
                 },
                 errorHandler);
+    }
+
+    public void logOut() {
+        if (hasAccount()) {
+            accountManager.removeAccountExplicitly(account);
+            account = null;
+        }
     }
 
     public Disposable refreshToken(@NonNull Context context, DisposableAction action) {
