@@ -71,7 +71,11 @@ public class ReleaseGroup extends BaseLookupEntity {
         SINGLE("single"),
         EP("ep"),
         BROADCAST("broadcast"),
-        OTHER("other");
+        OTHER("other"),
+
+        EMPTY(""),
+        ANY("(*)"),
+        NOTHING("(-*)");
 
         private final String type;
         PrimaryType (String type) {
@@ -96,7 +100,11 @@ public class ReleaseGroup extends BaseLookupEntity {
         REMIX("remix"),
         DJ_MIX("dj-mix"),
         MIXTAPE("mixtape"),
-        STREET("street");
+        STREET("street"),
+
+        EMPTY(""),
+        ANY("(*)"),
+        NOTHING("(-*)");
 
         private final String type;
         SecondaryType (String type) {

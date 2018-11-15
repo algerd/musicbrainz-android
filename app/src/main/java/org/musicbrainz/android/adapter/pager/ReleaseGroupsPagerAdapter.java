@@ -21,10 +21,9 @@ public class ReleaseGroupsPagerAdapter extends BaseFragmentPagerAdapter {
     public enum ReleaseTab {
         ALBUMS(ALBUM, R.string.release_group_albums),
         EPS(EP, R.string.release_group_eps),
-        LIVES(LIVE, R.string.release_group_lives),
-        COMPILATIONS(COMPILATION, R.string.release_group_compilations),
         SINGLES(SINGLE, R.string.release_group_singles),
-        OTHERS(OTHER, R.string.release_group_other);
+        LIVES(LIVE, R.string.release_group_lives),
+        COMPILATIONS(COMPILATION, R.string.release_group_compilations);
 
         private final ReleaseGroup.AlbumType type;
         private int title;

@@ -4,6 +4,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
 import android.support.annotation.NonNull;
 
+import org.musicbrainz.android.api.model.ReleaseGroup;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,28 +15,60 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Action;
 import io.reactivex.schedulers.Schedulers;
-import org.musicbrainz.android.api.model.ReleaseGroup;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
+import static org.musicbrainz.android.api.model.ReleaseGroup.PrimaryType.ALBUM;
+import static org.musicbrainz.android.api.model.ReleaseGroup.PrimaryType.EMPTY;
+import static org.musicbrainz.android.api.model.ReleaseGroup.PrimaryType.EP;
+import static org.musicbrainz.android.api.model.ReleaseGroup.PrimaryType.SINGLE;
+import static org.musicbrainz.android.api.model.ReleaseGroup.SecondaryType.COMPILATION;
+import static org.musicbrainz.android.api.model.ReleaseGroup.SecondaryType.LIVE;
 
 public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, ReleaseGroup> {
 
-    public static final int RELEASE_GROUPE_BROWSE_LIMIT = 25;
+    public static final int RELEASE_GROUPE_BROWSE_LIMIT = 50;
 
     private CompositeDisposable compositeDisposable;
     private ReleaseGroup.AlbumType albumType;
+    private ReleaseGroup.PrimaryType primaryType;
+    private ReleaseGroup.SecondaryType secondaryType;
+    private List<ReleaseGroup> officialReleaseGroups = new ArrayList<>();
     private String artistMbid;
+
+    private MutableLiveData<Boolean> mutableIsOfficial;
     private MutableLiveData<NetworkState> networkState = new MutableLiveData<>();
     private MutableLiveData<NetworkState> initialLoad = new MutableLiveData<>();
-    /**
-     * Keep Completable reference for the retry event
-     */
     private Completable retryCompletable;
 
-    public ReleaseGroupsDataSource(CompositeDisposable compositeDisposable, String artistMbid, ReleaseGroup.AlbumType albumType) {
+
+    public ReleaseGroupsDataSource(CompositeDisposable compositeDisposable, String artistMbid, ReleaseGroup.AlbumType albumType, MutableLiveData<Boolean> mutableIsOfficial) {
         this.artistMbid = artistMbid;
-        this.albumType = albumType;
         this.compositeDisposable = compositeDisposable;
+        this.mutableIsOfficial = mutableIsOfficial;
+        this.albumType = albumType;
+
+        if (mutableIsOfficial.getValue()) {
+            if (albumType.equals(ALBUM)) {
+                primaryType = ALBUM;
+                secondaryType = ReleaseGroup.SecondaryType.NOTHING;
+            } else if (albumType.equals(EP)) {
+                primaryType = EP;
+                secondaryType = ReleaseGroup.SecondaryType.NOTHING;
+            } else if (albumType.equals(SINGLE)) {
+                primaryType = SINGLE;
+                secondaryType = ReleaseGroup.SecondaryType.NOTHING;
+            } else if (albumType.equals(LIVE)) {
+                primaryType = EMPTY;
+                secondaryType = ReleaseGroup.SecondaryType.LIVE;
+            } else if (albumType.equals(COMPILATION)) {
+                primaryType = EMPTY;
+                secondaryType = ReleaseGroup.SecondaryType.COMPILATION;
+            }
+        }
+    }
+
+    public MutableLiveData<Boolean> getMutableIsOfficial() {
+        return mutableIsOfficial;
     }
 
     public void retry() {
@@ -53,31 +87,53 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, ReleaseGroup> callback) {
-        // update network states.
-        // we also provide an initial getWikidata state to the listeners so that the UI can know when the first page is loaded.
         networkState.postValue(NetworkState.LOADING);
         initialLoad.postValue(NetworkState.LOADING);
+
         compositeDisposable.add(api.getReleaseGroupsByArtistAndAlbumTypes(
                 artistMbid,
                 releaseGroupBrowse -> {
-                    // clear retry since last request succeeded
-                    setRetry(null);
-                    initialLoad.postValue(NetworkState.LOADED);
-
                     List<ReleaseGroup> releaseGroups = releaseGroupBrowse.getReleaseGroups();
-                    List<ReleaseGroup> rgs = selectReleaseGroups(releaseGroups);
 
-                    callback.onResult(rgs, null,
-                            // find offset
-                            (releaseGroups.size() == rgs.size() && releaseGroupBrowse.getCount() > RELEASE_GROUPE_BROWSE_LIMIT) ? RELEASE_GROUPE_BROWSE_LIMIT : null);
+                    if (!releaseGroups.isEmpty() && mutableIsOfficial.getValue()) {
+                        compositeDisposable.add(api.searchOfficialReleaseGroups(
+                                artistMbid,
+                                releaseGroupSearch -> {
+                                    List<ReleaseGroup> rgs = new ArrayList<>();
+                                    if (releaseGroupSearch.getCount() > 0) {
+                                        officialReleaseGroups = releaseGroupSearch.getReleaseGroups();
 
-                    networkState.postValue(NetworkState.LOADED);
+                                        setRetry(null);
+                                        initialLoad.postValue(NetworkState.LOADED);
+
+                                        rgs = selectOfficialReleaseGroups(releaseGroups);
+                                        callback.onResult(rgs, null,
+                                                (releaseGroupBrowse.getCount() > RELEASE_GROUPE_BROWSE_LIMIT) ? RELEASE_GROUPE_BROWSE_LIMIT : null);
+
+                                    } else {
+                                        callback.onResult(rgs, null, null);
+                                    }
+
+                                    networkState.postValue(NetworkState.LOADED);
+                                },
+                                t -> {},
+                                100, 0,
+                                primaryType, secondaryType));
+                    } else {
+                        setRetry(null);
+                        initialLoad.postValue(NetworkState.LOADED);
+
+                        List<ReleaseGroup> rgs = selectReleaseGroups(releaseGroups);
+
+                        callback.onResult(rgs, null,
+                                (releaseGroups.size() == rgs.size() && releaseGroupBrowse.getCount() > RELEASE_GROUPE_BROWSE_LIMIT) ? RELEASE_GROUPE_BROWSE_LIMIT : null);
+
+                        networkState.postValue(NetworkState.LOADED);
+                    }
                 },
                 throwable -> {
-                    // keep a Completable for future retry
                     setRetry(() -> loadInitial(params, callback));
                     NetworkState error = NetworkState.error(throwable.getMessage());
-                    // publish the error
                     networkState.postValue(error);
                     initialLoad.postValue(error);
                 },
@@ -86,34 +142,31 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReleaseGroup> callback) {
-        // ignored, since we only ever append to our initial getWikidata
     }
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, ReleaseGroup> callback) {
-        // set network value to loading.
         networkState.postValue(NetworkState.LOADING);
 
         compositeDisposable.add(api.getReleaseGroupsByArtistAndAlbumTypes(
                 artistMbid,
                 releaseGroupBrowse -> {
-                    // clear retry since last request succeeded
                     setRetry(null);
                     initialLoad.postValue(NetworkState.LOADED);
 
                     List<ReleaseGroup> releaseGroups = releaseGroupBrowse.getReleaseGroups();
-                    List<ReleaseGroup> rgs = selectReleaseGroups(releaseGroups);
+                    List<ReleaseGroup> rgs = mutableIsOfficial.getValue() ? selectOfficialReleaseGroups(releaseGroups) : selectReleaseGroups(releaseGroups);
+
                     int nextOffset = releaseGroupBrowse.getOffset() + RELEASE_GROUPE_BROWSE_LIMIT;
 
                     callback.onResult(rgs,
-                            (releaseGroups.size() == rgs.size() && releaseGroupBrowse.getCount() > nextOffset) ? nextOffset : null);
+                            ((mutableIsOfficial.getValue() || releaseGroups.size() == rgs.size()) && releaseGroupBrowse.getCount() > nextOffset) ? nextOffset : null);
 
                     networkState.postValue(NetworkState.LOADED);
+
                 },
                 throwable -> {
-                    // keep a Completable for future retry
                     setRetry(() -> loadAfter(params, callback));
-                    // publish the error
                     networkState.postValue(NetworkState.error(throwable.getMessage()));
                 },
                 RELEASE_GROUPE_BROWSE_LIMIT, params.key, albumType));
@@ -121,7 +174,7 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
 
     private List<ReleaseGroup> selectReleaseGroups(List<ReleaseGroup> releaseGroups) {
         List<ReleaseGroup> rgs = new ArrayList<>();
-        if (albumType.equals(ReleaseGroup.PrimaryType.ALBUM)) {
+        if (albumType.equals(ALBUM)) {
             for (ReleaseGroup rg : releaseGroups) {
                 if (rg.getSecondaryTypes() == null || rg.getSecondaryTypes().isEmpty()) {
                     rgs.add(rg);
@@ -129,6 +182,17 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
             }
         } else {
             rgs.addAll(releaseGroups);
+        }
+        Collections.sort(rgs, (rg1, rg2) -> rg1.getYear() - rg2.getYear());
+        return rgs;
+    }
+
+    private List<ReleaseGroup> selectOfficialReleaseGroups(List<ReleaseGroup> releaseGroups) {
+        List<ReleaseGroup> rgs = new ArrayList<>();
+        for (ReleaseGroup rg : releaseGroups) {
+            if (officialReleaseGroups.contains(rg)) {
+                rgs.add(rg);
+            }
         }
         Collections.sort(rgs, (rg1, rg2) -> rg1.getYear() - rg2.getYear());
         return rgs;
@@ -153,17 +217,19 @@ public class ReleaseGroupsDataSource extends PageKeyedDataSource<Integer, Releas
         private CompositeDisposable compositeDisposable;
         private ReleaseGroup.AlbumType albumType;
         private String artistMbid;
+        private MutableLiveData<Boolean> mutableIsOfficial;
         private MutableLiveData<ReleaseGroupsDataSource> releaseGroupsDataSourceLiveData = new MutableLiveData<>();
 
-        public Factory(CompositeDisposable compositeDisposable, String artistMbid, ReleaseGroup.AlbumType albumType) {
+        public Factory(CompositeDisposable compositeDisposable, String artistMbid, ReleaseGroup.AlbumType albumType, MutableLiveData<Boolean> mutableIsOfficial) {
             this.compositeDisposable = compositeDisposable;
             this.artistMbid = artistMbid;
             this.albumType = albumType;
+            this.mutableIsOfficial = mutableIsOfficial;
         }
 
         @Override
         public PageKeyedDataSource<Integer, ReleaseGroup> create() {
-            ReleaseGroupsDataSource releaseGroupsDataSource = new ReleaseGroupsDataSource(compositeDisposable, artistMbid, albumType);
+            ReleaseGroupsDataSource releaseGroupsDataSource = new ReleaseGroupsDataSource(compositeDisposable, artistMbid, albumType, mutableIsOfficial);
             releaseGroupsDataSourceLiveData.postValue(releaseGroupsDataSource);
             return releaseGroupsDataSource;
         }

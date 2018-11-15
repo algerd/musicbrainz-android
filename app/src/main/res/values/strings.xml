@@ -32,6 +32,7 @@
     <string name="release_group_compilations">Compilations</string>
     <string name="release_group_singles">Singles</string>
     <string name="release_group_other">Other</string>
+    <string name="release_group_official">Show only official release groups</string>
 
     <!-- Ratings nad Tags -->
     <string name="vote_tag">Vote Tag</string>

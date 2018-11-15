@@ -408,6 +408,23 @@ public class Api {
                 errorHandler);
     }
 
+    public Disposable searchOfficialReleaseGroups(
+            String artistMbid,
+            Consumer<ReleaseGroup.ReleaseGroupSearch> consumer,
+            ErrorHandler errorHandler, int limit, int offset,
+            ReleaseGroup.PrimaryType primaryType,
+            ReleaseGroup.SecondaryType secondaryType) {
+
+        return ApiHandler.subscribe503(
+                new ReleaseGroupSearchService().
+                        addPrimaryType(primaryType).
+                        addSecondaryType(secondaryType).
+                        add(ReleaseGroupSearchService.ReleaseGroupSearchField.STATUS, Release.Status.OFFICIAL.toString()).
+                        add(ReleaseGroupSearchService.ReleaseGroupSearchField.ARID, artistMbid).
+                        search(limit, offset),
+                consumer, errorHandler);
+    }
+
     public Disposable getReleaseGroupsByArtistAndAlbumTypes(String artistMbid, Consumer<ReleaseGroup.ReleaseGroupBrowse> consumer, ErrorHandler errorHandler, int limit, int offset, ReleaseGroup.AlbumType... albumTypes) {
         ReleaseGroupBrowseService.ReleaseGroupIncType[] incs = oauth.hasAccount() ?
                 new ReleaseGroupBrowseService.ReleaseGroupIncType[]{

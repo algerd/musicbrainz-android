@@ -1,6 +1,7 @@
 package org.musicbrainz.android.fragment;
 
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,10 +22,15 @@ import org.musicbrainz.android.R;
 import org.musicbrainz.android.adapter.pager.ReleaseGroupsPagerAdapter;
 import org.musicbrainz.android.adapter.recycler.ReleaseGroupsAdapter;
 import org.musicbrainz.android.adapter.recycler.RetryCallback;
+import org.musicbrainz.android.api.model.ReleaseGroup;
 import org.musicbrainz.android.communicator.GetArtistCommunicator;
 import org.musicbrainz.android.communicator.OnReleaseGroupCommunicator;
 import org.musicbrainz.android.data.Status;
 import org.musicbrainz.android.ui.ReleaseGroupsViewModel;
+
+import java.util.List;
+
+import static org.musicbrainz.android.MusicBrainzApp.api;
 
 
 public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallback {
@@ -37,10 +44,13 @@ public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallb
     private RecyclerView pagedRecycler;
     private ReleaseGroupsAdapter adapter;
 
+    private CheckBox officialCheckBox;
     private TextView errorMessageTextView;
     private Button retryLoadingButton;
     private ProgressBar loadingProgressBar;
     private View itemNetworkState;
+
+    private MutableLiveData<Boolean> mutableIsOfficial = new MutableLiveData<>();
 
 
     public static ReleaseGroupsTabFragment newInstance(int releasesTab) {
@@ -53,10 +63,11 @@ public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallb
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View layout = inflater.inflate(R.layout.fragment_paged_recycler, container, false);
+        View layout = inflater.inflate(R.layout.fragment_release_groups, container, false);
 
         releaseGroupType = ReleaseGroupsPagerAdapter.ReleaseTab.values()[getArguments().getInt(RELEASES_TAB)];
 
+        officialCheckBox = layout.findViewById(R.id.official_checkbox);
         pagedRecycler = layout.findViewById(R.id.paged_recycler);
         swipeRefreshLayout = layout.findViewById(R.id.swipe_refresh_layout);
         errorMessageTextView = layout.findViewById(R.id.errorMessageTextView);
@@ -77,8 +88,11 @@ public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallb
             adapter = new ReleaseGroupsAdapter(this);
             adapter.setHolderClickListener(releaseGroup -> ((OnReleaseGroupCommunicator) getContext()).onReleaseGroup(releaseGroup.getId()));
 
+
+
             releaseGroupsViewModel = ViewModelProviders.of(this).get(ReleaseGroupsViewModel.class);
-            releaseGroupsViewModel.load(artistMbid, releaseGroupType.getAlbumType());
+            mutableIsOfficial.setValue(officialCheckBox.isChecked());
+            releaseGroupsViewModel.load(artistMbid, releaseGroupType.getAlbumType(), mutableIsOfficial);
             releaseGroupsViewModel.realeseGroupLiveData.observe(this, adapter::submitList);
             releaseGroupsViewModel.getNetworkState().observe(this, adapter::setNetworkState);
 
@@ -88,6 +102,13 @@ public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallb
             pagedRecycler.setHasFixedSize(true);
             pagedRecycler.setAdapter(adapter);
 
+            officialCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                mutableIsOfficial.setValue(isChecked);
+                releaseGroupsViewModel.refresh();
+                swipeRefreshLayout.setRefreshing(false);
+                pagedRecycler.scrollToPosition(0);
+            });
+
             initSwipeToRefresh();
         }
     }
@@ -95,17 +116,14 @@ public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallb
     private void initSwipeToRefresh() {
         releaseGroupsViewModel.getRefreshState().observe(this, networkState -> {
             if (networkState != null) {
-
-                //Show the current network state for the first getWikidata when the rating list
-                //in the adapter is empty and disable swipe to scroll at the first loading
                 if (adapter.getCurrentList() == null || adapter.getCurrentList().size() == 0) {
                     itemNetworkState.setVisibility(View.VISIBLE);
-                    //error message
+
                     errorMessageTextView.setVisibility(networkState.getMessage() != null ? View.VISIBLE : View.GONE);
                     if (networkState.getMessage() != null) {
                         errorMessageTextView.setText(networkState.getMessage());
                     }
-                    //loading and retry
+
                     retryLoadingButton.setVisibility(networkState.getStatus() == Status.FAILED ? View.VISIBLE : View.GONE);
                     loadingProgressBar.setVisibility(networkState.getStatus() == Status.RUNNING ? View.VISIBLE : View.GONE);
 

@@ -25,9 +25,9 @@ public class ReleaseGroupsViewModel extends ViewModel {
         compositeDisposable = new CompositeDisposable();
     }
 
-    public void load(String artistMbid, ReleaseGroup.AlbumType albumType) {
+    public void load(String artistMbid, ReleaseGroup.AlbumType albumType, MutableLiveData<Boolean> mutableIsOfficial) {
 
-        ReleaseGroupsDataSource.Factory factory = new ReleaseGroupsDataSource.Factory(compositeDisposable, artistMbid, albumType);
+        ReleaseGroupsDataSource.Factory factory = new ReleaseGroupsDataSource.Factory(compositeDisposable, artistMbid, albumType, mutableIsOfficial);
         PagedList.Config config = new PagedList.Config.Builder()
                 .setPageSize(RELEASE_GROUPE_BROWSE_LIMIT)
                 //.setInitialLoadSizeHint(PAGE_SIZE)
