@@ -47,6 +47,7 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
         private TextView releaseName;
         private TextView countryLabel;
         private TextView format;
+        private TextView status;
         private TextView catalog;
         private TextView barcode;
 
@@ -65,6 +66,7 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
             releaseName = v.findViewById(R.id.release_name);
             countryLabel = v.findViewById(R.id.country_label);
             format = v.findViewById(R.id.format);
+            status = v.findViewById(R.id.status);
             catalog = v.findViewById(R.id.catalog);
             barcode = v.findViewById(R.id.barcode);
         }
@@ -75,9 +77,17 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
             }
 
             date.setText(release.getDate());
+            if (!TextUtils.isEmpty(release.getStatus())) {
+                status.setText(release.getStatus());
+            } else {
+                status.setVisibility(View.GONE);
+            }
+
             releaseName.setText(release.getTitle());
             if (!TextUtils.isEmpty(release.getBarcode())) {
                 barcode.setText(itemView.getResources().getString(R.string.r_barcode, release.getBarcode()));
+            } else {
+                barcode.setVisibility(View.GONE);
             }
 
             List<Label.LabelInfo> labelInfos = release.getLabelInfo();
@@ -90,6 +100,8 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
                 String labelCatalog = labelInfos.get(0).getCatalogNumber();
                 if (!TextUtils.isEmpty(labelCatalog)) {
                     catalog.setText(itemView.getResources().getString(R.string.r_catalog, labelCatalog));
+                } else {
+                    catalog.setVisibility(View.GONE);
                 }
             }
             countryLabel.setText(release.getCountry() + " " + labelName);
@@ -102,36 +114,29 @@ public class ReleaseAdapter extends BaseRecyclerViewAdapter<ReleaseAdapter.Relea
             String f = StringFormat.buildReleaseFormatsString(itemView.getContext(), medias);
             format.setText(itemView.getResources().getString(R.string.r_tracks, f, trackCount));
 
-            // api.searchRelease() не возвращает release.coverArt, поэтому необходимо убрать это условие
-            //if (release.getCoverArt() != null &&
-            //        release.getCoverArt().getFront() != null && release.getCoverArt().getFront()) {
+            showImageProgressLoading(true);
+            api.getReleaseCoverArt(
+                    release.getId(),
+                    coverArt -> {
+                        CoverArtImage.Thumbnails thumbnails = coverArt.getFrontThumbnails();
+                        if (thumbnails != null && !TextUtils.isEmpty(thumbnails.getSmall())) {
+                            Picasso.get().load(thumbnails.getSmall()).fit()
+                                    .into(coverart, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            showImageProgressLoading(false);
+                                        }
 
-                showImageProgressLoading(true);
-                api.getReleaseCoverArt(
-                        release.getId(),
-                        coverArt -> {
-                            CoverArtImage.Thumbnails thumbnails = coverArt.getFrontThumbnails();
-                            if (thumbnails != null && !TextUtils.isEmpty(thumbnails.getSmall())) {
-                                Picasso.get().load(thumbnails.getSmall()).fit()
-                                        .into(coverart, new Callback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                showImageProgressLoading(false);
-                                            }
-
-                                            @Override
-                                            public void onError(Exception e) {
-                                                showImageProgressLoading(false);
-                                            }
-                                        });
-                            } else {
-                                showImageProgressLoading(false);
-                            }
-                        },
-                        t -> showImageProgressLoading(false));
-            //} else {
-            //    showImageProgressLoading(false);
-            //}
+                                        @Override
+                                        public void onError(Exception e) {
+                                            showImageProgressLoading(false);
+                                        }
+                                    });
+                        } else {
+                            showImageProgressLoading(false);
+                        }
+                    },
+                    t -> showImageProgressLoading(false));
         }
 
         private void showImageProgressLoading(boolean show) {

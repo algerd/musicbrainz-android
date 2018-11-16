@@ -367,7 +367,7 @@ public class SearchActivity extends BaseActivity implements
 
     @Override
     public void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(this, t);
+        //ShowUtil.showError(this, t);
         viewProgressLoading(false);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> search());

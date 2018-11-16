@@ -127,6 +127,7 @@
     <!-- ReleaseAdapter -->
     <string name="r_tracks">%1$s / %2$d tracks</string>
     <string name="r_barcode">Barcode: %1$s</string>
+    <string name="r_status">Status: %1$s</string>
     <string name="r_catalog">Catalog: %1$s</string>
 
     <!-- ReleaseDialogFragment -->

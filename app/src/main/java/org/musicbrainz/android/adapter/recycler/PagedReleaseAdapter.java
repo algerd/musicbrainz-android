@@ -41,6 +41,7 @@ public class PagedReleaseAdapter extends BasePagedListAdapter<Release> {
         private TextView releaseName;
         private TextView countryLabel;
         private TextView format;
+        private TextView status;
         private TextView catalog;
         private TextView barcode;
 
@@ -53,6 +54,7 @@ public class PagedReleaseAdapter extends BasePagedListAdapter<Release> {
             releaseName = v.findViewById(R.id.release_name);
             countryLabel = v.findViewById(R.id.country_label);
             format = v.findViewById(R.id.format);
+            status = v.findViewById(R.id.status);
             catalog = v.findViewById(R.id.catalog);
             barcode = v.findViewById(R.id.barcode);
         }
@@ -70,8 +72,17 @@ public class PagedReleaseAdapter extends BasePagedListAdapter<Release> {
 
             date.setText(release.getDate());
             releaseName.setText(release.getTitle());
+
             if (!TextUtils.isEmpty(release.getBarcode())) {
                 barcode.setText(itemView.getResources().getString(R.string.r_barcode, release.getBarcode()));
+            } else {
+                barcode.setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(release.getStatus())) {
+                status.setText(itemView.getResources().getString(R.string.r_status, release.getStatus()));
+            } else {
+                status.setVisibility(View.GONE);
             }
 
             List<Label.LabelInfo> labelInfos = release.getLabelInfo();
@@ -84,6 +95,8 @@ public class PagedReleaseAdapter extends BasePagedListAdapter<Release> {
                 String labelCatalog = labelInfos.get(0).getCatalogNumber();
                 if (!TextUtils.isEmpty(labelCatalog)) {
                     catalog.setText(itemView.getResources().getString(R.string.r_catalog, labelCatalog));
+                } else {
+                    catalog.setVisibility(View.GONE);
                 }
             }
             countryLabel.setText(release.getCountry() + " " + labelName);

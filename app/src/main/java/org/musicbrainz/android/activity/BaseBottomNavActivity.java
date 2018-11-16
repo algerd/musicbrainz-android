@@ -133,7 +133,7 @@ public abstract class BaseBottomNavActivity extends BaseActivity implements
     }
 
     protected void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(this, t);
+        //ShowUtil.showError(this, t);
         viewProgressLoading(false);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> load());

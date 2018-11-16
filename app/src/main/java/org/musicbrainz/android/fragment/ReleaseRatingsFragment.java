@@ -215,7 +215,7 @@ public class ReleaseRatingsFragment extends LazyFragment {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getActivity(), t);
+        //ShowUtil.showError(getActivity(), t);
         viewProgressLoading(false);
         viewError(true);
         error.setVisibility(View.VISIBLE);

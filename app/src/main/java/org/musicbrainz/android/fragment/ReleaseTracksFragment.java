@@ -178,7 +178,7 @@ public class ReleaseTracksFragment extends BaseComplexRecyclerFragment<Media.Tra
 
     private void showConnectionWarning(Throwable t) {
         loading.setVisibility(View.GONE);
-        ShowUtil.showError(getActivity(), t);
+        //ShowUtil.showError(getActivity(), t);
         error.setVisibility(View.VISIBLE);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());
     }

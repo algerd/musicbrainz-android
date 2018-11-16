@@ -190,7 +190,7 @@ public class BarcodeSearchFragment extends Fragment implements TextWatcher {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getActivity(), t);
+        //ShowUtil.showError(getActivity(), t);
         viewProgressLoading(false);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> search());

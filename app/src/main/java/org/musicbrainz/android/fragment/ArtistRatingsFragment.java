@@ -202,7 +202,7 @@ public class ArtistRatingsFragment extends LazyFragment {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getActivity(), t);
+        //ShowUtil.showError(getActivity(), t);
         viewProgressLoading(false);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());

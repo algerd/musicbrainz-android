@@ -481,7 +481,7 @@ public class CollectionFragment extends Fragment {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getActivity(), t);
+        //ShowUtil.showError(getActivity(), t);
         loading.setVisibility(View.GONE);
         error.setVisibility(View.VISIBLE);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> load());

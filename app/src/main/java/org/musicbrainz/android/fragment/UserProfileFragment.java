@@ -162,7 +162,7 @@ public class UserProfileFragment extends LazyFragment {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getContext(), t);
+        //ShowUtil.showError(getContext(), t);
         viewProgressLoading(false);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> lazyLoad());

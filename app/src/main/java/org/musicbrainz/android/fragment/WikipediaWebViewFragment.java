@@ -169,7 +169,7 @@ public class WikipediaWebViewFragment extends Fragment {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getActivity(), t);
+        //ShowUtil.showError(getActivity(), t);
         loading.setVisibility(View.GONE);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> load());

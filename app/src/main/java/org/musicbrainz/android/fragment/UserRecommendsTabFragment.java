@@ -194,7 +194,7 @@ public class UserRecommendsTabFragment extends Fragment {
     }
 
     private void showConnectionWarning(Throwable t) {
-        ShowUtil.showError(getContext(), t);
+        //ShowUtil.showError(getContext(), t);
         viewProgressLoading(false);
         viewError(true);
         error.findViewById(R.id.retry_button).setOnClickListener(v -> load());
