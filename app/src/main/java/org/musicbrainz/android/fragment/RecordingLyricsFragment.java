@@ -1,21 +1,22 @@
 package org.musicbrainz.android.fragment;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.List;
 
 import org.musicbrainz.android.R;
 import org.musicbrainz.android.api.model.Artist;
 import org.musicbrainz.android.api.model.Recording;
 import org.musicbrainz.android.communicator.GetRecordingCommunicator;
-import org.musicbrainz.android.util.ShowUtil;
+
+import java.util.List;
 
 import static org.musicbrainz.android.MusicBrainzApp.api;
 import static org.musicbrainz.android.api.lyrics.model.LyricsApi.LYRICS_INSTRUMENTAL;
@@ -24,11 +25,15 @@ import static org.musicbrainz.android.api.lyrics.model.LyricsApi.LYRICS_NOT_FOUN
 
 public class RecordingLyricsFragment extends LazyFragment {
 
+    protected boolean isLoading;
+    protected boolean isError;
+
     private View content;
     private View error;
     private View loading;
     private View noresults;
     private TextView lyrics;
+    private Button showSiteBtn;
 
     public static RecordingLyricsFragment newInstance() {
         Bundle args = new Bundle();
@@ -46,6 +51,7 @@ public class RecordingLyricsFragment extends LazyFragment {
         loading = layout.findViewById(R.id.loading);
         noresults = layout.findViewById(R.id.noresults);
         lyrics = layout.findViewById(R.id.lyrics);
+        showSiteBtn = layout.findViewById(R.id.show_site);
 
         loadView();
         return layout;
@@ -62,6 +68,7 @@ public class RecordingLyricsFragment extends LazyFragment {
         if (recording != null) {
             List<Artist.ArtistCredit> artists = recording.getArtistCredits();
             if (!artists.isEmpty()) {
+                // Получить лирику парсингом сайта http://lyrics.wikia.com.
                 viewProgressLoading(true);
                 // Получить лирику из сервиса http://lyrics.wikia.com/wikia.php
                 // Нестабильно даёт результат. Лучше парсить http://lyrics.wikia.com
@@ -82,9 +89,7 @@ public class RecordingLyricsFragment extends LazyFragment {
                                 showConnectionWarning(t);
                             }
                         });
-                */
-
-                // Получить лирику парсингом сайта http://lyrics.wikia.com.
+                    */
                 api.getLyricsWikiaApi(
                         artists.get(0).getName(), recording.getTitle(),
                         lyricsApi -> {
@@ -95,6 +100,11 @@ public class RecordingLyricsFragment extends LazyFragment {
                                 content.setVisibility(View.GONE);
                             } else {
                                 lyrics.setText(text);
+                                showSiteBtn.setOnClickListener(v -> {
+                                    if (!isLoading) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(lyricsApi.getUrl())));
+                                    }
+                                });
                             }
                         },
                         this::showConnectionWarning);
@@ -108,9 +118,11 @@ public class RecordingLyricsFragment extends LazyFragment {
 
     private void viewProgressLoading(boolean view) {
         if (view) {
+            isLoading = true;
             content.setVisibility(View.GONE);
             loading.setVisibility(View.VISIBLE);
         } else {
+            isLoading = false;
             content.setVisibility(View.VISIBLE);
             loading.setVisibility(View.GONE);
         }
@@ -118,9 +130,11 @@ public class RecordingLyricsFragment extends LazyFragment {
 
     private void viewError(boolean view) {
         if (view) {
+            isError = true;
             content.setVisibility(View.INVISIBLE);
             error.setVisibility(View.VISIBLE);
         } else {
+            isError = false;
             error.setVisibility(View.GONE);
             content.setVisibility(View.VISIBLE);
         }

@@ -88,8 +88,6 @@ public class ReleaseGroupsTabFragment extends LazyFragment implements RetryCallb
             adapter = new ReleaseGroupsAdapter(this);
             adapter.setHolderClickListener(releaseGroup -> ((OnReleaseGroupCommunicator) getContext()).onReleaseGroup(releaseGroup.getId()));
 
-
-
             releaseGroupsViewModel = ViewModelProviders.of(this).get(ReleaseGroupsViewModel.class);
             mutableIsOfficial.setValue(officialCheckBox.isChecked());
             releaseGroupsViewModel.load(artistMbid, releaseGroupType.getAlbumType(), mutableIsOfficial);
