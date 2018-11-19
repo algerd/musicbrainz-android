@@ -30,9 +30,9 @@ import static org.musicbrainz.android.account.MusicBrainzAccount.REFRESH_TOKEN;
  */
 
 public class OAuth {
-
-    private static final String CLIENT_ID = "YvQ2kAWvoPO4G7-7a90MSw";
-    private static final String CLIENT_SECRET = "IqbgOQxy-i8DRjGidh3rUQ";
+    
+    private static final String CLIENT_ID = "KoSg5TjyO7cMYXjt2kvz8g";
+    private static final String CLIENT_SECRET = "XL84wz60G4tscOLZ4b2Leg";
     private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
     //TODO: do enum ScopeType and List<ScopeType>
     private static final String SCOPE = "profile email tag rating collection submit_isrc submit_barcode";
