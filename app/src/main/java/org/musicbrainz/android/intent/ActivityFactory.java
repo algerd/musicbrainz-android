@@ -5,7 +5,6 @@ import android.content.Intent;
 
 import org.musicbrainz.android.activity.AboutActivity;
 import org.musicbrainz.android.activity.ArtistActivity;
-import org.musicbrainz.android.activity.FeedbackActivity;
 import org.musicbrainz.android.activity.ImageActivity;
 import org.musicbrainz.android.activity.LoginActivity;
 import org.musicbrainz.android.activity.MainActivity;
@@ -76,10 +75,6 @@ public class ActivityFactory {
         Intent intent = new Intent(context, ImageActivity.class);
         intent.putExtra(ImageActivity.IMAGE_URL, imageUrl);
         context.startActivity(intent);
-    }
-
-    public static void startFeedbackActivity(Context context) {
-        context.startActivity(new Intent(context, FeedbackActivity.class));
     }
 
     public static void startAboutActivity(Context context) {

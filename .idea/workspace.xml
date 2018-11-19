@@ -27,26 +27,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseBottomNavActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseBottomNavActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/SearchActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/SearchActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/PagedReleaseAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/PagedReleaseAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/ReleaseAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/ReleaseAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ArtistRatingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ArtistRatingsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/BarcodeSearchFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/BarcodeSearchFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionEditFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionsPagerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/CollectionsPagerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/EditTagsPagerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/EditTagsPagerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingLyricsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingLyricsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingRatingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingRatingsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseRatingsFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseRatingsFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseTracksFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseTracksFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserProfileFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserProfileFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserRecommendsTabFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserRecommendsTabFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagPagerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagPagerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagsPagerFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagsPagerFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/card_release.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/card_release.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/FeedbackActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/intent/ActivityFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/intent/ActivityFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_feedback.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -79,12 +65,43 @@
     </system>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="RecordingLyricsFragment.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingLyricsFragment.java">
+    <leaf>
+      <file leaf-file-name="BaseActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="86" column="51" selection-start-line="86" selection-start-column="51" selection-end-line="86" selection-end-column="75" />
+            <state relative-caret-position="371">
+              <caret line="126" column="60" selection-start-line="126" selection-start-column="60" selection-end-line="126" selection-end-column="60" />
+              <folding>
+                <element signature="e#4463#4492#0" expanded="true" />
+                <element signature="e#4594#4629#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="strings.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="13" column="27" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivityFactory.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/intent/ActivityFactory.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="232">
+              <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MusicBrainzApp.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/MusicBrainzApp.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="28" column="34" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
             </state>
           </provider>
         </entry>
@@ -92,26 +109,8 @@
       <file leaf-file-name="Api.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="634" column="46" selection-start-line="634" selection-start-column="46" selection-end-line="634" selection-end-column="46" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LyricsService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/lyrics/LyricsService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1175">
-              <caret line="91" column="65" selection-start-line="91" selection-start-column="65" selection-end-line="91" selection-end-column="65" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LyricsRetrofitService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/lyrics/LyricsRetrofitService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="20" column="112" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="112" />
+            <state relative-caret-position="242">
+              <caret line="94" column="24" selection-start-line="94" selection-start-column="24" selection-end-line="94" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -2740,7 +2739,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/communicator/OnTagCommunicator.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/RecordingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/ReleaseActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/intent/ActivityFactory.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/EditTagsTabFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_edit_tags_pager.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/UserActivity.java" />
@@ -2755,21 +2753,17 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/suggestion/SuggestionHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_dropdown_item.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/ic_logout_24.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/drawer_nav.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/account/OAuth.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_release_groups.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java" />
         <option value="$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/model/ReleaseGroup.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/pager/ReleaseGroupsPagerAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/ui/ReleaseGroupsViewModel.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/ReleaseGroupsTabFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/data/ReleaseGroupsDataSource.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/card_release.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/PagedReleaseAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/ReleaseAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseBottomNavActivity.java" />
@@ -2788,10 +2782,15 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagPagerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/UserTagsPagerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/WikipediaWebViewFragment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/intent/ActivityFactory.java" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
     <option name="y" value="20" />
     <option name="width" value="1346" />
@@ -2805,31 +2804,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
-            <path>
-              <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="api" type="e9137016:NonAndroidModuleNode" />
-            </path>
-            <path>
-              <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="api" type="e9137016:NonAndroidModuleNode" />
-              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
-            </path>
-            <path>
-              <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="api" type="e9137016:NonAndroidModuleNode" />
-              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
-              <item name="api" type="e9137016:NonAndroidModuleNode" />
-              <item name="java" type="f7eae187:NonAndroidSourceTypeNode" />
-              <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="lyrics" type="462c0819:PsiDirectoryNode" />
-            </path>
             <path>
               <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
@@ -2855,16 +2834,24 @@
             <path>
               <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="android" type="cbb59c9e:AndroidPsiDirectoryNode" />
-              <item name="fragment" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+            </path>
+            <path>
+              <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="layout" type="ddeffd01:AndroidResFolderTypeNode" />
+            </path>
+            <path>
+              <item name="musicbrainz-android" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -3042,7 +3029,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" />
@@ -3053,22 +3040,22 @@
       <window_info anchor="right" id="Capture Analysis" order="5" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Preview" order="0" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32933104" />
       <window_info anchor="bottom" id="Version Control" order="7" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32933104" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Logcat" order="7" weight="0.75643224" />
       <window_info id="Captures" order="2" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24657534" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.50085765" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24429224" />
+      <window_info anchor="bottom" id="Build" order="7" weight="0.35849056" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32761577" />
       <window_info anchor="right" id="Gradle" order="8" weight="0.32952815" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Device File Explorer" order="6" side_tool="true" weight="0.32952815" />
       <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.5145798" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5145798" />
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -3086,52 +3073,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="814">
-          <caret line="51" column="9" selection-start-line="51" selection-start-column="9" selection-end-line="51" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/browse/BrowseServiceInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/browse/ReleaseGroupBrowseService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="27" column="35" selection-start-line="27" selection-start-column="35" selection-end-line="27" selection-end-column="35" />
-          <folding>
-            <element signature="e#692#693#0" expanded="true" />
-            <element signature="e#731#732#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/search/BaseSearchService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="24" column="34" lean-forward="true" selection-start-line="24" selection-start-column="34" selection-end-line="24" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/search/SearchServiceInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="25" column="26" lean-forward="true" selection-start-line="25" selection-start-column="26" selection-end-line="25" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/search/ReleaseGroupSearchService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="111" column="8" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/model/BaseLookupEntity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-178">
@@ -3157,11 +3098,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="207">
           <caret line="30" column="38" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#936#937#0" expanded="true" />
-            <element signature="e#984#985#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3221,22 +3157,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="333">
-          <caret line="129" column="18" selection-start-line="129" selection-start-column="18" selection-end-line="129" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/adapter/recycler/ReleaseAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1738">
           <caret line="104" column="17" selection-start-line="104" selection-start-column="17" selection-end-line="104" selection-end-column="17" />
-          <folding>
-            <element signature="e#3165#3240#0" expanded="true" />
-            <element signature="e#3759#3826#0" expanded="true" />
-            <element signature="e#4250#4317#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3254,12 +3178,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="215">
           <caret line="92" column="48" lean-forward="true" selection-start-line="92" selection-start-column="48" selection-end-line="92" selection-end-column="48" />
-          <folding>
-            <element signature="e#2748#2823#0" expanded="true" />
-            <element signature="e#3014#3087#0" expanded="true" />
-            <element signature="e#3677#3744#0" expanded="true" />
-            <element signature="e#4168#4235#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3267,10 +3185,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
           <caret line="170" column="29" selection-start-line="170" selection-start-column="29" selection-end-line="170" selection-end-column="30" />
-          <folding>
-            <element signature="e#6635#6636#0" expanded="true" />
-            <element signature="e#6664#6665#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3299,9 +3213,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="319" column="36" selection-start-line="319" selection-start-column="36" selection-end-line="319" selection-end-column="36" />
-          <folding>
-            <element signature="e#11291#11327#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3316,9 +3227,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="114">
           <caret line="293" column="24" selection-start-line="293" selection-start-column="24" selection-end-line="293" selection-end-column="24" />
-          <folding>
-            <element signature="e#11557#11593#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3450,15 +3358,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/api/src/main/java/org/musicbrainz/android/api/lyrics/LyricsService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1175">
+        <state relative-caret-position="1320">
           <caret line="91" column="65" selection-start-line="91" selection-start-column="65" selection-end-line="91" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="319">
-          <caret line="634" column="46" selection-start-line="634" selection-start-column="46" selection-end-line="634" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -3471,8 +3372,72 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/fragment/RecordingLyricsFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="86" column="51" selection-start-line="86" selection-start-column="51" selection-end-line="86" selection-end-column="75" />
+        <state relative-caret-position="516">
+          <caret line="96" column="37" selection-start-line="96" selection-start-column="37" selection-end-line="96" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_feedback.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="102" column="8" selection-start-line="102" selection-start-column="8" selection-end-line="102" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/intent/ActivityFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="85" column="5" selection-start-line="85" selection-start-column="5" selection-end-line="85" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/FeedbackActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/api/Api.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="94" column="24" selection-start-line="94" selection-start-column="24" selection-end-line="94" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/MusicBrainzApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="28" column="34" selection-start-line="28" selection-start-column="34" selection-end-line="28" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" column="27" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/org/musicbrainz/android/activity/BaseActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="126" column="60" selection-start-line="126" selection-start-column="60" selection-end-line="126" selection-end-column="60" />
+          <folding>
+            <element signature="e#4463#4492#0" expanded="true" />
+            <element signature="e#4594#4629#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

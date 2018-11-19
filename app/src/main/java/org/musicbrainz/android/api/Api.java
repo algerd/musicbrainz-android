@@ -90,7 +90,7 @@ public class Api {
 
     // for post request and Digest Authentication MusicBrainzApp.getVersion()
     //private final String CLIENT = "musicbrainz.android-1.0";
-    private final String CLIENT = MusicBrainzApp.getPackage() + "-" + MusicBrainzApp.getVersion();
+    public static final String CLIENT = MusicBrainzApp.getPackage() + "-" + MusicBrainzApp.getVersion();
 
     private OAuth oauth;
 

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -16,13 +17,16 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.musicbrainz.android.MusicBrainzApp;
 import org.musicbrainz.android.R;
+import org.musicbrainz.android.api.Api;
 import org.musicbrainz.android.intent.ActivityFactory;
 import org.musicbrainz.android.intent.zxing.IntentIntegrator;
 import org.musicbrainz.android.suggestion.SuggestionHelper;
 
+import static org.musicbrainz.android.MusicBrainzApp.SUPPORT_MAIL;
 import static org.musicbrainz.android.MusicBrainzApp.oauth;
 
 public abstract class BaseActivity extends AppCompatActivity implements
@@ -96,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity implements
 
             // Support:
             case R.id.nav_feedback:
-                ActivityFactory.startFeedbackActivity(this);
+                sendEmail();
                 break;
             case R.id.nav_about:
                 ActivityFactory.startAboutActivity(this);
@@ -104,6 +108,20 @@ public abstract class BaseActivity extends AppCompatActivity implements
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void sendEmail() {
+        Intent i = new Intent(Intent.ACTION_SENDTO);
+        i.setType("message/rfc822");
+        i.setData(Uri.parse("mailto:"));
+        i.putExtra(Intent.EXTRA_EMAIL  , new String[]{SUPPORT_MAIL});
+        i.putExtra(Intent.EXTRA_SUBJECT, Api.CLIENT);
+        //i.putExtra(Intent.EXTRA_TEXT   , "body of email");
+        try {
+            startActivity(Intent.createChooser(i, getString(R.string.send_mail)));
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, getString(R.string.send_mail_error), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void startUserActivity(int userNavigationView) {
